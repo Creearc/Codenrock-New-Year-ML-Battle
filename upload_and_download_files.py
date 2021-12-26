@@ -40,7 +40,7 @@ def upload_file():
             image_path = os.path.join(app.config['UPLOAD_FOLDER'],
                                       '{}_n.{}'.format(r[0], r[1]))
             
-            detect_image(yolo, image_path, saved_file,
+            detect_image(yolo, saved_file, image_path,
                          input_size=YOLO_INPUT_SIZE, show=False,
                          CLASSES=TRAIN_CLASSES, rectangle_colors=(255,0,0))
             out = filename
