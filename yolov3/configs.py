@@ -51,7 +51,7 @@ TRAIN_FROM_CHECKPOINT       = not False # "checkpoints/yolov3_custom"
 TRAIN_LR_INIT               = 1e-4
 TRAIN_LR_END                = 1e-6
 TRAIN_WARMUP_EPOCHS         = 2
-TRAIN_EPOCHS                = 5
+TRAIN_EPOCHS                = 15
 
 # TEST options
 TEST_ANNOT_PATH             = "/home/alexandr/Codenrock-New-Year-ML-Battle/dataset/ded_train.txt"
