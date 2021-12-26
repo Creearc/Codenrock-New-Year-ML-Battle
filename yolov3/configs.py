@@ -16,7 +16,7 @@ YOLO_V3_WEIGHTS             = "model_data/yolov3.weights"
 YOLO_V4_WEIGHTS             = "model_data/yolov4.weights"
 YOLO_V3_TINY_WEIGHTS        = "model_data/yolov3-tiny.weights"
 YOLO_V4_TINY_WEIGHTS        = "model_data/yolov4-tiny.weights"
-YOLO_TRT_QUANTIZE_MODE      = "FP32" # INT8, FP16, FP32
+YOLO_TRT_QUANTIZE_MODE      = "INT8" # INT8, FP16, FP32
 YOLO_CUSTOM_WEIGHTS         = False # "checkpoints/yolov3_custom" # used in evaluate_mAP.py and custom model detection, if not using leave False
                             # YOLO_CUSTOM_WEIGHTS also used with TensorRT and custom model detection
 YOLO_COCO_CLASSES           = "model_data/coco/coco.names"
