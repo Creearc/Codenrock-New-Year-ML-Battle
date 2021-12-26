@@ -16,7 +16,7 @@ f.close()
 np.random.shuffle(dataset)
 
 
-path = '{}/train'.format(os.getcwd())
+path = '/home/alexandr/datasets/santas'
 
 f = open('ded_train.txt', 'w')
 for element in dataset:
