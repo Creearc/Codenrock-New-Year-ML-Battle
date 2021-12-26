@@ -24,7 +24,7 @@ YOLO_STRIDES                = [8, 16, 32]
 YOLO_IOU_LOSS_THRESH        = 0.99
 YOLO_ANCHOR_PER_SCALE       = 3
 YOLO_MAX_BBOX_PER_SCALE     = 100
-YOLO_INPUT_SIZE             = 608
+YOLO_INPUT_SIZE             = 416
 if YOLO_TYPE                == "yolov4":
     YOLO_ANCHORS            = [[[12,  16], [19,   36], [40,   28]],
                                [[36,  75], [76,   55], [72,  146]],
@@ -56,7 +56,7 @@ TRAIN_EPOCHS                = 100
 # TEST options
 TEST_ANNOT_PATH             = "/home/alexandr/Codenrock-New-Year-ML-Battle/dataset/ded_train.txt"
 TEST_BATCH_SIZE             = 32
-TEST_INPUT_SIZE             = 608
+TEST_INPUT_SIZE             = 416
 TEST_DATA_AUG               = False
 TEST_DECTECTED_IMAGE_PATH   = ""
 TEST_SCORE_THRESHOLD        = 0.7
