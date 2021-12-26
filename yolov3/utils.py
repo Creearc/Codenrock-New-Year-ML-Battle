@@ -175,7 +175,7 @@ def draw_bbox(image, bboxes, CLASSES=YOLO_COCO_CLASSES, show_label=True, show_co
             cv2.putText(image, label, (x1, y1-4), cv2.FONT_HERSHEY_COMPLEX_SMALL,
                         fontScale, Text_colors, bbox_thick, lineType=cv2.LINE_AA)
             
-            cv2.putText(image, label, (10, 10 + fontScale*i), cv2.FONT_HERSHEY_COMPLEX_SMALL,
+            cv2.putText(image, label, (10, 10 + int(fontScale*i)), cv2.FONT_HERSHEY_COMPLEX_SMALL,
                         fontScale, Text_colors, bbox_thick, lineType=cv2.LINE_AA)
 
     return image
