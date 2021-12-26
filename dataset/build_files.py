@@ -25,7 +25,7 @@ for element in dataset:
   cv2.imwrite('train/{}'.format(element[0]), img)
     
   f.write('{}/{} 5,{},5,{},{}\n'.format(path, element[0],
-                                        width-5, height-5,
+                                        411, 411,
                                         element[1]))
   
 f.close()
