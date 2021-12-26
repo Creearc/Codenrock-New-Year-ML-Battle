@@ -23,8 +23,8 @@ for element in dataset:
   img = cv2.imread('train/{}'.format(element[0]))
   (width, height) = (img.shape[1] // 2, img.shape[0] // 2)
     
-  f.write('{}/{} 0,{},0,{},{}\n'.format(path, element[0],
-                                        width-1, height-1,
+  f.write('{}/{} 5,{},5,{},{}\n'.format(path, element[0],
+                                        width-5, height-5,
                                         element[1]))
   
 f.close()
