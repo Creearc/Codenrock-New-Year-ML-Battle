@@ -34,7 +34,7 @@ def upload_file():
             filename = secure_filename(file.filename)
             saved_file = os.path.join(app.config['UPLOAD_FOLDER'], filename)
             
-            file.save()
+            file.save(saved_file)
             r = filename.split('.')
             print(r)
             image_path = os.path.join(app.config['UPLOAD_FOLDER'],
