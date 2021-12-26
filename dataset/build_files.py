@@ -24,7 +24,7 @@ for element in dataset:
   (width, height) = (img.shape[1] // 2, img.shape[0] // 2)
     
   f.write('{}/{} 0,{},0,{},{}\n'.format(path, element[0],
-                                        width, height,
+                                        width-1, height-1,
                                         element[1]))
   
 f.close()
