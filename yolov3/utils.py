@@ -174,9 +174,12 @@ def draw_bbox(image, bboxes, CLASSES=YOLO_COCO_CLASSES, show_label=True, show_co
             # put text above rectangle
             cv2.putText(image, label, (x1, y1-4), cv2.FONT_HERSHEY_COMPLEX_SMALL,
                         fontScale, Text_colors, bbox_thick, lineType=cv2.LINE_AA)
-            
-            cv2.putText(image, label, (10, 20 + 2*i), cv2.FONT_HERSHEY_COMPLEX_SMALL,
-                        2, (0, 0, 0), bbox_thick, lineType=cv2.LINE_AA)
+
+            ts = 0.9
+            cv2.putText(image, label, (10, 20 + ts*i), cv2.FONT_HERSHEY_COMPLEX_SMALL,
+                        ts, (0, 0, 0), bbox_thick, lineType=cv2.LINE_AA)
+            cv2.putText(image, label, (11, 21 + ts*i), cv2.FONT_HERSHEY_COMPLEX_SMALL,
+                        ts, (255, 255, 255), bbox_thick, lineType=cv2.LINE_AA)
 
     return image
 
