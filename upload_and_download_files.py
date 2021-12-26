@@ -43,7 +43,7 @@ def upload_file():
             detect_image(yolo, saved_file, image_path,
                          input_size=YOLO_INPUT_SIZE, show=False,
                          CLASSES=TRAIN_CLASSES, rectangle_colors=(255,0,0))
-            out = filename
+            out = image_path
             return redirect(url_for('uploaded_file',
                                     filename=out))
     return '''
