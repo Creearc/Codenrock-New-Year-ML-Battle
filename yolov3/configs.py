@@ -43,7 +43,7 @@ TRAIN_LOGDIR                = "log"
 TRAIN_CHECKPOINTS_FOLDER    = "checkpoints"
 TRAIN_MODEL_NAME            = f"yolov4_custom"
 TRAIN_LOAD_IMAGES_TO_RAM    = not True # With True faster training, but need more RAM
-TRAIN_BATCH_SIZE            = 32
+TRAIN_BATCH_SIZE            = 8
 TRAIN_INPUT_SIZE            = 416
 TRAIN_DATA_AUG              = True
 TRAIN_TRANSFER              = not True
@@ -55,7 +55,7 @@ TRAIN_EPOCHS                = 100
 
 # TEST options
 TEST_ANNOT_PATH             = "/home/alexandr/Codenrock-New-Year-ML-Battle/dataset/ded_train.txt"
-TEST_BATCH_SIZE             = 32
+TEST_BATCH_SIZE             = 8
 TEST_INPUT_SIZE             = 416
 TEST_DATA_AUG               = False
 TEST_DECTECTED_IMAGE_PATH   = ""
