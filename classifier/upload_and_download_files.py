@@ -40,6 +40,7 @@ def process_image(interpreter, image, input_index, k=3):
     # Get top K result
     top_k = output_data.argsort()[-k:][::-1]  # Top_k index
     result = []
+    print('Result: {}'.format(top_k.index(max(top_k))))
     for i in top_k:
         score = float(output_data[i] / 255.0)
         result.append((i, score))
