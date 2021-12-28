@@ -45,10 +45,18 @@ with open('frost_labels.txt', 'w') as f:
 IMG_SHAPE = (IMAGE_SIZE, IMAGE_SIZE, 3)
 
 # Create the base model from the pre-trained MobileNet V2
-base_model = tf.keras.applications.MobileNetV2(input_shape=IMG_SHAPE,
-                                              include_top=not False, 
-                                              weights='imagenet')
-base_model.trainable = not False
+base_model = tf.keras.applications.MobileNetV2(
+                            input_shape=None,
+                            alpha=1.0,
+                            include_top=True,
+                            weights="imagenet",
+                            input_tensor=None,
+                            pooling=None,
+                            classes=3,
+                            classifier_activation="softmax",
+                            )
+
+base_model.trainable = False
 
 model = tf.keras.Sequential([
   base_model,
