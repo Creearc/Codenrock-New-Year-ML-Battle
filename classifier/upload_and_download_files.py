@@ -69,7 +69,7 @@ def detect_image(input_img_path, output_img_path):
     
     img = cv2.imread(input_img_path, cv2.IMREAD_COLOR)
 
-    img_n = img.resize((width, height))
+    img = img.resize((width, height))
 
     img_n = Image.fromarray(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
 
