@@ -114,7 +114,7 @@ def upload_file():
     <!doctype html>
     <title>upload_and_download_files</title>
     <h1>Загрузите файл</h1>
-    <h6>Принимаются изображения в форматах jpg или png</h6>
+    <h3>Принимаются изображения в форматах jpg или png</h3>
     <form action="" method=post enctype=multipart/form-data>
       <p><input type=file name=file>
          <input type=submit value=Загрузить>
