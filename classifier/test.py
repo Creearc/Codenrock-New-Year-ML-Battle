@@ -89,6 +89,7 @@ if __name__ == "__main__":
   height = input_shape[1]
   width = input_shape[2]
   input_index = input_details[0]['index']
+  print(input_shape)
   
 
   for folder in os.listdir(dataset_path):
