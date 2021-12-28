@@ -151,7 +151,7 @@ keras_accuracy(prediction, truth)
 
 print("Raw model accuracy: {:.3%}".format(keras_accuracy.result()))
 
-ef set_input_tensor(interpreter, input):
+def set_input_tensor(interpreter, input):
   input_details = interpreter.get_input_details()[0]
   tensor_index = input_details['index']
   input_tensor = interpreter.tensor(tensor_index)()[0]
