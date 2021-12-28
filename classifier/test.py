@@ -97,7 +97,7 @@ if __name__ == "__main__":
       img = cv2.imread('{}/{}/{}'.format(dataset_path, folder, file))
 
       img = Image.fromarray(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
-      img = image.resize((width, height))
+      img = img.resize((width, height))
 
     
       top_result = process_image(interpreter, img, input_index)
