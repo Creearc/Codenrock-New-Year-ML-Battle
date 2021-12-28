@@ -54,6 +54,10 @@ def display_result(top_result, frame, labels):
     color = (0, 0, 0)  # Blue color
     thickness = 4
 
+    h, w = frame.shape[:2]
+    k = w // 640
+    frame = frame.resize((int(w * k), int(h * k)))
+
     for idx, (i, score) in enumerate(top_result):
         # print('{} - {:0.4f}'.format(label, score))
         x = 12
