@@ -56,7 +56,7 @@ def display_result(top_result, frame, labels):
 
     h, w = frame.shape[:2]
     k = w // 640
-    frame = frame.resize((int(w * k), int(h * k)))
+    frame = cv2.resize(frame, (int(w * k), int(h * k)))
 
     for idx, (i, score) in enumerate(top_result):
         # print('{} - {:0.4f}'.format(label, score))
