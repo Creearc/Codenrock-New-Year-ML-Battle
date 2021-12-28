@@ -51,7 +51,6 @@ base_model = tf.keras.applications.MobileNetV2(input_shape=IMG_SHAPE,
 base_model.trainable = False
 
 model = tf.keras.Sequential([
-  tf.keras.layers.Conv2D(filters=32, kernel_size=3,input_shape=(224,224,3)),
   base_model,
   tf.keras.layers.Conv2D(filters=32, kernel_size=3, activation='relu'),
   tf.keras.layers.Dropout(0.2),
