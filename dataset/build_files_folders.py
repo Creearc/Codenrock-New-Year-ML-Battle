@@ -3,6 +3,7 @@ import os
 import cv2
 
 dataset = []
+classes = set()
 
 f = open('train.csv', 'r')
 f.readline()
@@ -10,17 +11,19 @@ f.readline()
 for s in f:
   img_name, class_index = s.split()
   dataset.append((img_name, class_index))
+  classes.add(class_index)
 
 f.close()
 
 np.random.shuffle(dataset)
-
+classes = list(classes)
 
 path = '/home/alexandr/datasets/santas'
 output_path = '/home/alexandr/datasets/santas_2'
 
 try:
-  os.makedirs(output_path)
+  for c in classes:
+    os.makedirs('{}/{}'.format(output_path, c)
 except:
   pass
 
