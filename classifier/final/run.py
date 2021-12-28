@@ -52,6 +52,9 @@ if __name__ == "__main__":
   input_index = input_details[0]['index']  
 
   dataset_path = 'data/test'
+
+  if not os.path.exists('data/out/'):
+    os.mkdir('data/out/')
   
   f = open('data/out/submission.csv', 'w')
   f.write('image_name	class_id\n')
