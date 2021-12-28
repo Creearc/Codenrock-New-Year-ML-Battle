@@ -35,7 +35,7 @@ val_generator = datagen.flow_from_directory(
 image_batch, label_batch = next(val_generator)
 image_batch.shape, label_batch.shape
 
-print (train_generator.class_indices)
+print(train_generator.class_indices)
 
 labels = '\n'.join(sorted(train_generator.class_indices.keys()))
 
@@ -46,7 +46,7 @@ IMG_SHAPE = (IMAGE_SIZE, IMAGE_SIZE, 3)
 
 # Create the base model from the pre-trained MobileNet V2
 base_model = tf.keras.applications.MobileNetV2(input_shape=IMG_SHAPE,
-                                              include_top=False, 
+                                              include_top=not False, 
                                               weights='imagenet')
 base_model.trainable = False
 
