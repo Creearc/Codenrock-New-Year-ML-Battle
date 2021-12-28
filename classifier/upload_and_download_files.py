@@ -45,6 +45,7 @@ def process_image(interpreter, image, input_index, k=3):
     for i in top_k:
         score = float(output_data[i] / 255.0)
         result.append((i, score))
+        print(result)
         if score > mx:
             mx = score
             ind = i
