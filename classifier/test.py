@@ -63,7 +63,8 @@ model = tf.keras.Sequential([
   tf.keras.layers.Conv2D(filters=32, kernel_size=3, activation='relu'),
   tf.keras.layers.Dropout(0.2),
   tf.keras.layers.GlobalAveragePooling2D(),
-  tf.keras.layers.Dense(units=3, activation='softmax')
+  tf.keras.layers.Dense(units=len(train_generator.class_indices),
+                        activation='softmax')
 ])
 
 model.compile(optimizer='adam', 
