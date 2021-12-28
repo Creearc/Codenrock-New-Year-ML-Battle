@@ -11,7 +11,7 @@ gpus = tf.config.experimental.list_physical_devices('GPU')
 tf.config.experimental.set_memory_growth(gpus[0], True)
 
 
-dataset_path = '/home/alexandr/datasets/santas_2/'
+dataset_path = '/home/alexandr/datasets/santas_2'
 
 IMAGE_SIZE = 224
 BATCH_SIZE = 32
