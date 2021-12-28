@@ -135,4 +135,4 @@ if __name__ == "__main__":
     width = input_shape[2]
     input_index = input_details[0]['index']
     print(input_shape)
-    app.run(host='0.0.0.0', port=8000, debug=True)
+    app.run(host='0.0.0.0', port=8000, debug=not True)
