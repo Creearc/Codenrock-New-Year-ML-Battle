@@ -63,6 +63,8 @@ def display_result(top_result, frame, labels):
     return frame
 
 def detect_image(input_img_path, output_img_path):
+    global interpreter, labels, input_index, height, width
+    
     img = cv2.imread(input_img_path)
 
     img_n = Image.fromarray(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
