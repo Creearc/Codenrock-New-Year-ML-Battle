@@ -2,8 +2,10 @@ import os
 from flask import Flask, request, redirect, url_for
 from werkzeug.utils import secure_filename
 
-import os
 os.environ['CUDA_VISIBLE_DEVICES'] = '-1'
+import tensorflow as tf
+assert float(tf.__version__[:3]) >= 2.3
+import tensorflow.lite as tflite
 import os
 import numpy as np
 import cv2
