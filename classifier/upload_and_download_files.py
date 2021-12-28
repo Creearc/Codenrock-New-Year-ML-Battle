@@ -46,7 +46,8 @@ def process_image(interpreter, image, input_index, k=3):
         score = float(output_data[i] / 255.0)
         result.append((i, score))
         r.append(score)
-    print('Result: {}'.format(r.index(max(r))))
+    ind = r.index(max(r)))
+    print('Result: {}'.format(labels[ind])
     return result
 
 def display_result(top_result, frame, labels):
