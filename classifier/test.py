@@ -126,7 +126,7 @@ with open('mobilenet_v2_1.0_224.tflite', 'wb') as f:
 
 # A generator that provides a representative dataset
 def representative_data_gen():
-  dataset_list = tf.data.Dataset.list_files(flowers_dir + '/*/*')
+  dataset_list = tf.data.Dataset.list_files(dataset_path + '/*/*')
   for i in range(100):
     image = next(iter(dataset_list))
     image = tf.io.read_file(image)
