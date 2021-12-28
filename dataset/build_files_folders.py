@@ -29,7 +29,7 @@ except:
 
 for element in dataset:
   img = cv2.imread('{}/{}'.format(path, element[0]))
-  cv2.imwrite('{}/{}/{}'.format(output_path, element[0], element[0]), img)
+  cv2.imwrite('{}/{}/{}'.format(output_path, element[1], element[0]), img)
 
   
 
