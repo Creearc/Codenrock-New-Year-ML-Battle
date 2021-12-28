@@ -52,7 +52,7 @@ base_model = tf.keras.applications.MobileNetV2(
                             weights="imagenet",
                             input_tensor=None,
                             pooling=None,
-                            classes=3,
+                            classes=1000,
                             classifier_activation="softmax",
                             )
 
