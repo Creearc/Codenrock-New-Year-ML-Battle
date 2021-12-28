@@ -19,8 +19,10 @@ np.random.shuffle(dataset)
 path = '/home/alexandr/datasets/santas'
 output_path = '/home/alexandr/datasets/santas_2'
 
-os.makedirs(output_path)
-
+try:
+  os.makedirs(output_path)
+except:
+  pass
 
 for element in dataset:
   img = cv2.imread('{}/{}'.format(path, element[0]))
