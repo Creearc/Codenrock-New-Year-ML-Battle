@@ -78,7 +78,7 @@ def detect_image(input_img_path, output_img_path):
 
     
     top_result = process_image(interpreter, img_n, input_index)
-    img = display_result(top_result, img, labels)
+    img = display_result(top_result, img.copy(), labels)
     cv2.imwrite(output_img_path, img)
 
 
