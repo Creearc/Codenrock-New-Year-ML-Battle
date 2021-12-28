@@ -79,8 +79,7 @@ def process_image(interpreter, image, input_index, k=3):
 
 if __name__ == "__main__":
 
-  interpreter = tf.lite.Interpreter('mobilenet_v2_1.0_224_quant.tflite')
-  interpreter.allocate_tensors()
+  interpreter = load_model('mobilenet_v2_1.0_224_quant.tflite')
   labels = load_labels('frost_labels.txt')
 
   input_details = interpreter.get_input_details()
