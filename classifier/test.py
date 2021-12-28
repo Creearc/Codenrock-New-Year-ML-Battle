@@ -10,6 +10,10 @@ import numpy as np
 gpus = tf.config.experimental.list_physical_devices('GPU')
 tf.config.experimental.set_memory_growth(gpus[0], True)
 
+sess = K.get_session()
+init = tf.global_variables_initializer()
+
+sess.run(init)
 
 dataset_path = '/home/alexandr/datasets/santas_2/'
 
