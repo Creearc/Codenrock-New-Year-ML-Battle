@@ -6,6 +6,7 @@ import os
 import numpy as np
 import cv2
 from PIL import Image
+import time
 
 
 def load_model(model_path):
@@ -55,6 +56,7 @@ if __name__ == "__main__":
   f = open('data/out/submission.csv', 'w')
   f.write('image_name	class_id\n')
   for file in os.listdir(dataset_path):
+      t = time.time()
       img = cv2.imread('{}/{}'.format(dataset_path, file))
 
       img = Image.fromarray(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
@@ -62,6 +64,7 @@ if __name__ == "__main__":
     
       result = process_image(interpreter, img, input_index)
       f.write('{}	{}\n'.format(file, result))
+      print(time.time() - t)
   f.close()
       
 
