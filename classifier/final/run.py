@@ -8,12 +8,6 @@ import cv2
 from PIL import Image
 
 
-def load_labels(label_path):
-    r"""Returns a list of labels"""
-    with open(label_path, 'r') as f:
-        return [line.strip() for line in f.readlines()]
-
-
 def load_model(model_path):
     r"""Load TFLite model, returns a Interpreter instance."""
     interpreter = tflite.Interpreter(model_path=model_path)
@@ -35,12 +29,10 @@ def process_image(interpreter, image, input_index, k=3):
 
     # Get top K result
     top_k = output_data.argsort()[-k:][::-1]  # Top_k index
-    result = []
     ind, mx = 0, 0
     
     for i in top_k:
         score = float(output_data[i] / 255.0)
-        result.append((i, score))
         if score > mx:
             mx = score
             ind = i
@@ -48,8 +40,6 @@ def process_image(interpreter, image, input_index, k=3):
     return labels[ind]
 
 if __name__ == "__main__":
-  
-
   interpreter = load_model('data/weight/1_q.tflite')
   labels = [0, 1, 2]
 
