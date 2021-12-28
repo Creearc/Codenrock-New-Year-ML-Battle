@@ -55,7 +55,7 @@ def display_result(top_result, frame, labels):
     thickness = 4
 
     h, w = frame.shape[:2]
-    k = 640 // w
+    k = 640 / w
     frame = cv2.resize(frame, (int(w * k), int(h * k)))
 
     for idx, (i, score) in enumerate(top_result):
