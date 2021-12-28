@@ -40,11 +40,13 @@ def process_image(interpreter, image, input_index, k=3):
     # Get top K result
     top_k = output_data.argsort()[-k:][::-1]  # Top_k index
     result = []
-    print('Result: {}'.format(top_k.index(max(top_k))))
+    r = []
+    
     for i in top_k:
         score = float(output_data[i] / 255.0)
         result.append((i, score))
-
+        r.append(score)
+    print('Result: {}'.format(r.index(max(r))))
     return result
 
 def display_result(top_result, frame, labels):
