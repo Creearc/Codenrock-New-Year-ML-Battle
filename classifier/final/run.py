@@ -60,7 +60,7 @@ if __name__ == "__main__":
   width = input_shape[2]
   input_index = input_details[0]['index']  
 
-  dataset_path = '/home/alexandr/datasets/santas_1'
+  dataset_path = '/home/alexandr/datasets/santas'
   
   f = open('data/out/submission.csv', 'w')
   f.write('image_name	class_id\n')
