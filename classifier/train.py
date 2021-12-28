@@ -13,12 +13,12 @@ tf.config.experimental.set_memory_growth(gpus[0], True)
 
 dataset_path = '/home/alexandr/datasets/santas_2'
 
-IMAGE_SIZE = 360
-BATCH_SIZE = 52
+IMAGE_SIZE = 448
+BATCH_SIZE = 42
 
 datagen = tf.keras.preprocessing.image.ImageDataGenerator(
     rescale=1./255, 
-    validation_split=0.2)
+    validation_split=0.15)
 
 train_generator = datagen.flow_from_directory(
     dataset_path,
