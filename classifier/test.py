@@ -10,7 +10,7 @@ import numpy as np
 dataset_path = '/home/alexandr/datasets/santas_2/'
 
 IMAGE_SIZE = 224
-BATCH_SIZE = 32
+BATCH_SIZE = 2
 
 datagen = tf.keras.preprocessing.image.ImageDataGenerator(
     rescale=1./255, 
