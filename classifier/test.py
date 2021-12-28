@@ -4,7 +4,7 @@ assert float(tf.__version__[:3]) >= 2.3
 import os
 import numpy as np
 
-dataset_path = '/home/alexandr/datasets/santas/'
+dataset_path = '/home/alexandr/datasets/santas_2/'
 
 IMAGE_SIZE = 224
 BATCH_SIZE = 64
