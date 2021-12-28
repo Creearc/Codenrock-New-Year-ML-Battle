@@ -70,7 +70,7 @@ print('Number of trainable weights = {}'.format(len(model.trainable_weights)))
 
 history = model.fit(train_generator,
                     steps_per_epoch=len(train_generator), 
-                    epochs=10,
+                    epochs=10, # <--------------------------------------
                     validation_data=val_generator,
                     validation_steps=len(val_generator))
 
@@ -100,7 +100,7 @@ print('Number of trainable weights = {}'.format(len(model.trainable_weights)))
 
 history_fine = model.fit(train_generator,
                          steps_per_epoch=len(train_generator), 
-                         epochs=50,
+                         epochs=50, # <--------------------------------------
                          validation_data=val_generator,
                          validation_steps=len(val_generator))
 
