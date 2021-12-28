@@ -50,9 +50,9 @@ def process_image(interpreter, image, input_index, k=3):
 def display_result(top_result, frame, labels):
     r"""Display top K result in top right corner"""
     font = cv2.FONT_HERSHEY_SIMPLEX
-    size = 1.6
-    color = (255, 0, 0)  # Blue color
-    thickness = 1
+    size = 0.6
+    color = (0, 0, 0)  # Blue color
+    thickness = 4
 
     for idx, (i, score) in enumerate(top_result):
         # print('{} - {:0.4f}'.format(label, score))
@@ -60,6 +60,8 @@ def display_result(top_result, frame, labels):
         y = 24 * idx + 24
         cv2.putText(frame, '{} - {:0.4f}'.format(labels[i], score),
                     (x, y), font, size, color, thickness)
+        cv2.putText(frame, '{} - {:0.4f}'.format(labels[i], score),
+                    (x, y), font, size, (255, 255, 255), thickness-2)
     return frame
 
 def detect_image(input_img_path, output_img_path):
