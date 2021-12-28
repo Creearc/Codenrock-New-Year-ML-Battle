@@ -23,7 +23,7 @@ output_path = '/home/alexandr/datasets/santas_2'
 
 try:
   for c in classes:
-    os.makedirs('{}/{}'.format(output_path, c)
+    os.makedirs('{}/{}'.format(output_path, c))
 except:
   pass
 
