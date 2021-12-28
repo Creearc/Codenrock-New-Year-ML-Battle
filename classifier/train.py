@@ -18,7 +18,7 @@ BATCH_SIZE = 32
 
 datagen = tf.keras.preprocessing.image.ImageDataGenerator(
     rescale=1./255, 
-    validation_split=0.2)
+    validation_split=0.12)
 
 train_generator = datagen.flow_from_directory(
     dataset_path,
@@ -70,7 +70,7 @@ print('Number of trainable weights = {}'.format(len(model.trainable_weights)))
 
 history = model.fit(train_generator,
                     steps_per_epoch=len(train_generator), 
-                    epochs=10, # <--------------------------------------
+                    epochs=20, # <--------------------------------------
                     validation_data=val_generator,
                     validation_steps=len(val_generator))
 
@@ -100,7 +100,7 @@ print('Number of trainable weights = {}'.format(len(model.trainable_weights)))
 
 history_fine = model.fit(train_generator,
                          steps_per_epoch=len(train_generator), 
-                         epochs=50, # <--------------------------------------
+                         epochs=100, # <--------------------------------------
                          validation_data=val_generator,
                          validation_steps=len(val_generator))
 
