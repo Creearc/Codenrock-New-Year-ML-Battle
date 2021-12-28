@@ -50,7 +50,7 @@ def process_image(interpreter, image, input_index, k=3):
 def display_result(top_result, frame, labels):
     r"""Display top K result in top right corner"""
     font = cv2.FONT_HERSHEY_SIMPLEX
-    size = 0.6
+    size = 1.6
     color = (255, 0, 0)  # Blue color
     thickness = 1
 
