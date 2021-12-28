@@ -11,7 +11,7 @@ ftp.connect(HOST, PORT)
 
 print(ftp.login(user='alexandr', passwd='9'))
 
-ftp.cwd('Codenrock-New-Year-ML-Battle/classifier/final/data/weight')
+ftp.cwd('Codenrock-New-Year-ML-Battle/classifier/')
 
 for i in ['2_q.tflite']:
   with open(i, 'wb') as f:
