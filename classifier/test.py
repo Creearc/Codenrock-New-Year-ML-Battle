@@ -80,7 +80,7 @@ def process_image(interpreter, image, input_index, k=3):
 
 if __name__ == "__main__":
 
-  interpreter = load_model('mobilenet_v2_1.0_224_quant.tflite')
+  interpreter = load_model('1_q.tflite')
   labels = load_labels('frost_labels.txt')
 
   input_details = interpreter.get_input_details()
