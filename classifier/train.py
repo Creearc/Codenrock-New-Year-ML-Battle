@@ -18,7 +18,7 @@ BATCH_SIZE = 52
 
 datagen = tf.keras.preprocessing.image.ImageDataGenerator(
     rescale=1./255, 
-    validation_split=0.12)
+    validation_split=0.2)
 
 train_generator = datagen.flow_from_directory(
     dataset_path,
