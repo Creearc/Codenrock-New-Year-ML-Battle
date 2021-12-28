@@ -35,7 +35,6 @@ def process_image(interpreter, image, input_index, k=3):
     # Get outputs
     output_details = interpreter.get_output_details()
     output_data = interpreter.get_tensor(output_details[0]['index'])
-    print(output_data.shape)  # (1, 1001)
     output_data = np.squeeze(output_data)
 
     # Get top K result
