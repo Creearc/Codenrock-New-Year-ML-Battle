@@ -50,7 +50,7 @@ def process_image(interpreter, image, input_index, k=3):
             mx = score
             ind = i
 
-    print('Result: {}'.format(labels[i]))
+    print('Result: {}'.format(labels[ind]))
     return result
 
 def display_result(top_result, frame, labels):
