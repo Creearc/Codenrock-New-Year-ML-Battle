@@ -14,7 +14,7 @@ from yolov3.utils import detect_image
 from yolov3.configs import *
 
 yolo = Create_Yolo(input_size=YOLO_INPUT_SIZE, CLASSES=TRAIN_CLASSES)
-yolo.load_weights(f"./checkpoints/yolov4_custom_Tiny")
+yolo.load_weights(f"./checkpoints/yolov4_custom")
 
 ALLOWED_EXTENSIONS = set(['jpg', 'png'])
 path = 'files'  # path for files to save
