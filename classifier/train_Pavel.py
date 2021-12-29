@@ -40,7 +40,7 @@ datagen = tf.keras.preprocessing.image.ImageDataGenerator(
 val_generator = datagen.flow_from_directory(
     dataset_path,
     target_size=(IMAGE_SIZE, IMAGE_SIZE),
-    batch_size=1280, 
+    batch_size=BATCH_SIZE,#1280, 
     subset='training')
 
 X, y = next(val_generator)
