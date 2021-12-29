@@ -101,22 +101,30 @@ for DROPOUT in DROPOUT_CONFIG:
                         metrics=['accuracy'])
 
 
+          x_train = train_data.iloc[train_index]['image_name']
+          y_train = train_data.iloc[train_index]['class_id']
 
-          training_data = train_data.iloc[train_index]
-          validation_data = train_data.iloc[val_index]
+          y_train = tf.utils.to_categorical(y_train, CLASS_NUM)
+          
+          x_test = train_data.iloc[val_index]['image_name']
+          y_test = train_data.iloc[val_index]['class_id']
+
+          y_test = tf.utils.to_categorical(y_test, CLASS_NUM)
           
           
-          train_data = idg.flow_from_dataframe(training_data, directory = dataset_path,
-                                               target_size=(IMAGE_SIZE, IMAGE_SIZE),
-                                               x_col = "image_name",
-                                               y_col = 'class_id', # classes
-                                               shuffle = True)
-          
-          test_data = idg.flow_from_dataframe(validation_data, directory = dataset_path,
-                                              target_size=(IMAGE_SIZE, IMAGE_SIZE),
-                                              x_col = "image_name",
-                                              y_col = 'class_id', # classes
-                                              shuffle = True)
+####          train_data = idg.flow_from_dataframe(training_data, directory = dataset_path,
+####                                               target_size=(IMAGE_SIZE, IMAGE_SIZE),
+####                                               x_col = "image_name",
+####                                               y_col = 'class_id', # classes
+####                                               shuffle = True)
+####          
+####          test_data = idg.flow_from_dataframe(validation_data, directory = dataset_path,
+####                                              target_size=(IMAGE_SIZE, IMAGE_SIZE),
+####                                              x_col = "image_name",
+####                                              y_col = 'class_id', # classes
+####                                              shuffle = True)
+          train_data = idg.flow(x_train, y_train, batch_size=BATCH_SIZE, subset='training')
+          test_data = idg.flow(x_test, y_test, batch_size=BATCH_SIZE, subset='validation')
 
 
           history_fine = model.fit(train_data,
