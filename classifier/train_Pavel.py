@@ -49,9 +49,10 @@ f.close()
 
 
 train_data = pd.read_csv('/home/alexandr/datasets/santas/train.csv', sep='\\t', engine='python')
-train_data = train_data.replace({'class_id' : {np.int64(0) : np.float32([1., 0., 0.]),
+train_data.replace({'class_id' : {np.int64(0) : np.float32([1., 0., 0.]),
                                   1 : np.float32([0., 1., 0.]),
-                                  2 : np.float32([0., 0., 1.])}})
+                                  2 : np.float32([0., 0., 1.])}},
+                                inplace = True)
 Y = train_data[['class_id']]
 print(Y)
 print(type(train_data.iloc[0]['class_id']))
