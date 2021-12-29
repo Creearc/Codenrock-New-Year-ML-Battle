@@ -87,7 +87,7 @@ for DROPOUT in DROPOUT_CONFIG:
         i = 0
         results = []
         #for train, test in kfold.split(X, class_labels):
-        for train_index, val_index in kf.split(np.zeros(n),Y):
+        for train_index, val_index in kf.split(np.zeros(K_PARTS),Y):
           OUTPUT_FILE = '{}_{}_{}_{}'.format(DROPOUT, UNFREEZE_EPOCHS, LR, FILTERS)
           OUTPUT_FILE_Q = '{}_q.tflite'.format(OUTPUT_FILE)
           OUTPUT_FILE = '{}.tflite'.format(OUTPUT_FILE)
