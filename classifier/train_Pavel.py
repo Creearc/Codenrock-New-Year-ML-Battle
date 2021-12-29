@@ -71,12 +71,15 @@ for k in range(K_PARTS):
   test_data_generator = pd.DataFrame(data={"image_name" : [],
                                            'class_id' : []})
   for i in range(K_PARTS):
-    if i == k:
-      for key, value in data_parts[i].items():
+    for key, value in data_parts[i].items():
+      if i == k:
         test_data_generator = test_data_generator.append({"image_name" : value,
-                                                          'class_id' : num_2_vector(key)})
-    else:
-      pass
+                                                          'class_id' : num_2_vector(key)},
+                                                         ignore_index=True)
+      else:
+        train_data_generator = test_data_generator.append({"image_name" : value,
+                                                            'class_id' : num_2_vector(key)},
+                                                           ignore_index=True)
   print(test_data_generator)
 
 
