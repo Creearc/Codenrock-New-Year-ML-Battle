@@ -52,6 +52,7 @@ CLASSES_NUM = len(classes_paths)
 
 num_2_vector = lambda x : np.array([1.0 if i == int(x) else 0.0 for i in range(CLASSES_NUM)], dtype='float32')
 
+# Read data
 data = dict()
 for i in range(len(classes_paths)):
   class_name = classes_paths[i]
@@ -59,29 +60,32 @@ for i in range(len(classes_paths)):
   for img in os.listdir('{}/{}'.format(dataset_path, classes_paths[i])):
     data[class_name].append('{}/{}/{}'.format(dataset_path, classes_paths[i], img))
 
+# Split data
 data_parts = [dict() for i in range(K_PARTS)]
 for key in data.keys():
   tmp = np.array_split(data[key], K_PARTS)
   for i in range(K_PARTS):
     data_parts[i][key] = tmp[i]
 
-for k in range(K_PARTS):
-  train_data_generator = pd.DataFrame(data={"image_name" : [],
-                                            'class_id' : []})
-  test_data_generator = pd.DataFrame(data={"image_name" : [],
-                                           'class_id' : []})
-  for i in range(K_PARTS):
-    for key in data_parts[i].keys():
-      for label in data_parts[i][key]:
-        if i == k:
-          test_data_generator = test_data_generator.append({"image_name" : label,
-                                                            'class_id' : num_2_vector(key)},
-                                                           ignore_index=True)
-        else:
-          train_data_generator = train_data_generator.append({"image_name" : label,
+
+def k_fold_cross_val(data_parts, K_PARTS):
+  for k in range(K_PARTS):
+    train_data_generator = pd.DataFrame(data={"image_name" : [],
+                                              'class_id' : []})
+    test_data_generator = pd.DataFrame(data={"image_name" : [],
+                                             'class_id' : []})
+    for i in range(K_PARTS):
+      for key in data_parts[i].keys():
+        for label in data_parts[i][key]:
+          if i == k:
+            test_data_generator = test_data_generator.append({"image_name" : label,
                                                               'class_id' : num_2_vector(key)},
                                                              ignore_index=True)
-  print(train_data_generator, test_data_generator)
+          else:
+            train_data_generator = train_data_generator.append({"image_name" : label,
+                                                                'class_id' : num_2_vector(key)},
+                                                               ignore_index=True)
+    yield k, train_data_generator, test_data_generator
 
 
 idg = ImageDataGenerator(rescale=1./255)
@@ -90,10 +94,8 @@ for DROPOUT in DROPOUT_CONFIG:
   for LR in LR_CONFIG:
     for UNFREEZE_EPOCHS in UNFREEZE_EPOCHS_CONFIG:
       for FILTERS in FILTERS_CONFIG:
-        i = 0
         results = []
-        #for train, test in kfold.split(X, class_labels):
-        for train_index, val_index in skf.split(np.zeros(len(labels)), labels):
+        for k, training_data, validation_data in k_fold_cross_val(data_parts, K_PARTS):
           OUTPUT_FILE = '{}_{}_{}_{}'.format(DROPOUT, UNFREEZE_EPOCHS, LR, FILTERS)
           OUTPUT_FILE_Q = '{}_q.tflite'.format(OUTPUT_FILE)
           OUTPUT_FILE = '{}.tflite'.format(OUTPUT_FILE)
@@ -119,17 +121,17 @@ for DROPOUT in DROPOUT_CONFIG:
                         metrics=['accuracy'])
 
     
-####          train_data = idg.flow_from_dataframe(training_data, directory = dataset_path,
-####                                               target_size=(IMAGE_SIZE, IMAGE_SIZE),
-####                                               x_col = "image_name",
-####                                               y_col = 'class_id', # classes
-####                                               shuffle = True)
-####          
-####          test_data = idg.flow_from_dataframe(validation_data, directory = dataset_path,
-####                                              target_size=(IMAGE_SIZE, IMAGE_SIZE),
-####                                              x_col = "image_name",
-####                                              y_col = 'class_id', # classes
-####                                              shuffle = True)
+          train_data = idg.flow_from_dataframe(training_data,
+                                               target_size=(IMAGE_SIZE, IMAGE_SIZE),
+                                               x_col = "image_name",
+                                               y_col = 'class_id', # classes
+                                               shuffle = True)
+          
+          test_data = idg.flow_from_dataframe(validation_data,
+                                              target_size=(IMAGE_SIZE, IMAGE_SIZE),
+                                              x_col = "image_name",
+                                              y_col = 'class_id', # classes
+                                              shuffle = True)
 ##          print(np.unique(labels[train_index]), np.unique(labels[val_index]))
 ##          train_data = idg.flow(images[train_index], labels[train_index],
 ##                                batch_size=BATCH_SIZE, subset='training')
@@ -147,11 +149,10 @@ for DROPOUT in DROPOUT_CONFIG:
           scores = dict(zip(model.metrics_names, scores))['accuracy']
           
           f = open('log.txt', 'a')
-          f.write('{} {}_{}_{}_{}:  {}\n'.format(i, DROPOUT, UNFREEZE_EPOCHS, LR, FILTERS,
+          f.write('{} {}_{}_{}_{}:  {}\n'.format(k, DROPOUT, UNFREEZE_EPOCHS, LR, FILTERS,
                                             scores))
           f.close()
           results.append(scores)
-          i += 1
           
         f = open('log.txt', 'a')
         f.write('       res :{}'.format(sum(results) / len(results)))
