@@ -62,7 +62,7 @@ for key in data.keys():
   for i in range(K_PARTS):
     data_parts[i][key] = tmp[i]
 
-num_2_vector = lambda x : [1 if i == x else 0 for i in range(CLASSES_NUM)]
+num_2_vector = lambda x : np.array([1.0 if i == x else 0.0 for i in range(CLASSES_NUM)], dtype='float32')
 
 print(num_2_vector(1))
 
