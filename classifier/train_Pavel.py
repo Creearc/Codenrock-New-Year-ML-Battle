@@ -75,6 +75,7 @@ for DROPOUT in DROPOUT_CONFIG:
         results = []
         for train, test in kfold.split(X, y):
           print(train, test)
+          continue
           OUTPUT_FILE = '{}_{}_{}_{}'.format(DROPOUT, UNFREEZE_EPOCHS, LR, FILTERS)
           OUTPUT_FILE_Q = '{}_q.tflite'.format(OUTPUT_FILE)
           OUTPUT_FILE = '{}.tflite'.format(OUTPUT_FILE)
