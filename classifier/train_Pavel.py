@@ -50,7 +50,7 @@ f.close()
 classes_paths = os.listdir(dataset_path)
 CLASSES_NUM = len(classes_paths)
 
-num_2_vector = lambda x : np.array([1.0 if i == x else 0.0 for i in range(CLASSES_NUM)], dtype='float32')
+num_2_vector = lambda x : np.array([1.0 if i == int(x) else 0.0 for i in range(CLASSES_NUM)], dtype='float32')
 
 data = dict()
 for i in range(len(classes_paths)):
