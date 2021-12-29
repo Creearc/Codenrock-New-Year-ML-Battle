@@ -68,13 +68,15 @@ f.close()
 
 kfold = KFold(n_splits=K_PARTS, shuffle=True, random_state=13)
 
+class_labels = np.argmax(y_train, axis=1)
+
 for DROPOUT in DROPOUT_CONFIG:
   for LR in LR_CONFIG:
     for UNFREEZE_EPOCHS in UNFREEZE_EPOCHS_CONFIG:
       for FILTERS in FILTERS_CONFIG:
         i = 0
         results = []
-        for train, test in kfold.split(X, y):
+        for train, test in kfold.split(X, class_labels):
           OUTPUT_FILE = '{}_{}_{}_{}'.format(DROPOUT, UNFREEZE_EPOCHS, LR, FILTERS)
           OUTPUT_FILE_Q = '{}_q.tflite'.format(OUTPUT_FILE)
           OUTPUT_FILE = '{}.tflite'.format(OUTPUT_FILE)
@@ -87,8 +89,6 @@ for DROPOUT in DROPOUT_CONFIG:
             tf.keras.layers.Dense(units=len(val_generator.class_indices),
                                   activation='softmax')
           ])
-
-
 
           base_model.trainable = True
           fine_tune_at = 100
