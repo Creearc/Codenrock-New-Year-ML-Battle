@@ -48,9 +48,6 @@ f = open('log.txt', 'a')
 f.close()
 
 train_data = pd.read_csv('/home/alexandr/datasets/santas/train.csv', sep='\\t', engine='python')
-train_data[['class_id']].replace({'0' : (1,0,0),
-                                  '1' : (0,1,0),
-                                  '2' : (0,0,1)}, inplace=True)
 Y = train_data[['class_id']]
 
 kf = KFold(n_splits = K_PARTS)
