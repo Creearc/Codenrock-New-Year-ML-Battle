@@ -99,13 +99,13 @@ for DROPOUT in DROPOUT_CONFIG:
           
           train_data = idg.flow_from_dataframe(training_data, directory = dataset_path,
                                                target_size=(IMAGE_SIZE, IMAGE_SIZE),
-                                               x_col = "image_name", y_col = "class_id",
+                                               x_col = "image_name", y_col = [0, 1, 2],
                                                shuffle = True,
                                                class_mode='raw')
           
           test_data = idg.flow_from_dataframe(validation_data, directory = dataset_path,
                                               target_size=(IMAGE_SIZE, IMAGE_SIZE),
-                                              x_col = "image_name", y_col = "class_id",
+                                              x_col = "image_name", y_col = [0, 1, 2],
                                               shuffle = True,
                                               class_mode='raw')
 
