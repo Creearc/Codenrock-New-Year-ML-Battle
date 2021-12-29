@@ -68,6 +68,7 @@ f.close()
 kfold = NIKITA(n_splits=K_PARTS, shuffle=True, random_state=13)
 
 class_labels = np.argmax(y, axis=1)
+print(class_labels)
 
 for DROPOUT in DROPOUT_CONFIG:
   for LR in LR_CONFIG:
