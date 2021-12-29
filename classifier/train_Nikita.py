@@ -116,6 +116,8 @@ param_UF =  {'optimizer' :['rmsprop', 'adam','sgd'],
 
 Net_estimator = GridSearchCV(model,param_UF,cv=5,score='accuracy')
 
+Net_estimator.fit(train_generator)
+
 print('\nBest Score: ',Net_estimator.best_score_,'\nBest Parameters: ',Net_estimator.best_params_)
 
 history_fine = model.fit(train_generator,
