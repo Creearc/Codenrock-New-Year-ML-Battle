@@ -44,7 +44,6 @@ val_generator = datagen.flow_from_directory(
     subset='training')
 
 X, y = next(val_generator)
-print(val_generator)
 
 image_batch, label_batch = next(val_generator)
 image_batch.shape, label_batch.shape
@@ -104,8 +103,11 @@ for DROPOUT in DROPOUT_CONFIG:
           model.summary()
 
           print('Number of trainable weights = {}'.format(len(model.trainable_weights)))
-          train_data = datagen.flow(X[train], y[train], batch_size=32, subset='training')
-          test_data = datagen.flow(X[test], y[test], batch_size=32, subset='validation')
+          
+          datagen2 = tf.keras.preprocessing.image.ImageDataGenerator(rescale=1./255)
+          
+          train_data = datagen2.flow(X[train], y[train], batch_size=32, subset='training')
+          test_data = datagen2.flow(X[test], y[test], batch_size=32, subset='validation')
 
           history_fine = model.fit(train_data,
                                    steps_per_epoch=len(train_data), 
