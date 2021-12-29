@@ -48,6 +48,9 @@ f = open('log.txt', 'a')
 f.close()
 
 classes_paths = os.listdir(dataset_path)
+CLASSES_NUM = len(classes_paths)
+
+num_2_vector = lambda x : np.array([1.0 if i == x else 0.0 for i in range(CLASSES_NUM)], dtype='float32')
 
 data = dict()
 for i in range(len(classes_paths)):
@@ -62,16 +65,23 @@ for key in data.keys():
   for i in range(K_PARTS):
     data_parts[i][key] = tmp[i]
 
-num_2_vector = lambda x : np.array([1.0 if i == x else 0.0 for i in range(CLASSES_NUM)], dtype='float32')
+for k in range(K_PARTS):
+  train_data_generator = pd.DataFrame(data={"image_name" : [],
+                                            'class_id' : []})
+  test_data_generator = pd.DataFrame(data={"image_name" : [],
+                                           'class_id' : []})
+  for i in range(K_PARTS):
+    if i == k:
+      for key, value in data_parts[i].items():
+        test_data_generator = test_data_generator.append({"image_name" : value,
+                                                          'class_id' : num_2_vector(key)},
+                                                         ignore_index=True)
+    else:
+      pass
+  print(test_data_generator)
 
-print(num_2_vector(1))
 
-##idg = ImageDataGenerator(width_shift_range=0.1,
-##                         height_shift_range=0.1,
-##                         zoom_range=0.3,
-##                         fill_mode='nearest',
-##                         horizontal_flip = True,
-##                         rescale=1./255)
+idg = ImageDataGenerator(rescale=1./255)
 
 for DROPOUT in DROPOUT_CONFIG:
   for LR in LR_CONFIG:
@@ -117,11 +127,11 @@ for DROPOUT in DROPOUT_CONFIG:
 ####                                              x_col = "image_name",
 ####                                              y_col = 'class_id', # classes
 ####                                              shuffle = True)
-          print(np.unique(labels[train_index]), np.unique(labels[val_index]))
-          train_data = idg.flow(images[train_index], labels[train_index],
-                                batch_size=BATCH_SIZE, subset='training')
-          test_data = idg.flow(images[val_index], labels[val_index],
-                               batch_size=BATCH_SIZE, subset='validation')
+##          print(np.unique(labels[train_index]), np.unique(labels[val_index]))
+##          train_data = idg.flow(images[train_index], labels[train_index],
+##                                batch_size=BATCH_SIZE, subset='training')
+##          test_data = idg.flow(images[val_index], labels[val_index],
+##                               batch_size=BATCH_SIZE, subset='validation')
 
 
           history_fine = model.fit(train_data,
