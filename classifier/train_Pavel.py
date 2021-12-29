@@ -48,7 +48,6 @@ f = open('log.txt', 'a')
 f.close()
 
 train_data = pd.read_csv('/home/alexandr/datasets/santas/train.csv', sep='\\t')
-print(train_data)
 Y = train_data[['class_id']]
 
 kf = KFold(n_splits = K_PARTS)
@@ -91,9 +90,10 @@ for DROPOUT in DROPOUT_CONFIG:
                         loss='categorical_crossentropy',
                         metrics=['accuracy'])
 
-          model.summary()
 
-          print('Number of trainable weights = {}'.format(len(model.trainable_weights)))
+
+          training_data = train_data.iloc[train_index]
+          validation_data = train_data.iloc[val_index]
           
           
           train_data = idg.flow_from_dataframe(training_data, directory = dataset_path,
