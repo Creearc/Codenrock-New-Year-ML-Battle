@@ -13,7 +13,7 @@ gpus = tf.config.experimental.list_physical_devices('GPU')
 tf.config.experimental.set_memory_growth(gpus[0], True)
 
 
-dataset_path = '/home/alexandr/datasets/santas'
+dataset_path = '/home/alexandr/datasets/santas_2'
 
 ###################################
 IMAGE_SIZE = 448
@@ -47,11 +47,15 @@ base_model = tf.keras.applications.MobileNetV2(input_shape=IMG_SHAPE,
 f = open('log.txt', 'a')
 f.close()
 
+
 train_data = pd.read_csv('/home/alexandr/datasets/santas/train.csv', sep='\\t', engine='python')
 Y = train_data[['class_id']]
 
 kf = KFold(n_splits = K_PARTS)
 idg = ImageDataGenerator(rescale=1./255)
+
+
+
 ##idg = ImageDataGenerator(width_shift_range=0.1,
 ##                         height_shift_range=0.1,
 ##                         zoom_range=0.3,
@@ -100,16 +104,15 @@ for DROPOUT in DROPOUT_CONFIG:
           train_data = idg.flow_from_dataframe(training_data, directory = dataset_path,
                                                target_size=(IMAGE_SIZE, IMAGE_SIZE),
                                                x_col = "image_name",
-                                               y_col = [[0, 1, 2]], # classes
-                                               shuffle = True,
-                                               class_mode='raw')
+                                               y_col = ['class_id'], # classes
+                                               shuffle = True)
           
           test_data = idg.flow_from_dataframe(validation_data, directory = dataset_path,
                                               target_size=(IMAGE_SIZE, IMAGE_SIZE),
                                               x_col = "image_name",
-                                              y_col = [[0, 1, 2]], # classes
-                                              shuffle = True,
-                                              class_mode='raw')
+                                              y_col = ['class_id'], # classes
+                                              shuffle = True)
+
 
           history_fine = model.fit(train_data,
                                    steps_per_epoch=len(train_data), 
