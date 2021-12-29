@@ -14,11 +14,11 @@ tf.config.experimental.set_memory_growth(gpus[0], True)
 dataset_path = '/home/alexandr/datasets/santas_2'
 
 IMAGE_SIZE = 448
-BATCH_SIZE = 42
+BATCH_SIZE = 48
 
 datagen = tf.keras.preprocessing.image.ImageDataGenerator(
     rescale=1./255, 
-    validation_split=0.15)
+    validation_split=0.3)
 
 train_generator = datagen.flow_from_directory(
     dataset_path,
@@ -70,7 +70,7 @@ print('Number of trainable weights = {}'.format(len(model.trainable_weights)))
 
 history = model.fit(train_generator,
                     steps_per_epoch=len(train_generator), 
-                    epochs=30, # <--------------------------------------
+                    epochs=20, # <--------------------------------------
                     validation_data=val_generator,
                     validation_steps=len(val_generator))
 
@@ -100,7 +100,7 @@ print('Number of trainable weights = {}'.format(len(model.trainable_weights)))
 
 history_fine = model.fit(train_generator,
                          steps_per_epoch=len(train_generator), 
-                         epochs=1000, # <--------------------------------------
+                         epochs=100, # <--------------------------------------
                          validation_data=val_generator,
                          validation_steps=len(val_generator))
 
