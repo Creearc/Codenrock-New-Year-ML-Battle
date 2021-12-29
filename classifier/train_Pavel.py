@@ -51,12 +51,13 @@ train_data = pd.read_csv('/home/alexandr/datasets/santas/train.csv', sep='\\t', 
 Y = train_data[['class_id']]
 
 kf = KFold(n_splits = K_PARTS)
-idg = ImageDataGenerator(width_shift_range=0.1,
-                         height_shift_range=0.1,
-                         zoom_range=0.3,
-                         fill_mode='nearest',
-                         horizontal_flip = True,
-                         rescale=1./255)
+idg = ImageDataGenerator(rescale=1./255)
+##idg = ImageDataGenerator(width_shift_range=0.1,
+##                         height_shift_range=0.1,
+##                         zoom_range=0.3,
+##                         fill_mode='nearest',
+##                         horizontal_flip = True,
+##                         rescale=1./255)
 
 for DROPOUT in DROPOUT_CONFIG:
   for LR in LR_CONFIG:
@@ -97,12 +98,12 @@ for DROPOUT in DROPOUT_CONFIG:
           
           
           train_data = idg.flow_from_dataframe(training_data, directory = dataset_path,
-                                               x_col = "image_name", y_col = "class_id",
+                                               x_col = "image_name", 
                                                class_mode = "categorical", shuffle = True,
                                                classes = ['0', '1', '2'])
           
           test_data = idg.flow_from_dataframe(validation_data, directory = dataset_path,
-                                              x_col = "image_name", y_col = "class_id",
+                                              x_col = "image_name", 
                                               class_mode = "categorical", shuffle = True,
                                               classes = ['0', '1', '2'])
 
