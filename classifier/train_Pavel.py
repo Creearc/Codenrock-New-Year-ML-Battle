@@ -55,7 +55,7 @@ kf = KFold(n_splits = K_PARTS)
 skf = StratifiedKFold(n_splits = 5, random_state = 7, shuffle = True)
 
 idg = ImageDataGenerator(rescale=1./255)
-data_generator = datagen.flow_from_directory(
+data_generator = idg.flow_from_directory(
     dataset_path,
     target_size=(IMAGE_SIZE, IMAGE_SIZE))
 
