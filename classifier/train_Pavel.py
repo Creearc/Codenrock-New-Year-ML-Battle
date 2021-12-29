@@ -4,7 +4,7 @@ os.environ['TF_FORCE_GPU_ALLOW_GROWTH'] = 'true'
 import tensorflow as tf
 assert float(tf.__version__[:3]) >= 2.3
 import numpy as np
-from sklearn.model_selection import StratifiedKFold as KFold
+from sklearn.model_selection import StratifiedKFold as NIKITA
 
 gpus = tf.config.experimental.list_physical_devices('GPU')
 tf.config.experimental.set_memory_growth(gpus[0], True)
@@ -65,7 +65,7 @@ base_model = tf.keras.applications.MobileNetV2(input_shape=IMG_SHAPE,
 f = open('log.txt', 'a')
 f.close()
 
-kfold = KFold(n_splits=K_PARTS, shuffle=True, random_state=13)
+kfold = NIKITA(n_splits=K_PARTS, shuffle=True, random_state=13)
 
 class_labels = np.argmax(y, axis=1)
 
@@ -106,8 +106,12 @@ for DROPOUT in DROPOUT_CONFIG:
           
           datagen2 = tf.keras.preprocessing.image.ImageDataGenerator(rescale=1./255)
           
-          train_data = datagen2.flow(X[train], y[train], batch_size=32, subset='training')
-          test_data = datagen2.flow(X[test], y[test], batch_size=32, subset='validation')
+          train_data = datagen2.flow(X[train], y[train],
+                                     target_size=(IMAGE_SIZE, IMAGE_SIZE),
+                                     batch_size=BATCH_SIZE, subset='training')
+          test_data = datagen2.flow(X[test], y[test],
+                                    target_size=(IMAGE_SIZE, IMAGE_SIZE),
+                                    batch_size=BATCH_SIZE, subset='validation')
 
           history_fine = model.fit(train_data,
                                    steps_per_epoch=len(train_data), 
