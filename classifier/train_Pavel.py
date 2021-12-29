@@ -4,7 +4,7 @@ os.environ['TF_FORCE_GPU_ALLOW_GROWTH'] = 'true'
 import tensorflow as tf
 assert float(tf.__version__[:3]) >= 2.3
 import numpy as np
-from sklearn.model_selection import KFold
+from sklearn.model_selection import StratifiedKFold as KFold
 
 gpus = tf.config.experimental.list_physical_devices('GPU')
 tf.config.experimental.set_memory_growth(gpus[0], True)
@@ -104,13 +104,14 @@ for DROPOUT in DROPOUT_CONFIG:
           model.summary()
 
           print('Number of trainable weights = {}'.format(len(model.trainable_weights)))
+          train_data = datagen.flow(X[train], y[train], batch_size=32, subset='training')
+          test_data = datagen.flow(X[test], y[test], batch_size=32, subset='training')
 
-          history_fine = model.fit(datagen.flow(X[train], y[train], batch_size=32, subset='training'),
-                                   steps_per_epoch=len(X[train]), 
+          history_fine = model.fit(train_data,
+                                   steps_per_epoch=len(train_data), 
                                    epochs=UNFREEZE_EPOCHS, 
-                                   validation_data=datagen.flow(X[test], y[test], batch_size=32,
-                                                 subset='training'),
-                                   validation_steps=len(X[test]))
+                                   validation_data=test_data,
+                                   validation_steps=len(test_data))
           
           scores = model.evaluate(X[test], y[test], verbose=0)
           
