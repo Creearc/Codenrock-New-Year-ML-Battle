@@ -34,6 +34,8 @@ K_PARTS = 5
 OUTPUT_FILE = 'm_8.tflite'
 OUTPUT_FILE_Q = 'm_8_q.tflite'
 
+CLASS_NUM = 3 # !!!!!
+
 ###################################
 
 IMG_SHAPE = (IMAGE_SIZE, IMAGE_SIZE, 3)
@@ -74,7 +76,7 @@ for DROPOUT in DROPOUT_CONFIG:
             tf.keras.layers.Conv2D(filters=FILTERS, kernel_size=3, activation='relu'),
             tf.keras.layers.Dropout(DROPOUT),
             tf.keras.layers.GlobalAveragePooling2D(),
-            tf.keras.layers.Dense(units=len(val_generator.class_indices),
+            tf.keras.layers.Dense(units=CLASS_NUM,
                                   activation='softmax')
           ])
 
@@ -107,13 +109,14 @@ for DROPOUT in DROPOUT_CONFIG:
                                    validation_data=test_data,
                                    validation_steps=len(test_data))
           
-          scores = model.evaluate(X[test], y[test], verbose=0)
+          scores = model.evaluate(valid_data_generator)
+          scores = dict(zip(model.metrics_names, scores))['accuracy']
           
           f = open('log.txt', 'a')
           f.write('{} {}_{}_{}_{}:  {}\n'.format(i, DROPOUT, UNFREEZE_EPOCHS, LR, FILTERS,
-                                            result))
+                                            scores))
           f.close()
-          results.append(result)
+          results.append(scores)
           i += 1
           
         f = open('log.txt', 'a')
