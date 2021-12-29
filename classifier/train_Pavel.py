@@ -68,7 +68,7 @@ f.close()
 
 kfold = KFold(n_splits=K_PARTS, shuffle=True, random_state=13)
 
-class_labels = np.argmax(y_train, axis=1)
+class_labels = np.argmax(y, axis=1)
 
 for DROPOUT in DROPOUT_CONFIG:
   for LR in LR_CONFIG:
