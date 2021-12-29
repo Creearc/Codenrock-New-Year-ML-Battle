@@ -34,7 +34,7 @@ K_PARTS = 5
 OUTPUT_FILE = 'm_8.tflite'
 OUTPUT_FILE_Q = 'm_8_q.tflite'
 
-CLASS_NUM = 3 # !!!!!
+CLASSES_NUM = 3 # !!!!!
 
 ###################################
 
@@ -58,13 +58,13 @@ for i in range(len(classes_paths)):
 
 data_parts = [dict() for i in range(K_PARTS)]
 for key in data.keys():
-  print(len(data[key]))
   tmp = np.array_split(data[key], K_PARTS)
   for i in range(K_PARTS):
     data_parts[i][key] = tmp[i]
-    print(len(tmp[i]))
-  print('_____')
- 
+
+num_2_vector = lambda x : [1 if i == x else 0 for i in range(CLASSES_NUM)]
+
+print(num_2_vector(1))
 
 ##idg = ImageDataGenerator(width_shift_range=0.1,
 ##                         height_shift_range=0.1,
