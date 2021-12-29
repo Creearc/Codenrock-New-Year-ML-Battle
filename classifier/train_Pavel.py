@@ -46,6 +46,7 @@ f = open('log.txt', 'a')
 f.close()
 
 train_data = pd.read_csv('/home/alexandr/datasets/santas/train.csv')
+print(train_data)
 Y = train_data[['class_id']]
 
 kf = KFold(n_splits = K_PARTS)
