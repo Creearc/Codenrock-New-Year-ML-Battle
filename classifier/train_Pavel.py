@@ -74,8 +74,7 @@ for k in range(K_PARTS):
     if i == k:
       for key, value in data_parts[i].items():
         test_data_generator = test_data_generator.append({"image_name" : value,
-                                                          'class_id' : num_2_vector(key)},
-                                                         ignore_index=True)
+                                                          'class_id' : num_2_vector(key)})
     else:
       pass
   print(test_data_generator)
