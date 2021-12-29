@@ -52,10 +52,14 @@ train_data = pd.read_csv('/home/alexandr/datasets/santas/train.csv', sep='\\t', 
 Y = train_data[['class_id']]
 
 kf = KFold(n_splits = K_PARTS)
-skf = StratifiedKFold(n_splits = 5, random_state = 7, shuffle = True) 
+skf = StratifiedKFold(n_splits = 5, random_state = 7, shuffle = True)
+
 idg = ImageDataGenerator(rescale=1./255)
+data_generator = datagen.flow_from_directory(
+    dataset_path,
+    target_size=(IMAGE_SIZE, IMAGE_SIZE))
 
-
+images, labels = next(data_generator)
 
 ##idg = ImageDataGenerator(width_shift_range=0.1,
 ##                         height_shift_range=0.1,
@@ -71,7 +75,7 @@ for DROPOUT in DROPOUT_CONFIG:
         i = 0
         results = []
         #for train, test in kfold.split(X, class_labels):
-        for train_index, val_index in skf.split(np.zeros(len(Y)), Y):
+        for train_index, val_index in skf.split(np.zeros(len(labels)), labels):
           OUTPUT_FILE = '{}_{}_{}_{}'.format(DROPOUT, UNFREEZE_EPOCHS, LR, FILTERS)
           OUTPUT_FILE_Q = '{}_q.tflite'.format(OUTPUT_FILE)
           OUTPUT_FILE = '{}.tflite'.format(OUTPUT_FILE)
@@ -96,15 +100,6 @@ for DROPOUT in DROPOUT_CONFIG:
                         loss='categorical_crossentropy',
                         metrics=['accuracy'])
 
-          x_train = train_data.iloc[train_index]['image_name']
-          x_test = train_data.iloc[val_index]['image_name']
-
-          y_train = train_data.iloc[train_index]['class_id']
-          y_test = train_data.iloc[val_index]['class_id']
-          print(np.unique(y_train), np.unique(y_test))
-
-          y_train = tf.keras.utils.to_categorical(y_train, CLASS_NUM)
-          y_test = tf.keras.utils.to_categorical(y_test, CLASS_NUM)
     
 ####          train_data = idg.flow_from_dataframe(training_data, directory = dataset_path,
 ####                                               target_size=(IMAGE_SIZE, IMAGE_SIZE),
@@ -117,8 +112,10 @@ for DROPOUT in DROPOUT_CONFIG:
 ####                                              x_col = "image_name",
 ####                                              y_col = 'class_id', # classes
 ####                                              shuffle = True)
-          train_data = idg.flow(x_train, y_train, batch_size=BATCH_SIZE, subset='training')
-          test_data = idg.flow(x_test, y_test, batch_size=BATCH_SIZE, subset='validation')
+          train_data = idg.flow(images[train_index], labels[train_index],
+                                batch_size=BATCH_SIZE, subset='training')
+          test_data = idg.flow(images[val_index], labels[val_index],
+                               batch_size=BATCH_SIZE, subset='validation')
 
 
           history_fine = model.fit(train_data,
