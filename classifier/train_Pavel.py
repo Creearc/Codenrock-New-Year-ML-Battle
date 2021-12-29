@@ -80,7 +80,7 @@ for k in range(K_PARTS):
         train_data_generator = test_data_generator.append({"image_name" : value,
                                                             'class_id' : num_2_vector(key)},
                                                            ignore_index=True)
-  print(test_data_generator)
+  print(train_data_generator, test_data_generator)
 
 
 idg = ImageDataGenerator(rescale=1./255)
