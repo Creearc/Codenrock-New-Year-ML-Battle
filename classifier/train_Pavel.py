@@ -96,20 +96,16 @@ for DROPOUT in DROPOUT_CONFIG:
                         loss='categorical_crossentropy',
                         metrics=['accuracy'])
 
-
           x_train = train_data.iloc[train_index]['image_name']
+          x_test = train_data.iloc[val_index]['image_name']
+
           y_train = train_data.iloc[train_index]['class_id']
+          y_test = train_data.iloc[val_index]['class_id']
+          print(np.unique(y_train), np.unique(y_test))
 
           y_train = tf.keras.utils.to_categorical(y_train, CLASS_NUM)
-          
-          x_test = train_data.iloc[val_index]['image_name']
-          y_test = train_data.iloc[val_index]['class_id']
-          
-
           y_test = tf.keras.utils.to_categorical(y_test, CLASS_NUM)
-          print(np.unique(y_train), np.unique(y_test))
-          
-          
+    
 ####          train_data = idg.flow_from_dataframe(training_data, directory = dataset_path,
 ####                                               target_size=(IMAGE_SIZE, IMAGE_SIZE),
 ####                                               x_col = "image_name",
