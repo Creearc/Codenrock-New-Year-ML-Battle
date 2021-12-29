@@ -65,7 +65,7 @@ base_model = tf.keras.applications.MobileNetV2(input_shape=IMG_SHAPE,
 f = open('log.txt', 'a')
 f.close()
 
-kfold = KFold(n_splits=K_PARTS, shuffle=True)
+kfold = KFold(n_splits=K_PARTS, shuffle=True, random_state=13)
 
 for DROPOUT in DROPOUT_CONFIG:
   for LR in LR_CONFIG:
