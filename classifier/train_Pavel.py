@@ -107,7 +107,7 @@ for DROPOUT in DROPOUT_CONFIG:
           
 
           y_test = tf.keras.utils.to_categorical(y_test, CLASS_NUM)
-          print(y_train, y_test)
+          print(np.unique(y_train), np.unique(y_test))
           
           
 ####          train_data = idg.flow_from_dataframe(training_data, directory = dataset_path,
