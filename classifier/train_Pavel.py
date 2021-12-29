@@ -23,7 +23,7 @@ VALIDATION_SPLIT = 0.2
 
 DROPOUT_CONFIG = [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]
 
-UNFREEZE_EPOCHS_CONFIG = [20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130]
+UNFREEZE_EPOCHS_CONFIG = [1, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130]
 
 LR_CONFIG = [1e-4, 1e-5, 1e-6, 1e-7]
 
@@ -125,22 +125,15 @@ for DROPOUT in DROPOUT_CONFIG:
           train_data = idg.flow_from_dataframe(training_data,
                                                target_size=(IMAGE_SIZE, IMAGE_SIZE),
                                                x_col = "image_name",
-                                               y_col = 'class_id', # classes
-                                               #class_mode = 'raw',
+                                               y_col = 'class_id', 
                                                shuffle = True)
           print(next(train_data))
           
           test_data = idg.flow_from_dataframe(validation_data,
                                               target_size=(IMAGE_SIZE, IMAGE_SIZE),
                                               x_col = "image_name",
-                                              y_col = 'class_id', # classes
-                                              #class_mode = 'raw',
+                                              y_col = 'class_id',
                                               shuffle = True)
-##          print(np.unique(labels[train_index]), np.unique(labels[val_index]))
-##          train_data = idg.flow(images[train_index], labels[train_index],
-##                                batch_size=BATCH_SIZE, subset='training')
-##          test_data = idg.flow(images[val_index], labels[val_index],
-##                               batch_size=BATCH_SIZE, subset='validation')
 
 
           history_fine = model.fit(train_data,
@@ -149,7 +142,7 @@ for DROPOUT in DROPOUT_CONFIG:
                                    validation_data=test_data,
                                    validation_steps=len(test_data))
           
-          scores = model.evaluate(valid_data_generator)
+          scores = model.evaluate(test_data)
           scores = dict(zip(model.metrics_names, scores))['accuracy']
           
           f = open('log.txt', 'a')
