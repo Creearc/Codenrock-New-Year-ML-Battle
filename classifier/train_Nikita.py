@@ -116,7 +116,7 @@ param_UF =  {'optimizer' :['rmsprop', 'adam','sgd'],
 
 Net_estimator = GridSearchCV(model,param_UF,cv=5,scoring='f1_weighted')
 
-Net_estimator.fit(train_generator)
+Net_estimator.fit(X,y)
 
 print('\nBest Score: ',Net_estimator.best_score_,'\nBest Parameters: ',Net_estimator.best_params_)
 
