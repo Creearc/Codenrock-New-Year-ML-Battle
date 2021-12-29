@@ -105,8 +105,7 @@ for DROPOUT in DROPOUT_CONFIG:
 
           print('Number of trainable weights = {}'.format(len(model.trainable_weights)))
 
-          history_fine = model.fit([datagen.flow(X[train], y[train], batch_size=32,
-                                                 subset='training'),
+          history_fine = model.fit([datagen.flow(X[train], y[train], batch_size=32, subset='training'),
                                    steps_per_epoch=len(X[train]), 
                                    epochs=UNFREEZE_EPOCHS, 
                                    validation_data=datagen.flow(X[test], y[test], batch_size=32,
