@@ -52,6 +52,7 @@ train_data = pd.read_csv('/home/alexandr/datasets/santas/train.csv', sep='\\t', 
 Y = train_data[['class_id']]
 
 kf = KFold(n_splits = K_PARTS)
+skf = StratifiedKFold(n_split = 5, random_state = 7, shuffle = True) 
 idg = ImageDataGenerator(rescale=1./255)
 
 
@@ -70,7 +71,7 @@ for DROPOUT in DROPOUT_CONFIG:
         i = 0
         results = []
         #for train, test in kfold.split(X, class_labels):
-        for train_index, val_index in kf.split(np.zeros(len(Y)), Y):
+        for train_index, val_index in skf.split(np.zeros(len(Y)), Y):
           OUTPUT_FILE = '{}_{}_{}_{}'.format(DROPOUT, UNFREEZE_EPOCHS, LR, FILTERS)
           OUTPUT_FILE_Q = '{}_q.tflite'.format(OUTPUT_FILE)
           OUTPUT_FILE = '{}.tflite'.format(OUTPUT_FILE)
