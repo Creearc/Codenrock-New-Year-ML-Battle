@@ -78,7 +78,7 @@ for k in range(K_PARTS):
                                                             'class_id' : num_2_vector(key)},
                                                            ignore_index=True)
         else:
-          train_data_generator = test_data_generator.append({"image_name" : label,
+          train_data_generator = train_data_generator.append({"image_name" : label,
                                                               'class_id' : num_2_vector(key)},
                                                              ignore_index=True)
   print(train_data_generator, test_data_generator)
