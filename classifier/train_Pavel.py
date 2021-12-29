@@ -49,7 +49,7 @@ f.close()
 
 
 train_data = pd.read_csv('/home/alexandr/datasets/santas/train.csv', sep='\\t', engine='python')
-train_data.loc[0] = np.float32(1., 0., 0.)
+train_data.loc[0] = np.float32([1., 0., 0.])
 print(train_data)
 train_data.replace(inplace = True)
 
