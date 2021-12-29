@@ -45,7 +45,7 @@ base_model = tf.keras.applications.MobileNetV2(input_shape=IMG_SHAPE,
 f = open('log.txt', 'a')
 f.close()
 
-train_data = pd.read_csv('/home/alexandr/datasets/santas/train.csv')
+train_data = pd.read_csv('/home/alexandr/datasets/santas/train.csv', sep=r'\\t')
 print(train_data)
 Y = train_data[['class_id']]
 
