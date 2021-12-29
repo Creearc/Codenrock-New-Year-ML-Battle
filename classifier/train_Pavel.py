@@ -99,12 +99,12 @@ for DROPOUT in DROPOUT_CONFIG:
           x_train = train_data.iloc[train_index]['image_name']
           y_train = train_data.iloc[train_index]['class_id']
 
-          y_train = tf.utils.to_categorical(y_train, CLASS_NUM)
+          y_train = tf.keras.utils.to_categorical(y_train, CLASS_NUM)
           
           x_test = train_data.iloc[val_index]['image_name']
           y_test = train_data.iloc[val_index]['class_id']
 
-          y_test = tf.utils.to_categorical(y_test, CLASS_NUM)
+          y_test = tf.keras.utils.to_categorical(y_test, CLASS_NUM)
           
           
 ####          train_data = idg.flow_from_dataframe(training_data, directory = dataset_path,
