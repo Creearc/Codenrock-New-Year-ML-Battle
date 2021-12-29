@@ -73,7 +73,7 @@ for DROPOUT in DROPOUT_CONFIG:
       for FILTERS in FILTERS_CONFIG:
         i = 0
         results = []
-        for train, test in kfold.split(X, y):
+        for train, test in StratifiedKFold.split(X, y):
           print(train, test)
           continue
           OUTPUT_FILE = '{}_{}_{}_{}'.format(DROPOUT, UNFREEZE_EPOCHS, LR, FILTERS)
