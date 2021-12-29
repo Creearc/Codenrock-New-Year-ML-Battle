@@ -49,6 +49,9 @@ f.close()
 
 
 train_data = pd.read_csv('/home/alexandr/datasets/santas/train.csv', sep='\\t', engine='python')
+train_data[['class_id']].replace([0 : np.float32([1., 0., 0.]),
+                                  1 : np.float32([0., 1., 0.]),
+                                  2 : np.float32([0., 0., 1.])])
 Y = train_data[['class_id']]
 
 kf = KFold(n_splits = K_PARTS)
@@ -104,13 +107,13 @@ for DROPOUT in DROPOUT_CONFIG:
           train_data = idg.flow_from_dataframe(training_data, directory = dataset_path,
                                                target_size=(IMAGE_SIZE, IMAGE_SIZE),
                                                x_col = "image_name",
-                                               y_col = ['class_id'], # classes
+                                               y_col = 'class_id', # classes
                                                shuffle = True)
           
           test_data = idg.flow_from_dataframe(validation_data, directory = dataset_path,
                                               target_size=(IMAGE_SIZE, IMAGE_SIZE),
                                               x_col = "image_name",
-                                              y_col = ['class_id'], # classes
+                                              y_col = 'class_id', # classes
                                               shuffle = True)
 
 
