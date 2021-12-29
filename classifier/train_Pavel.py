@@ -54,6 +54,7 @@ train_data[['class_id']].replace([{'0' : np.float32([1., 0., 0.]),
                                   2 : np.float32([0., 0., 1.])}])
 Y = train_data[['class_id']]
 print(Y)
+print(train_data.iloc[0]['class_id'])
 
 kf = KFold(n_splits = K_PARTS)
 idg = ImageDataGenerator(rescale=1./255)
