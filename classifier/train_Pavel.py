@@ -74,6 +74,7 @@ for DROPOUT in DROPOUT_CONFIG:
         i = 0
         results = []
         for train, test in kfold.split(X, y):
+          print(train, test)
           OUTPUT_FILE = '{}_{}_{}_{}'.format(DROPOUT, UNFREEZE_EPOCHS, LR, FILTERS)
           OUTPUT_FILE_Q = '{}_q.tflite'.format(OUTPUT_FILE)
           OUTPUT_FILE = '{}.tflite'.format(OUTPUT_FILE)
@@ -104,10 +105,10 @@ for DROPOUT in DROPOUT_CONFIG:
 
           print('Number of trainable weights = {}'.format(len(model.trainable_weights)))
 
-          history_fine = model.fit(X[train],
+          history_fine = model.fit([X[train], y[train]],
                                    steps_per_epoch=len(X[train]), 
                                    epochs=UNFREEZE_EPOCHS, 
-                                   validation_data=y[train],
+                                   validation_data=X[test],
                                    validation_steps=len(y[train]))
           
           scores = model.evaluate(X[test], y[test], verbose=0)
