@@ -48,7 +48,7 @@ f = open('log.txt', 'a')
 f.close()
 
 classes_paths = os.listdir(dataset_path)
-print(classes_paths)
+
 data = dict()
 for i in range(len(classes_paths)):
   class_name = classes_paths[i]
@@ -56,22 +56,9 @@ for i in range(len(classes_paths)):
   for img in os.listdir('{}/{}'.format(dataset_path, classes_paths[i])):
     data[class_name].append('{}/{}/{}'.format(dataset_path, classes_paths[i], img))
 
-print(data)
-
-train_data = pd.read_csv('/home/alexandr/datasets/santas/train.csv', sep='\\t', engine='python')
-Y = train_data[['class_id']]
-
-kf = KFold(n_splits = K_PARTS)
-skf = StratifiedKFold(n_splits = 5, random_state = 7, shuffle = True)
-
-idg = ImageDataGenerator(rescale=1./255)
-data_generator = idg.flow_from_directory(
-    dataset_path,
-    target_size=(IMAGE_SIZE, IMAGE_SIZE),
-    batch_size=1280)
-
-images, labels = next(data_generator)
-print(labels)
+data_parts = []
+for key in data.keys():
+ print(np.array_split(data[key], K_PARTS))
 
 ##idg = ImageDataGenerator(width_shift_range=0.1,
 ##                         height_shift_range=0.1,
