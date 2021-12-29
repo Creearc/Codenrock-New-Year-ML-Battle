@@ -14,7 +14,7 @@ tf.config.experimental.set_memory_growth(gpus[0], True)
 dataset_path = '/home/alexandr/datasets/santas_2'
 
 IMAGE_SIZE = 448
-BATCH_SIZE = 16
+BATCH_SIZE = 32
 
 datagen = tf.keras.preprocessing.image.ImageDataGenerator(
     rescale=1./255, 
@@ -90,7 +90,7 @@ fine_tune_at = 100
 for layer in base_model.layers[:fine_tune_at]:
   layer.trainable =  False
 
-model.compile(optimizer=tf.keras.optimizers.Adam(1e-6),
+model.compile(optimizer=tf.keras.optimizers.Adam(1e-7),
               loss='categorical_crossentropy',
               metrics=['accuracy'])
 
@@ -100,7 +100,7 @@ print('Number of trainable weights = {}'.format(len(model.trainable_weights)))
 
 history_fine = model.fit(train_generator,
                          steps_per_epoch=len(train_generator), 
-                         epochs=100, # <--------------------------------------
+                         epochs=50, # <--------------------------------------
                          validation_data=val_generator,
                          validation_steps=len(val_generator))
 
