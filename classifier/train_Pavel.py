@@ -113,7 +113,7 @@ for DROPOUT in DROPOUT_CONFIG:
 ####                                              x_col = "image_name",
 ####                                              y_col = 'class_id', # classes
 ####                                              shuffle = True)
-          print(labels[train_index])
+          print(np.unique(labels[train_index]), np.unique(labels[val_index]))
           train_data = idg.flow(images[train_index], labels[train_index],
                                 batch_size=BATCH_SIZE, subset='training')
           test_data = idg.flow(images[val_index], labels[val_index],
