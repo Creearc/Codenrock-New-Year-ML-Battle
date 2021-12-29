@@ -109,7 +109,7 @@ model.summary()
 
 print('Number of trainable weights = {}'.format(len(model.trainable_weights)))
 
-from sklearn.grid_search import GridSearchCV
+from sklearn.model_selection import GridSearchCV
 
 param_UF =  {'optimizer' :['rmsprop', 'adam','sgd'],
           'epochs':[80,85,90,95,100,105,110,115]}
