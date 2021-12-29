@@ -61,8 +61,10 @@ for key in data.keys():
  tmp = np.array_split(data[key], K_PARTS)
  for i in range(K_PARTS):
    data_parts[i][key] = tmp[i]
+   print(len(tmp[i]))
+  print('_____')
  
-print(data_parts)
+
 ##idg = ImageDataGenerator(width_shift_range=0.1,
 ##                         height_shift_range=0.1,
 ##                         zoom_range=0.3,
