@@ -58,6 +58,7 @@ for i in range(len(classes_paths)):
 
 data_parts = [dict() for i in range(K_PARTS)]
 for key in data.keys():
+  print(len(data[key]))
   tmp = np.array_split(data[key], K_PARTS)
   for i in range(K_PARTS):
     data_parts[i][key] = tmp[i]
