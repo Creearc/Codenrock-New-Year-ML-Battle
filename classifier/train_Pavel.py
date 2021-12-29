@@ -65,10 +65,11 @@ base_model = tf.keras.applications.MobileNetV2(input_shape=IMG_SHAPE,
 f = open('log.txt', 'a')
 f.close()
 
-kfold = NIKITA(n_splits=K_PARTS, random_state=13)
+kfold = NIKITA(n_splits=K_PARTS)
 
 class_labels = np.argmax(y, axis=1)
 print(class_labels)
+
 
 for DROPOUT in DROPOUT_CONFIG:
   for LR in LR_CONFIG:
@@ -107,9 +108,9 @@ for DROPOUT in DROPOUT_CONFIG:
           
           datagen2 = tf.keras.preprocessing.image.ImageDataGenerator(rescale=1./255)
           
-          train_data = datagen2.flow(X[train], y[train],
+          train_data = datagen2.flow(X[train], y[train], class_mode = "categorical", 
                                      batch_size=BATCH_SIZE, subset='training')
-          test_data = datagen2.flow(X[test], y[test],
+          test_data = datagen2.flow(X[test], y[test], class_mode = "categorical",
                                     batch_size=BATCH_SIZE, subset='validation')
 
           history_fine = model.fit(train_data,
