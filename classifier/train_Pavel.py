@@ -86,7 +86,7 @@ def k_fold_cross_val(data_parts, K_PARTS):
     yield k, train_data_generator, test_data_generator
 
 
-idg = ImageDataGenerator(rescale=1./255)
+idg = tf.keras.preprocessing.image.ImageDataGenerator(rescale=1./255)
 
 for DROPOUT in DROPOUT_CONFIG:
   for LR in LR_CONFIG:
