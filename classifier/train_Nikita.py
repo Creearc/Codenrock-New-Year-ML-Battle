@@ -114,7 +114,7 @@ from sklearn.grid_search import GridSearchCV
 param_UF =  {'optimizer' :['rmsprop', 'adam','sgd'],
           'epochs':[80,85,90,95,100,105,110,115]}
 
-Net_estimator = GridSearchCV(model,param_UF,cv=5,score='accuracy')
+Net_estimator = GridSearchCV(model,param_UF,cv=5,score='f1_weighted')
 
 Net_estimator.fit(train_generator)
 
