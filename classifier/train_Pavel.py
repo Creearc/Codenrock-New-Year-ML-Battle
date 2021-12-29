@@ -100,12 +100,12 @@ for DROPOUT in DROPOUT_CONFIG:
           train_data = idg.flow_from_dataframe(training_data, directory = dataset_path,
                                                target_size=(IMAGE_SIZE, IMAGE_SIZE),
                                                x_col = "image_name", y_col = "class_id",
-                                               class_mode = "categorical", shuffle = True)
+                                               class_mode = "binary", shuffle = True)
           
           test_data = idg.flow_from_dataframe(validation_data, directory = dataset_path,
                                               target_size=(IMAGE_SIZE, IMAGE_SIZE),
                                               x_col = "image_name", y_col = "class_id",
-                                              class_mode = "categorical", shuffle = True)
+                                              class_mode = "binary", shuffle = True)
 
           history_fine = model.fit(train_data,
                                    steps_per_epoch=len(train_data), 
@@ -126,5 +126,7 @@ for DROPOUT in DROPOUT_CONFIG:
         f = open('log.txt', 'a')
         f.write('       res :{}'.format(sum(results) / len(results)))
         f.close()
+
+        tf.keras.backend.clear_session()
 
 
