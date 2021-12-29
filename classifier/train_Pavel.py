@@ -65,7 +65,7 @@ base_model = tf.keras.applications.MobileNetV2(input_shape=IMG_SHAPE,
 f = open('log.txt', 'a')
 f.close()
 
-kfold = NIKITA(n_splits=K_PARTS, shuffle=True, random_state=13)
+kfold = NIKITA(n_splits=K_PARTS, random_state=13)
 
 class_labels = np.argmax(y, axis=1)
 print(class_labels)
