@@ -60,6 +60,7 @@ data_generator = idg.flow_from_directory(
     target_size=(IMAGE_SIZE, IMAGE_SIZE))
 
 images, labels = next(data_generator)
+print(labels)
 
 ##idg = ImageDataGenerator(width_shift_range=0.1,
 ##                         height_shift_range=0.1,
