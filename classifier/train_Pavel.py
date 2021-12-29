@@ -56,10 +56,13 @@ for i in range(len(classes_paths)):
   for img in os.listdir('{}/{}'.format(dataset_path, classes_paths[i])):
     data[class_name].append('{}/{}/{}'.format(dataset_path, classes_paths[i], img))
 
-data_parts = []
+data_parts = [dict() for i in range(K_PARTS)]
 for key in data.keys():
- print(np.array_split(data[key], K_PARTS))
-
+ tmp = np.array_split(data[key], K_PARTS)
+ for i in range(K_PARTS):
+   data_parts[i][key] = tmp[i]
+ 
+print(data_parts)
 ##idg = ImageDataGenerator(width_shift_range=0.1,
 ##                         height_shift_range=0.1,
 ##                         zoom_range=0.3,
