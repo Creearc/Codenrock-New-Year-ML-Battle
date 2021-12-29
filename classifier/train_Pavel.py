@@ -51,10 +51,10 @@ classes_paths = os.listdir(dataset_path)
 print(classes_paths)
 data = dict()
 for i in range(len(classes_paths)):
-  class_name = classes_paths[i].split('/')[-1]
+  class_name = classes_paths[i]
   data[class_name] = []
   for img in os.listdir(classes_paths[i]):
-    data[class_name].append('{}/{}'.format(classes_paths[i], img))
+    data[class_name].append('{}/{}/{}'.format(dataset_path, classes_paths[i], img))
 
 print(data)
 
