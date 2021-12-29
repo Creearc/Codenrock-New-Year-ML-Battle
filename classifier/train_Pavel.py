@@ -48,6 +48,7 @@ f = open('log.txt', 'a')
 f.close()
 
 classes_paths = os.listdir(dataset_path)
+print(classes_paths)
 data = dict()
 for i in range(len(classes_paths)):
   class_name = classes_paths[i].split('/')[-1]
