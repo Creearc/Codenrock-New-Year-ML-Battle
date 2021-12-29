@@ -126,7 +126,7 @@ for DROPOUT in DROPOUT_CONFIG:
                                                target_size=(IMAGE_SIZE, IMAGE_SIZE),
                                                x_col = "image_name",
                                                y_col = 'class_id', # classes
-                                               class_mode = 'raw',
+                                               #class_mode = 'raw',
                                                shuffle = True)
           print(next(train_data))
           
@@ -134,7 +134,7 @@ for DROPOUT in DROPOUT_CONFIG:
                                               target_size=(IMAGE_SIZE, IMAGE_SIZE),
                                               x_col = "image_name",
                                               y_col = 'class_id', # classes
-                                              class_mode = 'raw',
+                                              #class_mode = 'raw',
                                               shuffle = True)
 ##          print(np.unique(labels[train_index]), np.unique(labels[val_index]))
 ##          train_data = idg.flow(images[train_index], labels[train_index],
