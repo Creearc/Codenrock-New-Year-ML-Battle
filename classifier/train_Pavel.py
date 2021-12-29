@@ -57,7 +57,8 @@ skf = StratifiedKFold(n_splits = 5, random_state = 7, shuffle = True)
 idg = ImageDataGenerator(rescale=1./255)
 data_generator = idg.flow_from_directory(
     dataset_path,
-    target_size=(IMAGE_SIZE, IMAGE_SIZE))
+    target_size=(IMAGE_SIZE, IMAGE_SIZE),
+    batch_size=1280)
 
 images, labels = next(data_generator)
 print(labels)
