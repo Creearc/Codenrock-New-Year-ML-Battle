@@ -137,7 +137,7 @@ def uploaded_file(filename):
                                filename)
 
 if __name__ == "__main__":
-    interpreter = load_model('2_q.tflite')
+    interpreter = load_model('1_q.tflite')
     labels = load_labels('frost_labels.txt')
 
     input_details = interpreter.get_input_details()
