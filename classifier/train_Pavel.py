@@ -47,6 +47,15 @@ base_model = tf.keras.applications.MobileNetV2(input_shape=IMG_SHAPE,
 f = open('log.txt', 'a')
 f.close()
 
+classes_paths = os.listdir(dataset_path)
+data = dict()
+for i in range(len(classes_paths)):
+  class_name = classes_paths[i].split('/')[-1]
+  data[class_name] = []
+  for img in os.listdir(classes_paths[i]):
+    data[class_name].append('{}/{}'.format(classes_paths[i], img))
+
+print(data)
 
 train_data = pd.read_csv('/home/alexandr/datasets/santas/train.csv', sep='\\t', engine='python')
 Y = train_data[['class_id']]
@@ -77,7 +86,7 @@ for DROPOUT in DROPOUT_CONFIG:
         i = 0
         results = []
         #for train, test in kfold.split(X, class_labels):
-        for train_index, val_index in skf.split(data_generator):
+        for train_index, val_index in skf.split(np.zeros(len(labels)), labels):
           OUTPUT_FILE = '{}_{}_{}_{}'.format(DROPOUT, UNFREEZE_EPOCHS, LR, FILTERS)
           OUTPUT_FILE_Q = '{}_q.tflite'.format(OUTPUT_FILE)
           OUTPUT_FILE = '{}.tflite'.format(OUTPUT_FILE)
