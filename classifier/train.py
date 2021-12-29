@@ -3,8 +3,6 @@ os.environ['CUDA_VISIBLE_DEVICES'] = '0'
 os.environ['TF_FORCE_GPU_ALLOW_GROWTH'] = 'true'
 import tensorflow as tf
 assert float(tf.__version__[:3]) >= 2.3
-
-import os
 import numpy as np
 
 gpus = tf.config.experimental.list_physical_devices('GPU')
@@ -13,12 +11,26 @@ tf.config.experimental.set_memory_growth(gpus[0], True)
 
 dataset_path = '/home/alexandr/datasets/santas_2'
 
+###################################
 IMAGE_SIZE = 448
 BATCH_SIZE = 32
 
+VALIDATION_SPLIT = 0.2
+
+FREEZE_EPOCHS = 10
+UNFREEZE_EPOCHS = 150
+
+UNFREEZE_ADAM_LR = 1e-7
+
+OUTPUT_FILE = 'm_8.tflite'
+OUTPUT_FILE_Q = 'm_8_q.tflite'
+
+###################################
+
+
 datagen = tf.keras.preprocessing.image.ImageDataGenerator(
     rescale=1./255, 
-    validation_split=0.2)
+    validation_split=VALIDATION_SPLIT)
 
 train_generator = datagen.flow_from_directory(
     dataset_path,
@@ -70,7 +82,7 @@ print('Number of trainable weights = {}'.format(len(model.trainable_weights)))
 
 history = model.fit(train_generator,
                     steps_per_epoch=len(train_generator), 
-                    epochs=10, # <--------------------------------------
+                    epochs=FREEZE_EPOCHS, # <--------------------------------------
                     validation_data=val_generator,
                     validation_steps=len(val_generator))
 
@@ -90,7 +102,7 @@ fine_tune_at = 100
 for layer in base_model.layers[:fine_tune_at]:
   layer.trainable =  False
 
-model.compile(optimizer=tf.keras.optimizers.Adam(1e-7),
+model.compile(optimizer=tf.keras.optimizers.Adam(UNFREEZE_ADAM_LR),
               loss='categorical_crossentropy',
               metrics=['accuracy'])
 
@@ -100,7 +112,7 @@ print('Number of trainable weights = {}'.format(len(model.trainable_weights)))
 
 history_fine = model.fit(train_generator,
                          steps_per_epoch=len(train_generator), 
-                         epochs=50, # <--------------------------------------
+                         epochs=UNFREEZE_EPOCHS, # <--------------------------------------
                          validation_data=val_generator,
                          validation_steps=len(val_generator))
 
@@ -114,7 +126,7 @@ val_loss = history_fine.history['val_loss']
 converter = tf.lite.TFLiteConverter.from_keras_model(model)
 tflite_model = converter.convert()
 
-with open('mobilenet_v2_1.0_224.tflite', 'wb') as f:
+with open(OUTPUT_FILE, 'wb') as f:
   f.write(tflite_model)
 
 # A generator that provides a representative dataset
@@ -143,7 +155,7 @@ converter.inference_input_type = tf.uint8
 converter.inference_output_type = tf.uint8
 tflite_model = converter.convert()
 
-with open('mobilenet_v2_1.0_224_quant.tflite', 'wb') as f:
+with open(OUTPUT_FILE_Q, 'wb') as f:
   f.write(tflite_model)
 
 batch_images, batch_labels = next(val_generator)
@@ -180,7 +192,7 @@ def classify_image(interpreter, input):
   top_1 = np.argmax(output)
   return top_1
 
-interpreter = tf.lite.Interpreter('mobilenet_v2_1.0_224_quant.tflite')
+interpreter = tf.lite.Interpreter(OUTPUT_FILE_Q)
 interpreter.allocate_tensors()
 
 # Collect all inference predictions in a list
