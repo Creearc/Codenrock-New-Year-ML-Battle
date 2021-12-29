@@ -79,11 +79,11 @@ def k_fold_cross_val(data_parts, K_PARTS):
         for label in data_parts[i][key]:
           if i == k:
             test_data_generator = test_data_generator.append({"image_name" : label,
-                                                              'class_id' : num_2_vector(key)},
+                                                              'class_id' : str(key)},
                                                              ignore_index=True)
           else:
             train_data_generator = train_data_generator.append({"image_name" : label,
-                                                                'class_id' : num_2_vector(key)},
+                                                                'class_id' : str(key)},
                                                                ignore_index=True)
 
     yield k, train_data_generator, test_data_generator
