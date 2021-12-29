@@ -10,3 +10,5 @@ pandas
 awscli
 urllib3
 mss
+
+sklearn

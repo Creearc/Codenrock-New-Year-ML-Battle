@@ -17,8 +17,8 @@ BATCH_SIZE = 32
 
 VALIDATION_SPLIT = 0.2
 
-FREEZE_EPOCHS = 100
-UNFREEZE_EPOCHS = 500
+FREEZE_EPOCHS = 10
+UNFREEZE_EPOCHS = 50
 
 UNFREEZE_ADAM_LR = 1e-6
 
@@ -43,6 +43,8 @@ val_generator = datagen.flow_from_directory(
     target_size=(IMAGE_SIZE, IMAGE_SIZE),
     batch_size=BATCH_SIZE, 
     subset='validation')
+
+print(next(val_generator))
 
 image_batch, label_batch = next(val_generator)
 image_batch.shape, label_batch.shape
