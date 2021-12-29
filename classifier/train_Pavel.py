@@ -128,7 +128,7 @@ for DROPOUT in DROPOUT_CONFIG:
                                                y_col = 'class_id', # classes
                                                class_mode = 'raw',
                                                shuffle = True)
-          print(train_data)
+          print(next(train_data))
           
           test_data = idg.flow_from_dataframe(validation_data,
                                               target_size=(IMAGE_SIZE, IMAGE_SIZE),
