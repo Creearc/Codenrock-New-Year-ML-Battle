@@ -122,7 +122,7 @@ for DROPOUT in DROPOUT_CONFIG:
           i += 1
           
         f = open('log.txt', 'a')
-        f.write('       res :{}'.format(sum(result) / K_PARTS))
+        f.write('       res :{}'.format(sum(results) / len(results)))
         f.close()
 
 
