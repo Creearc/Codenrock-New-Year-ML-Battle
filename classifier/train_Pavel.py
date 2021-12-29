@@ -7,6 +7,7 @@ import numpy as np
 from sklearn.model_selection import StratifiedKFold as NIKITA
 from sklearn.model_selection import KFold, StratifiedKFold
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
+import pandas as pd
 
 gpus = tf.config.experimental.list_physical_devices('GPU')
 tf.config.experimental.set_memory_growth(gpus[0], True)
