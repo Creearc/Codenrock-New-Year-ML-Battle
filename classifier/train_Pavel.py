@@ -4,7 +4,7 @@ os.environ['TF_FORCE_GPU_ALLOW_GROWTH'] = 'true'
 import tensorflow as tf
 assert float(tf.__version__[:3]) >= 2.3
 import numpy as np
-from sklearn.model_selection import StratifiedKFold
+from sklearn.model_selection import KFold
 
 gpus = tf.config.experimental.list_physical_devices('GPU')
 tf.config.experimental.set_memory_growth(gpus[0], True)
@@ -65,7 +65,7 @@ base_model = tf.keras.applications.MobileNetV2(input_shape=IMG_SHAPE,
 f = open('log.txt', 'a')
 f.close()
 
-kfold = StratifiedKFold(n_splits=K_PARTS, shuffle=True)
+kfold = KFold(n_splits=K_PARTS, shuffle=True)
 
 for DROPOUT in DROPOUT_CONFIG:
   for LR in LR_CONFIG:
