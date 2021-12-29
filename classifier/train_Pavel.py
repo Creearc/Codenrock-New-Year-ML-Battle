@@ -48,7 +48,7 @@ f = open('log.txt', 'a')
 f.close()
 
 train_data = pd.read_csv('/home/alexandr/datasets/santas/train.csv', sep='\\t', engine='python')
-Y = train_data['class_id']
+Y = train_data[['class_id']]
 
 kf = KFold(n_splits = K_PARTS)
 idg = ImageDataGenerator(rescale=1./255)
