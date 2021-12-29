@@ -85,7 +85,7 @@ def k_fold_cross_val(data_parts, K_PARTS):
             train_data_generator = train_data_generator.append({"image_name" : label,
                                                                 'class_id' : num_2_vector(key)},
                                                                ignore_index=True)
-    print(test_data_generator)
+
     yield k, train_data_generator, test_data_generator
 
 
@@ -128,6 +128,7 @@ for DROPOUT in DROPOUT_CONFIG:
                                                y_col = 'class_id', # classes
                                                class_mode = 'raw',
                                                shuffle = True)
+          print(train_data)
           
           test_data = idg.flow_from_dataframe(validation_data,
                                               target_size=(IMAGE_SIZE, IMAGE_SIZE),
