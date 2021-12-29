@@ -6,6 +6,7 @@ assert float(tf.__version__[:3]) >= 2.3
 import numpy as np
 from sklearn.model_selection import StratifiedKFold as NIKITA
 from sklearn.model_selection import KFold, StratifiedKFold
+from tensorflow.keras.preprocessing.image import ImageDataGenerator
 
 gpus = tf.config.experimental.list_physical_devices('GPU')
 tf.config.experimental.set_memory_growth(gpus[0], True)
