@@ -12,7 +12,7 @@ gpus = tf.config.experimental.list_physical_devices('GPU')
 tf.config.experimental.set_memory_growth(gpus[0], True)
 
 
-dataset_path = '/home/alexandr/datasets/santas_2'
+dataset_path = '/home/alexandr/datasets/santas'
 
 ###################################
 IMAGE_SIZE = 448
@@ -35,31 +35,8 @@ OUTPUT_FILE_Q = 'm_8_q.tflite'
 
 ###################################
 
-
-datagen = tf.keras.preprocessing.image.ImageDataGenerator(
-    rescale=1./255)
-
-val_generator = datagen.flow_from_directory(
-    dataset_path,
-    target_size=(IMAGE_SIZE, IMAGE_SIZE),
-    batch_size=BATCH_SIZE,#1280, 
-    subset='training')
-
-X, y = next(val_generator)
-
-image_batch, label_batch = next(val_generator)
-image_batch.shape, label_batch.shape
-
-
-labels = '\n'.join(sorted(val_generator.class_indices.keys()))
-
-with open('frost_labels.txt', 'w') as f:
-  f.write(labels)
-  
-
 IMG_SHAPE = (IMAGE_SIZE, IMAGE_SIZE, 3)
 
-# Create the base model from the pre-trained MobileNet V2
 base_model = tf.keras.applications.MobileNetV2(input_shape=IMG_SHAPE,
                                               include_top=False, 
                                               weights='imagenet')
@@ -67,12 +44,10 @@ base_model = tf.keras.applications.MobileNetV2(input_shape=IMG_SHAPE,
 f = open('log.txt', 'a')
 f.close()
 
-kfold = NIKITA(n_splits=K_PARTS)
+train_data = pd.read_csv('/home/alexandr/datasets/santas/train.csv')
+Y = train_data[['class_id']]
 
-class_labels = np.argmax(y, axis=1)
-print(class_labels)
-
-kf = KFold(n_splits = 5)
+kf = KFold(n_splits = K_PARTS)
 idg = ImageDataGenerator(width_shift_range=0.1,
                          height_shift_range=0.1,
                          zoom_range=0.3,
@@ -87,7 +62,7 @@ for DROPOUT in DROPOUT_CONFIG:
         i = 0
         results = []
         #for train, test in kfold.split(X, class_labels):
-        for train_index, val_index in kf.split(np.zeros(K_PARTS), class_labels):
+        for train_index, val_index in kf.split(np.zeros(len(Y)), Y):
           OUTPUT_FILE = '{}_{}_{}_{}'.format(DROPOUT, UNFREEZE_EPOCHS, LR, FILTERS)
           OUTPUT_FILE_Q = '{}_q.tflite'.format(OUTPUT_FILE)
           OUTPUT_FILE = '{}.tflite'.format(OUTPUT_FILE)
@@ -118,10 +93,10 @@ for DROPOUT in DROPOUT_CONFIG:
           
           
           train_data = idg.flow_from_dataframe(training_data, directory = dataset_path,
-						       x_col = "filename", y_col = "label",
+						       x_col = "image_name", y_col = "class_id",
 						       class_mode = "categorical", shuffle = True)
           test_data = idg.flow_from_dataframe(validation_data, directory = dataset_path,
-							x_col = "filename", y_col = "label",
+							x_col = "image_name", y_col = "class_id",
 							class_mode = "categorical", shuffle = True)
 
           history_fine = model.fit(train_data,
