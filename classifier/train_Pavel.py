@@ -4,9 +4,6 @@ os.environ['TF_FORCE_GPU_ALLOW_GROWTH'] = 'true'
 import tensorflow as tf
 assert float(tf.__version__[:3]) >= 2.3
 import numpy as np
-from sklearn.model_selection import StratifiedKFold as NIKITA
-from sklearn.model_selection import KFold, StratifiedKFold
-from tensorflow.keras.preprocessing.image import ImageDataGenerator
 import pandas as pd
 
 gpus = tf.config.experimental.list_physical_devices('GPU')
