@@ -105,7 +105,7 @@ for DROPOUT in DROPOUT_CONFIG:
             tf.keras.layers.Conv2D(filters=FILTERS, kernel_size=3, activation='relu'),
             tf.keras.layers.Dropout(DROPOUT),
             tf.keras.layers.GlobalAveragePooling2D(),
-            tf.keras.layers.Dense(units=CLASS_NUM,
+            tf.keras.layers.Dense(units=CLASSES_NUM,
                                   activation='softmax')
           ])
 
