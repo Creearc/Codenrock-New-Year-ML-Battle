@@ -121,7 +121,7 @@ for DROPOUT in DROPOUT_CONFIG:
                         loss='categorical_crossentropy',
                         metrics=['accuracy'])
 
-    
+          print(training_data)
           train_data = idg.flow_from_dataframe(training_data,
                                                target_size=(IMAGE_SIZE, IMAGE_SIZE),
                                                x_col = "image_name",
