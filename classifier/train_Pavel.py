@@ -147,7 +147,7 @@ for DROPOUT in DROPOUT_CONFIG:
           results.append(scores)
           
         f = open('log.txt', 'a')
-        f.write('       res :{}'.format(sum(results) / len(results)))
+        f.write('Average result: {}\n'.format(sum(results) / len(results)))
         f.close()
 
         tf.keras.backend.clear_session()
