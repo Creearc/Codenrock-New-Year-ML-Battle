@@ -49,7 +49,7 @@ image_batch, label_batch = next(val_generator)
 image_batch.shape, label_batch.shape
 
 
-labels = '\n'.join(sorted(train_generator.class_indices.keys()))
+labels = '\n'.join(sorted(val_generator.class_indices.keys()))
 
 with open('frost_labels.txt', 'w') as f:
   f.write(labels)
