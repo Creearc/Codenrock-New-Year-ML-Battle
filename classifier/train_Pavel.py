@@ -47,7 +47,7 @@ base_model = tf.keras.applications.MobileNetV2(input_shape=IMG_SHAPE,
 f = open('log.txt', 'a')
 f.close()
 
-train_data = pd.read_csv('/home/alexandr/datasets/santas/train.csv', sep='\\t')
+train_data = pd.read_csv('/home/alexandr/datasets/santas/train.csv', sep='\\t', engine='python')
 Y = train_data[['class_id']]
 
 kf = KFold(n_splits = K_PARTS)
