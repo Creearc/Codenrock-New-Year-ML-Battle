@@ -98,12 +98,10 @@ for DROPOUT in DROPOUT_CONFIG:
           
           
           train_data = idg.flow_from_dataframe(training_data, directory = dataset_path,
-                                               x_col = "image_name", 
-                                               class_mode = "categorical", shuffle = True)
+                                               x_col = "image_name")
           
           test_data = idg.flow_from_dataframe(validation_data, directory = dataset_path,
-                                              x_col = "image_name", 
-                                              class_mode = "categorical", shuffle = True)
+                                              x_col = "image_name")
 
           history_fine = model.fit(train_data,
                                    steps_per_epoch=len(train_data), 
