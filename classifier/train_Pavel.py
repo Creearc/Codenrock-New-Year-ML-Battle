@@ -44,6 +44,7 @@ val_generator = datagen.flow_from_directory(
     subset='training')
 
 X, y = next(val_generator)
+print(val_generator)
 
 image_batch, label_batch = next(val_generator)
 image_batch.shape, label_batch.shape
