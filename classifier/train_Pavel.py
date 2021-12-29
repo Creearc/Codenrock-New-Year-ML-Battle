@@ -107,10 +107,8 @@ for DROPOUT in DROPOUT_CONFIG:
           datagen2 = tf.keras.preprocessing.image.ImageDataGenerator(rescale=1./255)
           
           train_data = datagen2.flow(X[train], y[train],
-                                     target_size=(IMAGE_SIZE, IMAGE_SIZE),
                                      batch_size=BATCH_SIZE, subset='training')
           test_data = datagen2.flow(X[test], y[test],
-                                    target_size=(IMAGE_SIZE, IMAGE_SIZE),
                                     batch_size=BATCH_SIZE, subset='validation')
 
           history_fine = model.fit(train_data,
