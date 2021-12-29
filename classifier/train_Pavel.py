@@ -52,7 +52,7 @@ train_data = pd.read_csv('/home/alexandr/datasets/santas/train.csv', sep='\\t', 
 Y = train_data[['class_id']]
 
 kf = KFold(n_splits = K_PARTS)
-skf = StratifiedKFold(n_split = 5, random_state = 7, shuffle = True) 
+skf = StratifiedKFold(n_splits = 5, random_state = 7, shuffle = True) 
 idg = ImageDataGenerator(rescale=1./255)
 
 
