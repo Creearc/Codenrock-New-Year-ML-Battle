@@ -70,6 +70,13 @@ kfold = NIKITA(n_splits=K_PARTS)
 class_labels = np.argmax(y, axis=1)
 print(class_labels)
 
+kf = KFold(n_splits = 5)
+idg = ImageDataGenerator(width_shift_range=0.1,
+                         height_shift_range=0.1,
+                         zoom_range=0.3,
+                         fill_mode='nearest',
+                         horizontal_flip = True,
+                         rescale=1./255)
 
 for DROPOUT in DROPOUT_CONFIG:
   for LR in LR_CONFIG:
@@ -77,7 +84,8 @@ for DROPOUT in DROPOUT_CONFIG:
       for FILTERS in FILTERS_CONFIG:
         i = 0
         results = []
-        for train, test in kfold.split(X, class_labels):
+        #for train, test in kfold.split(X, class_labels):
+        for train_index, val_index in kf.split(np.zeros(n),Y):
           OUTPUT_FILE = '{}_{}_{}_{}'.format(DROPOUT, UNFREEZE_EPOCHS, LR, FILTERS)
           OUTPUT_FILE_Q = '{}_q.tflite'.format(OUTPUT_FILE)
           OUTPUT_FILE = '{}.tflite'.format(OUTPUT_FILE)
@@ -106,12 +114,13 @@ for DROPOUT in DROPOUT_CONFIG:
 
           print('Number of trainable weights = {}'.format(len(model.trainable_weights)))
           
-          datagen2 = tf.keras.preprocessing.image.ImageDataGenerator(rescale=1./255)
           
-          train_data = datagen2.flow(X[train], y[train], class_mode = "categorical", 
-                                     batch_size=BATCH_SIZE, subset='training')
-          test_data = datagen2.flow(X[test], y[test], class_mode = "categorical",
-                                    batch_size=BATCH_SIZE, subset='validation')
+          train_data = idg.flow_from_dataframe(training_data, directory = dataset_path,
+						       x_col = "filename", y_col = "label",
+						       class_mode = "categorical", shuffle = True)
+          test_data = idg.flow_from_dataframe(validation_data, directory = dataset_path,
+							x_col = "filename", y_col = "label",
+							class_mode = "categorical", shuffle = True)
 
           history_fine = model.fit(train_data,
                                    steps_per_epoch=len(train_data), 
