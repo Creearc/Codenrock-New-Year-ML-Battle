@@ -147,7 +147,7 @@ for UNFREEZE_EPOCHS in UNFREEZE_EPOCHS_CONFIG:
           truth = np.argmax(batch_labels, axis=1)
 
           metric = tfa.metrics.F1Score(num_classes=CLASSES_NUM, threshold=0.5)
-          metric.update_state(batch_truth, batch_prediction)
+          metric.update_state(truth, prediction)
           result = metric.result()
           print(result)
           
