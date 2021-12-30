@@ -29,6 +29,9 @@ DROPOUT = 0.1
 args = [IMAGE_SIZE, K_PARTS, FREEZE_EPOCHS, UNFREEZE_EPOCHS, LR, FILTERS, DROPOUT]
 OUTPUT_FILE = '{}.h5'.format('_'.join([str(i) for i in args]))
 
+LOAD_MODEL = True
+MODEL_NAME = '0.48279620350804014__448_3_0_5_1e-05_16_0.1.h5'
+
 ###################################
 
 classes_paths = os.listdir(dataset_path)
@@ -92,21 +95,25 @@ test_data = idg.flow_from_dataframe(validation_data,
 
 IMG_SHAPE = (IMAGE_SIZE, IMAGE_SIZE, 3)
 
-# Create the base model from the pre-trained MobileNet V2
-base_model = tf.keras.applications.MobileNetV2(input_shape=IMG_SHAPE,
-                                              include_top=False, 
-                                              weights='imagenet')
+if LOAD_MODEL:
+  model = tf.keras.models.load_model('results/{}'.format(MODEL_NAME))
 
-base_model.trainable = False
+else:
+  # Create the base model from the pre-trained MobileNet V2
+  base_model = tf.keras.applications.MobileNetV2(input_shape=IMG_SHAPE,
+                                                include_top=False, 
+                                                weights='imagenet')
 
-model = tf.keras.Sequential([
-  base_model,
-  tf.keras.layers.Conv2D(filters=FILTERS, kernel_size=3, activation='relu'),
-  tf.keras.layers.Dropout(DROPOUT),
-  tf.keras.layers.GlobalAveragePooling2D(),
-  tf.keras.layers.Dense(units=CLASSES_NUM,
-                        activation='softmax')
-])
+  base_model.trainable = False
+
+  model = tf.keras.Sequential([
+    base_model,
+    tf.keras.layers.Conv2D(filters=FILTERS, kernel_size=3, activation='relu'),
+    tf.keras.layers.Dropout(DROPOUT),
+    tf.keras.layers.GlobalAveragePooling2D(),
+    tf.keras.layers.Dense(units=CLASSES_NUM,
+                          activation='softmax')
+  ])
 
 if FREEZE_EPOCHS > 0:
   model.compile(optimizer='adam', 
