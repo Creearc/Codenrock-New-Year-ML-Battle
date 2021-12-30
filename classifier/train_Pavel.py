@@ -22,11 +22,11 @@ dataset_path = '/home/alexandr/datasets/santas_2'
 IMAGE_SIZE = 448
 BATCH_SIZE = 32
 
-DROPOUT_CONFIG = [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]
+DROPOUT_CONFIG = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]
 
-UNFREEZE_EPOCHS_CONFIG = [1, 20, 30, 40]
+UNFREEZE_EPOCHS_CONFIG = [20, 30, 40]
 
-LR_CONFIG = [1e-5, 1e-6, 1e-7]
+LR_CONFIG = [1e-6, 1e-7]
 
 FILTERS_CONFIG = [8, 16, 32, 64]
 
