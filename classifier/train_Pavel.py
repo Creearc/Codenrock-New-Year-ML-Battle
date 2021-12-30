@@ -146,18 +146,9 @@ for UNFREEZE_EPOCHS in UNFREEZE_EPOCHS_CONFIG:
           predictions = model.predict_classes(test_data, verbose=0)
           labels = validation_data['class_id'].to_numpy()
           labels = labels.astype(np.int)
-##          _, labels = next(test_data)
-##          labels = [np.where(i==1) for i in labels]
-          print(labels, predictions)
 
-          f1 = f1_score(labels, predictions, average='weighted')
-          
-          print(f1)
+          score = f1_score(labels, predictions, average='weighted')
 
-          metric = tfa.metrics.F1Score(num_classes=CLASSES_NUM, threshold=0.5)
-          metric.update_state(truth, predictions)
-          result = metric.result()
-          print(result)
           
           log('{} epochs: {} filters: {} drop: {}  lr: {}  score: {}\n'.format(k, UNFREEZE_EPOCHS,
                                                                                FILTERS, DROPOUT, LR,
