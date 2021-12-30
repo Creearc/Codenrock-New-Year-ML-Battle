@@ -5,7 +5,7 @@ import tensorflow as tf
 assert float(tf.__version__[:3]) >= 2.3
 import numpy as np
 import pandas as pd
-from sklearn.metrics import f1_score
+from sklearn.metrics import f1_score, accuracy_score
 
 def log(text):
   f = open('log.txt', 'a')
