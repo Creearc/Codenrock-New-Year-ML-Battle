@@ -109,7 +109,13 @@ for UNFREEZE_EPOCHS in UNFREEZE_EPOCHS_CONFIG:
                                   activation='softmax')
           ])
 
+          base_model.trainable = True
+          fine_tune_at = 100
 
+          # Freeze all the layers before the `fine_tune_at` layer
+          for layer in base_model.layers[:fine_tune_at]:
+            layer.trainable =  False
+            
           model.compile(optimizer=tf.keras.optimizers.Adam(LR),
                         loss='categorical_crossentropy',
                         metrics=['accuracy'])
