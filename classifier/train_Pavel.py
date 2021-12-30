@@ -25,13 +25,13 @@ BATCH_SIZE = 32
 DROPOUT_CONFIG = [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]
 DROPOUT_CONFIG = [0.2, 0.3, 0.4, 0.5]
 
-UNFREEZE_EPOCHS_CONFIG = [80, 85, 90, 95]
+FREEZE_EPOCHS = 10
+UNFREEZE_EPOCHS_CONFIG = [50, 55, 60, 65]
 
 LR_CONFIG = [1e-5, 1e-6, 1e-7]
-LR_CONFIG = [1e-5, 1e-6]
 
 FILTERS_CONFIG = [8, 16, 32, 64]
-FILTERS_CONFIG = [16, 32]
+FILTERS_CONFIG = [32, 16, 8]
 
 K_PARTS = 5
 
@@ -43,7 +43,7 @@ base_model = tf.keras.applications.MobileNetV2(input_shape=IMG_SHAPE,
                                               include_top=False, 
                                               weights='imagenet')
 
-log('_______________________________________________________________')
+log('_______________________________________________________________\n')
 
 classes_paths = os.listdir(dataset_path)
 CLASSES_NUM = len(classes_paths)
@@ -95,30 +95,6 @@ for UNFREEZE_EPOCHS in UNFREEZE_EPOCHS_CONFIG:
       for FILTERS in FILTERS_CONFIG:
         results = []
         for k, training_data, validation_data in k_fold_cross_val(data_parts, K_PARTS):
-##          OUTPUT_FILE = '{}_{}_{}_{}'.format(DROPOUT, UNFREEZE_EPOCHS, LR, FILTERS)
-##          OUTPUT_FILE_Q = '{}_q.tflite'.format(OUTPUT_FILE)
-##          OUTPUT_FILE = '{}.tflite'.format(OUTPUT_FILE)
-
-          model = tf.keras.Sequential([
-            base_model,
-            tf.keras.layers.Conv2D(filters=FILTERS, kernel_size=3, activation='relu'),
-            tf.keras.layers.Dropout(DROPOUT),
-            tf.keras.layers.GlobalAveragePooling2D(),
-            tf.keras.layers.Dense(units=CLASSES_NUM,
-                                  activation='softmax')
-          ])
-
-          base_model.trainable = True
-          fine_tune_at = 100
-
-          # Freeze all the layers before the `fine_tune_at` layer
-          for layer in base_model.layers[:fine_tune_at]:
-            layer.trainable =  False
-            
-          model.compile(optimizer=tf.keras.optimizers.Adam(LR),
-                        loss='categorical_crossentropy',
-                        metrics=['accuracy'])
-
           train_data = idg.flow_from_dataframe(training_data,
                                                target_size=(IMAGE_SIZE, IMAGE_SIZE),
                                                x_col = "image_name",
@@ -132,6 +108,40 @@ for UNFREEZE_EPOCHS in UNFREEZE_EPOCHS_CONFIG:
                                               y_col = 'class_id',
                                               batch_size=BATCH_SIZE, 
                                               shuffle = False)
+
+          model = tf.keras.Sequential([
+            base_model,
+            tf.keras.layers.Conv2D(filters=FILTERS, kernel_size=3, activation='relu'),
+            tf.keras.layers.Dropout(DROPOUT),
+            tf.keras.layers.GlobalAveragePooling2D(),
+            tf.keras.layers.Dense(units=CLASSES_NUM,
+                                  activation='softmax')
+          ])
+
+                   
+          model.compile(optimizer='adam', 
+                loss='categorical_crossentropy', 
+                metrics=['accuracy'])
+
+          model.summary()
+
+          history = model.fit(train_data,
+                                   steps_per_epoch=len(train_data), 
+                                   epochs=FREEZE_EPOCHS, 
+                                   validation_data=test_data,
+                                   validation_steps=len(test_data))
+          
+
+          base_model.trainable = True
+          fine_tune_at = 100
+
+          # Freeze all the layers before the `fine_tune_at` layer
+          for layer in base_model.layers[:fine_tune_at]:
+            layer.trainable =  False
+            
+          model.compile(optimizer=tf.keras.optimizers.Adam(LR),
+                        loss='categorical_crossentropy',
+                        metrics=['accuracy'])
 
 
           history_fine = model.fit(train_data,
