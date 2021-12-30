@@ -69,7 +69,7 @@ def k_fold_cross_val(data_parts, K_PARTS):
     return k, train_data_generator, test_data_generator
 
     
-k, training_data, validation_data in k_fold_cross_val(data_parts, K_PARTS)
+k, training_data, validation_data = k_fold_cross_val(data_parts, K_PARTS)
 
 idg = tf.keras.preprocessing.image.ImageDataGenerator(rescale=1./255)
 
