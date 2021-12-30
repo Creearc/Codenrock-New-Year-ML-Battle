@@ -22,11 +22,11 @@ dataset_path = '/home/alexandr/datasets/santas_2'
 IMAGE_SIZE = 448
 BATCH_SIZE = 32
 
-DROPOUT_CONFIG = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]
+DROPOUT_CONFIG = [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]
 
-UNFREEZE_EPOCHS_CONFIG = [1, 20, 30, 40]
+UNFREEZE_EPOCHS_CONFIG = [5, 10, 15, 20]
 
-LR_CONFIG = [1e-6, 1e-7]
+LR_CONFIG = [1e-6]
 
 FILTERS_CONFIG = [8, 16, 32, 64]
 
@@ -34,8 +34,6 @@ K_PARTS = 3
 
 OUTPUT_FILE = 'm_8.tflite'
 OUTPUT_FILE_Q = 'm_8_q.tflite'
-
-CLASSES_NUM = 3 # !!!!!
 
 ###################################
 
@@ -81,11 +79,11 @@ def k_fold_cross_val(data_parts, K_PARTS):
           if i == k:
             test_data_generator = test_data_generator.append({"image_name" : label,
                                                               'class_id' : str(key)},
-                                                             ignore_index=True)
+                                                             ignore_index=False)
           else:
             train_data_generator = train_data_generator.append({"image_name" : label,
                                                                 'class_id' : str(key)},
-                                                               ignore_index=True)
+                                                               ignore_index=False)
 
     yield k, train_data_generator, test_data_generator
 
@@ -111,12 +109,6 @@ for UNFREEZE_EPOCHS in UNFREEZE_EPOCHS_CONFIG:
                                   activation='softmax')
           ])
 
-          base_model.trainable = True
-          fine_tune_at = 100
-
-          # Freeze all the layers before the `fine_tune_at` layer
-          for layer in base_model.layers[:fine_tune_at]:
-            layer.trainable =  False
 
           model.compile(optimizer=tf.keras.optimizers.Adam(LR),
                         loss='categorical_crossentropy',
@@ -127,14 +119,14 @@ for UNFREEZE_EPOCHS in UNFREEZE_EPOCHS_CONFIG:
                                                x_col = "image_name",
                                                y_col = 'class_id',
                                                batch_size=BATCH_SIZE, 
-                                               shuffle = True)
+                                               shuffle = False)
           
           test_data = idg.flow_from_dataframe(validation_data,
                                               target_size=(IMAGE_SIZE, IMAGE_SIZE),
                                               x_col = "image_name",
                                               y_col = 'class_id',
                                               batch_size=BATCH_SIZE, 
-                                              shuffle = True)
+                                              shuffle = False)
 
 
           history_fine = model.fit(train_data,
@@ -152,15 +144,13 @@ for UNFREEZE_EPOCHS in UNFREEZE_EPOCHS_CONFIG:
           for i in range(len(labels)):
             print(labels[i], predictions[i])
 
-
+          accuracy = accuracy_score(labels, predictions)
           score = f1_score(labels, predictions, average='weighted')
           
-          
-          model.save('results/{}.h5'.format(score))
           #model.load_weights('./checkpoints/my_checkpoint')
-          log('{} epochs: {} filters: {} drop: {}  lr: {}  score: {}\n'.format(k, UNFREEZE_EPOCHS,
+          log('{} epochs: {} filters: {} drop: {}  lr: {}  F1: {} accuracy: {}\n'.format(k, UNFREEZE_EPOCHS,
                                                                                FILTERS, DROPOUT, LR,
-                                                                               score))
+                                                                               score, accuracy))
 
           results.append(score)
           
