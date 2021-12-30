@@ -154,7 +154,7 @@ for UNFREEZE_EPOCHS in UNFREEZE_EPOCHS_CONFIG:
           score = f1_score(labels, predictions, average='weighted')
           
           
-          model.save_weights('results/{}'.format(score))
+          model.save('results/{}.h5'.format(score))
           #model.load_weights('./checkpoints/my_checkpoint')
           log('{} epochs: {} filters: {} drop: {}  lr: {}  score: {}\n'.format(k, UNFREEZE_EPOCHS,
                                                                                FILTERS, DROPOUT, LR,
