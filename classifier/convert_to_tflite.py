@@ -16,9 +16,12 @@ MODEL_NAME = '0.48279620350804014__448_3_0_5_1e-05_16_0.1.h5'
 OUTPUT_FILE = 'm_9.tflite'
 OUTPUT_FILE_Q = 'm_9_q.tflite'
 
+IMAGE_SIZE = 448
+VALIDATION_SPLIT = 0.2
+
 ###################################
 
-IMAGE_SIZE = 448
+
 IMG_SHAPE = (IMAGE_SIZE, IMAGE_SIZE, 3)
 
 datagen = tf.keras.preprocessing.image.ImageDataGenerator(
