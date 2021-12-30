@@ -150,7 +150,7 @@ for UNFREEZE_EPOCHS in UNFREEZE_EPOCHS_CONFIG:
 ##          labels = [np.where(i==1) for i in labels]
           print(labels, predictions)
 
-          f1 = f1_score(labels, predictions)
+          f1 = f1_score(labels, predictions, average='weighted')
           
           print(f1)
 
