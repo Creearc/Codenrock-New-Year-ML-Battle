@@ -21,7 +21,6 @@ CONFIG = [UNFREEZE_EPOCHS_CONFIG,
           FILTERS_CONFIG]
 
 def roll_parameters(config, parameters=[]):
-  first = len(parameters) == 0
   config = config.copy()
   parameters = parameters.copy()
   if len(config) == 0:
@@ -31,12 +30,17 @@ def roll_parameters(config, parameters=[]):
   next_config = config.copy()
   next_config.pop(0)
   for parameter in config[0]:
-    parameters = roll_parameters(next_config, parameters+[parameter])
-    if first:
-      yield parameters
+    yield roll_parameters(next_config, parameters+[parameter])
 
+
+def roll(config, parameters=[]):
+  for parameter in config[0]:
+    parameters = parameters + [parameter]
+    yield parameters
 
 print(len(CONFIG))
-for parameters in roll_parameters(CONFIG):
+for parameters in roll(CONFIG):
   print('Here -> ', parameters)
+
+
 
