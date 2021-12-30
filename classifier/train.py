@@ -17,10 +17,11 @@ BATCH_SIZE = 32
 
 VALIDATION_SPLIT = 0.2
 
-FREEZE_EPOCHS = 10
-UNFREEZE_EPOCHS = 50
+FREEZE_EPOCHS = 0
+UNFREEZE_EPOCHS = 5
 
-UNFREEZE_ADAM_LR = 1e-6
+UNFREEZE_ADAM_LR = 1e-5
+DROPOUT = 0.1
 
 OUTPUT_FILE = 'm_8.tflite'
 OUTPUT_FILE_Q = 'm_8_q.tflite'
@@ -68,7 +69,7 @@ base_model.trainable = False
 model = tf.keras.Sequential([
   base_model,
   tf.keras.layers.Conv2D(filters=32, kernel_size=3, activation='relu'),
-  tf.keras.layers.Dropout(0.2),
+  tf.keras.layers.Dropout(DROPOUT),
   tf.keras.layers.GlobalAveragePooling2D(),
   tf.keras.layers.Dense(units=len(train_generator.class_indices),
                         activation='softmax')
