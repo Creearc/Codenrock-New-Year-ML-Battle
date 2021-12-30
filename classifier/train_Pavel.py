@@ -39,9 +39,6 @@ K_PARTS = 5
 
 IMG_SHAPE = (IMAGE_SIZE, IMAGE_SIZE, 3)
 
-base_model = tf.keras.applications.MobileNetV2(input_shape=IMG_SHAPE,
-                                              include_top=False, 
-                                              weights='imagenet')
 
 log('_______________________________________________________________\n')
 
@@ -108,6 +105,12 @@ for UNFREEZE_EPOCHS in UNFREEZE_EPOCHS_CONFIG:
                                               y_col = 'class_id',
                                               batch_size=BATCH_SIZE, 
                                               shuffle = False)
+
+          base_model = tf.keras.applications.MobileNetV2(input_shape=IMG_SHAPE,
+                                              include_top=False, 
+                                              weights='imagenet')
+
+          base_model.trainable = False
 
           model = tf.keras.Sequential([
             base_model,
