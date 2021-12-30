@@ -24,7 +24,7 @@ BATCH_SIZE = 32
 
 DROPOUT_CONFIG = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]
 
-UNFREEZE_EPOCHS_CONFIG = [20, 30, 40]
+UNFREEZE_EPOCHS_CONFIG = [1, 20, 30, 40]
 
 LR_CONFIG = [1e-6, 1e-7]
 
@@ -140,6 +140,8 @@ for UNFREEZE_EPOCHS in UNFREEZE_EPOCHS_CONFIG:
                                    epochs=UNFREEZE_EPOCHS, 
                                    validation_data=test_data,
                                    validation_steps=len(test_data))
+          
+          
 
           scores = model.evaluate(test_data)
           predictions = model.predict_classes(test_data, verbose=0)
@@ -148,11 +150,12 @@ for UNFREEZE_EPOCHS in UNFREEZE_EPOCHS_CONFIG:
           for i in range(len(labels)):
             print(labels[i], predictions[i])
 
-          pum
 
           score = f1_score(labels, predictions, average='weighted')
-
           
+          
+          model.save_weights('results/{}'.format(score))
+          #model.load_weights('./checkpoints/my_checkpoint')
           log('{} epochs: {} filters: {} drop: {}  lr: {}  score: {}\n'.format(k, UNFREEZE_EPOCHS,
                                                                                FILTERS, DROPOUT, LR,
                                                                                score))
