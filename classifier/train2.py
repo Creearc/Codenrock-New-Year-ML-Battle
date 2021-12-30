@@ -131,7 +131,6 @@ model.compile(optimizer=tf.keras.optimizers.Adam(LR),
               loss='categorical_crossentropy',
               metrics=['accuracy'])
 
-model.summary()
 
 history_fine = model.fit(train_data,
                       steps_per_epoch=len(train_data),
@@ -139,7 +138,9 @@ history_fine = model.fit(train_data,
                       validation_data=test_data,
                       validation_steps=len(test_data))
 
-scores = model.evaluate(test_data)
+loss, acc = model.evaluate(test_data, verbose=2)
+print('Model, accuracy: {:5.2f}%'.format(100 * acc))
+
 predictions = model.predict_classes(test_data, verbose=0)
 labels = validation_data['class_id'].to_numpy()
 labels = labels.astype(np.int)

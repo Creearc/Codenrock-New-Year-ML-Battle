@@ -125,13 +125,15 @@ for UNFREEZE_EPOCHS in UNFREEZE_EPOCHS_CONFIG:
           train_data = idg.flow_from_dataframe(training_data,
                                                target_size=(IMAGE_SIZE, IMAGE_SIZE),
                                                x_col = "image_name",
-                                               y_col = 'class_id', 
+                                               y_col = 'class_id',
+                                               batch_size=BATCH_SIZE, 
                                                shuffle = True)
           
           test_data = idg.flow_from_dataframe(validation_data,
                                               target_size=(IMAGE_SIZE, IMAGE_SIZE),
                                               x_col = "image_name",
                                               y_col = 'class_id',
+                                              batch_size=BATCH_SIZE, 
                                               shuffle = True)
 
 
