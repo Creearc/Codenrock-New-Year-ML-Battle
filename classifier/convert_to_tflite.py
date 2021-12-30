@@ -21,6 +21,22 @@ OUTPUT_FILE_Q = 'm_9_q.tflite'
 IMAGE_SIZE = 448
 IMG_SHAPE = (IMAGE_SIZE, IMAGE_SIZE, 3)
 
+datagen = tf.keras.preprocessing.image.ImageDataGenerator(
+    rescale=1./255, 
+    validation_split=VALIDATION_SPLIT)
+
+train_generator = datagen.flow_from_directory(
+    dataset_path,
+    target_size=(IMAGE_SIZE, IMAGE_SIZE),
+    batch_size=BATCH_SIZE, 
+    subset='training')
+
+val_generator = datagen.flow_from_directory(
+    dataset_path,
+    target_size=(IMAGE_SIZE, IMAGE_SIZE),
+    batch_size=BATCH_SIZE, 
+    subset='validation')
+
 model = tf.keras.models.load_model('results/{}'.format(MODEL_NAME))
 
 converter = tf.lite.TFLiteConverter.from_keras_model(model)
