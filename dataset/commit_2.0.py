@@ -13,7 +13,7 @@ for j in range(len(fl)):
   print(fl[j])
 
   ftp = FTP()
-  HOSTS = ['192.168.68.201']
+  HOSTS = ['192.168.68.205']
 
   PORT = 21
   for i in range(len(HOSTS)):
