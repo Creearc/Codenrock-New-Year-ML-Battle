@@ -18,14 +18,13 @@ BATCH_SIZE = 32
 
 DROPOUT_CONFIG = [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]
 
-UNFREEZE_EPOCHS_CONFIG = [20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130]
 UNFREEZE_EPOCHS_CONFIG = [5, 10, 20]
 
-LR_CONFIG = [1e-4, 1e-5, 1e-6, 1e-7]
+LR_CONFIG = [1e-5, 1e-6, 1e-7]
 
-FILTERS_CONFIG = [8, 16, 32, 64, 128, 256]
+FILTERS_CONFIG = [8, 16, 32, 64]
 
-K_PARTS = 5
+K_PARTS = 3
 
 OUTPUT_FILE = 'm_8.tflite'
 OUTPUT_FILE_Q = 'm_8_q.tflite'
@@ -93,9 +92,9 @@ for UNFREEZE_EPOCHS in UNFREEZE_EPOCHS_CONFIG:
       for FILTERS in FILTERS_CONFIG:
         results = []
         for k, training_data, validation_data in k_fold_cross_val(data_parts, K_PARTS):
-          OUTPUT_FILE = '{}_{}_{}_{}'.format(DROPOUT, UNFREEZE_EPOCHS, LR, FILTERS)
-          OUTPUT_FILE_Q = '{}_q.tflite'.format(OUTPUT_FILE)
-          OUTPUT_FILE = '{}.tflite'.format(OUTPUT_FILE)
+##          OUTPUT_FILE = '{}_{}_{}_{}'.format(DROPOUT, UNFREEZE_EPOCHS, LR, FILTERS)
+##          OUTPUT_FILE_Q = '{}_q.tflite'.format(OUTPUT_FILE)
+##          OUTPUT_FILE = '{}.tflite'.format(OUTPUT_FILE)
 
           model = tf.keras.Sequential([
             base_model,
@@ -140,7 +139,7 @@ for UNFREEZE_EPOCHS in UNFREEZE_EPOCHS_CONFIG:
           scores = dict(zip(model.metrics_names, scores))['accuracy']
           
           f = open('log.txt', 'a')
-          f.write('{} {}_{}_{}_{}:  {}\n'.format(k, DROPOUT, UNFREEZE_EPOCHS, LR, FILTERS,
+          f.write('{} epochs: {} filters: {} drop: {}  lr: {}  score: {}\n'.format(k, UNFREEZE_EPOCHS, FILTERS, DROPOUT, LR, 
                                             scores))
           f.close()
           results.append(scores)
