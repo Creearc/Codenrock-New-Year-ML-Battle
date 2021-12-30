@@ -18,6 +18,9 @@ OUTPUT_FILE_Q = 'm_9_q.tflite'
 
 ###################################
 
+IMAGE_SIZE = 448
+IMG_SHAPE = (IMAGE_SIZE, IMAGE_SIZE, 3)
+
 model = tf.keras.models.load_model('results/{}'.format(MODEL_NAME))
 
 converter = tf.lite.TFLiteConverter.from_keras_model(model)
