@@ -142,7 +142,9 @@ for UNFREEZE_EPOCHS in UNFREEZE_EPOCHS_CONFIG:
                                    validation_steps=len(test_data))
 
           scores = model.evaluate(test_data)
+          predictions = model.predict_classes(test_data, verbose=0)
           print(scores)
+          print(predictions)
 
           batch_images, batch_labels = next(test_data)
           logits = model(batch_images)
