@@ -153,7 +153,7 @@ for UNFREEZE_EPOCHS in UNFREEZE_EPOCHS_CONFIG:
                                                                                FILTERS, DROPOUT, LR,
                                                                                score))
 
-          results.append(scores)
+          results.append(score)
           
         log('Average result: {}\n'.format(sum(results) / len(results)))
 
