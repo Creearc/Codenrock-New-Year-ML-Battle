@@ -145,7 +145,7 @@ for UNFREEZE_EPOCHS in UNFREEZE_EPOCHS_CONFIG:
           scores = model.evaluate(test_data)
           predictions = model.predict_classes(test_data, verbose=0)
           _, labels = next(test_data)
-          labales = np.argmax(labales)
+          labels = np.argmax(labels)
           print(labels, predictions)
 
           f1 = f1_score(labels, predictions)
