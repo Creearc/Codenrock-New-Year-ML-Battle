@@ -5,7 +5,7 @@ import tensorflow as tf
 assert float(tf.__version__[:3]) >= 2.3
 import numpy as np
 import pandas as pd
-from sklearn.metrics import f1_score
+from sklearn.metrics import f1_score, accuracy_score
 
 gpus = tf.config.experimental.list_physical_devices('GPU')
 tf.config.experimental.set_memory_growth(gpus[0], True)
@@ -150,7 +150,8 @@ labels = labels.astype(np.int)
 for i in range(len(labels)):
   print(labels[i], predictions[i])
 
-
+accuracy = accuracy_score(labels, predictions)
+print('Result accuracy: {}'.format(accuracy))
 score = f1_score(labels, predictions, average='weighted')
 print('Result F1: {}'.format(score))
 
