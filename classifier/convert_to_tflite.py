@@ -5,8 +5,8 @@ import tensorflow as tf
 assert float(tf.__version__[:3]) >= 2.3
 import numpy as np
 
-gpus = tf.config.experimental.list_physical_devices('GPU')
-tf.config.experimental.set_memory_growth(gpus[0], True)
+##gpus = tf.config.experimental.list_physical_devices('GPU')
+##tf.config.experimental.set_memory_growth(gpus[0], True)
 
 dataset_path = '/home/alexandr/datasets/santas_2'
 
