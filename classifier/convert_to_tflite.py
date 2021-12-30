@@ -17,6 +17,8 @@ OUTPUT_FILE = 'm_9.tflite'
 OUTPUT_FILE_Q = 'm_9_q.tflite'
 
 IMAGE_SIZE = 448
+BATCH_SIZE = 32
+
 VALIDATION_SPLIT = 0.2
 
 ###################################
