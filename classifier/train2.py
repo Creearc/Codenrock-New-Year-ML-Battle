@@ -130,8 +130,6 @@ model.compile(optimizer=tf.keras.optimizers.Adam(UNFREEZE_ADAM_LR),
 
 model.summary()
 
-print('Number of trainable weights = {}'.format(len(model.trainable_weights)))
-
 history_fine = model.fit(train_generator,
                          steps_per_epoch=len(train_generator), 
                          epochs=UNFREEZE_EPOCHS, # <--------------------------------------
@@ -147,6 +145,7 @@ for i in range(len(labels)):
 
 
 score = f1_score(labels, predictions, average='weighted')
+print('Result F1: {}'.format(score))
 
 model.save('results/{}__{}'.format(score, OUTPUT_FILE))
 tf.keras.backend.clear_session()
