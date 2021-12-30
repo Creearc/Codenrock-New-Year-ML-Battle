@@ -17,14 +17,14 @@ dataset_path = '/home/alexandr/datasets/santas_2'
 IMAGE_SIZE = 448
 BATCH_SIZE = 32
 
-K_PARTS = 3
+K_PARTS = 5
 
 FREEZE_EPOCHS = 0
-UNFREEZE_EPOCHS = 1
+UNFREEZE_EPOCHS = 80
 
 LR = 1e-5
-FILTERS = 16
-DROPOUT = 0.1
+FILTERS = 32
+DROPOUT = 0.2
 
 args = [IMAGE_SIZE, K_PARTS, FREEZE_EPOCHS, UNFREEZE_EPOCHS, LR, FILTERS, DROPOUT]
 OUTPUT_FILE = '{}.h5'.format('_'.join([str(i) for i in args]))
