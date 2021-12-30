@@ -110,27 +110,28 @@ for UNFREEZE_EPOCHS in UNFREEZE_EPOCHS_CONFIG:
                                               include_top=False, 
                                               weights='imagenet')
 
-          base_model.trainable = False
+          if FREEZE_EPOCHS > 0:
+            base_model.trainable = False
 
-          model = tf.keras.Sequential([
-            base_model,
-            tf.keras.layers.Conv2D(filters=FILTERS, kernel_size=3, activation='relu'),
-            tf.keras.layers.Dropout(DROPOUT),
-            tf.keras.layers.GlobalAveragePooling2D(),
-            tf.keras.layers.Dense(units=CLASSES_NUM,
-                                  activation='softmax')
-          ])
+            model = tf.keras.Sequential([
+              base_model,
+              tf.keras.layers.Conv2D(filters=FILTERS, kernel_size=3, activation='relu'),
+              tf.keras.layers.Dropout(DROPOUT),
+              tf.keras.layers.GlobalAveragePooling2D(),
+              tf.keras.layers.Dense(units=CLASSES_NUM,
+                                    activation='softmax')
+            ])
 
-                   
-          model.compile(optimizer='adam', 
-                loss='categorical_crossentropy', 
-                metrics=['accuracy'])
+                     
+            model.compile(optimizer='adam', 
+                  loss='categorical_crossentropy', 
+                  metrics=['accuracy'])
 
-          history = model.fit(train_data,
-                                   steps_per_epoch=len(train_data), 
-                                   epochs=FREEZE_EPOCHS, 
-                                   validation_data=test_data,
-                                   validation_steps=len(test_data))
+            history = model.fit(train_data,
+                                     steps_per_epoch=len(train_data), 
+                                     epochs=FREEZE_EPOCHS, 
+                                     validation_data=test_data,
+                                     validation_steps=len(test_data))
           
 
           base_model.trainable = True

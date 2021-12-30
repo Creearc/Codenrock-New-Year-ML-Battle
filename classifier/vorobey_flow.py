@@ -36,10 +36,22 @@ def roll_parameters(config, parameters=[]):
 def roll(config, parameters=[]):
   for parameter in config[0]:
     parameters = parameters + [parameter]
-    yield parameters
+    if len(parameters) == len(config):
+      yield parameters
 
-print(len(CONFIG))
-for parameters in roll(CONFIG):
+def roll2(config, parameters=[]):
+  config = config.copy()
+  parameters = parameters.copy()
+
+  next_config = config.copy()
+  next_config.pop(0)
+  
+  for parameter in config[0]:
+    for parameter2 in roll(next_config, parameters + [parameter]):
+      yield parameters + [parameter2]
+
+
+for parameters in roll2(CONFIG):
   print('Here -> ', parameters)
 
 
