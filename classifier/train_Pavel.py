@@ -145,8 +145,10 @@ for UNFREEZE_EPOCHS in UNFREEZE_EPOCHS_CONFIG:
           scores = model.evaluate(test_data)
           predictions = model.predict_classes(test_data, verbose=0)
           labels = validation_data['class_id']
+          print(labels, predictions)
 
           f1 = f1_score(labels, predictions)
+          
           print(f1)
 
           metric = tfa.metrics.F1Score(num_classes=CLASSES_NUM, threshold=0.5)
