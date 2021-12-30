@@ -126,7 +126,7 @@ fine_tune_at = 100
 for layer in base_model.layers[:fine_tune_at]:
   layer.trainable =  False
 
-model.compile(optimizer=tf.keras.optimizers.Adam(UNFREEZE_ADAM_LR),
+model.compile(optimizer=tf.keras.optimizers.Adam(LR),
               loss='categorical_crossentropy',
               metrics=['accuracy'])
 
