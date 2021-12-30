@@ -145,7 +145,8 @@ for UNFREEZE_EPOCHS in UNFREEZE_EPOCHS_CONFIG:
           predictions = model.predict_classes(test_data, verbose=0)
           labels = validation_data['class_id'].to_numpy()
           labels = labels.astype(np.int)
-          print(len(labels), len(predictions))
+          print(label)
+          print(predictions)
           pum
 
           score = f1_score(labels, predictions, average='weighted')
