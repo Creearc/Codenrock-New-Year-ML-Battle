@@ -115,19 +115,20 @@ for UNFREEZE_EPOCHS in UNFREEZE_EPOCHS_CONFIG:
                                               include_top=False, 
                                               weights='imagenet')
 
+          
+
+          model = tf.keras.Sequential([
+            base_model,
+            tf.keras.layers.Conv2D(filters=FILTERS, kernel_size=3, activation='relu'),
+            tf.keras.layers.Dropout(DROPOUT),
+            tf.keras.layers.GlobalAveragePooling2D(),
+            tf.keras.layers.Dense(units=CLASSES_NUM,
+                                  activation='softmax')
+          ])
+
           if FREEZE_EPOCHS > 0:
             base_model.trainable = False
-
-            model = tf.keras.Sequential([
-              base_model,
-              tf.keras.layers.Conv2D(filters=FILTERS, kernel_size=3, activation='relu'),
-              tf.keras.layers.Dropout(DROPOUT),
-              tf.keras.layers.GlobalAveragePooling2D(),
-              tf.keras.layers.Dense(units=CLASSES_NUM,
-                                    activation='softmax')
-            ])
-
-                     
+            
             model.compile(optimizer='adam', 
                   loss='categorical_crossentropy', 
                   metrics=['accuracy'])
