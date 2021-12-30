@@ -48,7 +48,7 @@ def roll2(config, parameters=[]):
   
   for parameter in config[0]:
     for parameter2 in roll(next_config, parameters + [parameter]):
-      yield parameters + [parameter2]
+      yield roll(next_config, parameters + [parameter])
 
 
 for parameters in roll2(CONFIG):
