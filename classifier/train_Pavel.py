@@ -92,7 +92,7 @@ for UNFREEZE_EPOCHS in UNFREEZE_EPOCHS_CONFIG:
       for FILTERS in FILTERS_CONFIG:
         results = []
         
-        log('epochs: {} filters: {} drop: {}  lr: {}\n'.format(UNFREEZE_EPOCHS, FILTERS, DROPOUT, LR))
+        log('epochs: {} filters: {} drop: {} lr: {}\n'.format(UNFREEZE_EPOCHS, FILTERS, DROPOUT, LR))
         args = [IMAGE_SIZE, K_PARTS, FREEZE_EPOCHS, UNFREEZE_EPOCHS, LR, FILTERS, DROPOUT]
         OUTPUT_FILE = '{}.h5'.format('_'.join([str(i) for i in args]))
         
