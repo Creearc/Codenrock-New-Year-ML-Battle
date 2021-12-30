@@ -5,8 +5,8 @@ import tensorflow as tf
 assert float(tf.__version__[:3]) >= 2.3
 import numpy as np
 import pandas as pd
+import tensorflow_addons as tfa
 
-tf.contrib.metrics.f1_score(labels, predictions)
 def log(text):
   f = open('log.txt', 'a')
   f.write(text)
