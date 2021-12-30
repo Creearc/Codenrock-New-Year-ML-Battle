@@ -132,11 +132,11 @@ model.compile(optimizer=tf.keras.optimizers.Adam(LR),
 
 model.summary()
 
-history_fine = model.fit(train_generator,
-                         steps_per_epoch=len(train_generator), 
-                         epochs=UNFREEZE_EPOCHS, # <--------------------------------------
-                         validation_data=val_generator,
-                         validation_steps=len(val_generator))
+history_fine = model.fit(train_data,
+                      steps_per_epoch=len(train_data),
+                      epochs=UNFREEZE_EPOCHS,
+                      validation_data=test_data,
+                      validation_steps=len(test_data))
 
 scores = model.evaluate(test_data)
 predictions = model.predict_classes(test_data, verbose=0)
