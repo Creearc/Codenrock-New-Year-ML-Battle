@@ -32,6 +32,8 @@ OUTPUT_FILE = '{}.h5'.format('_'.join([str(i) for i in args]))
 LOAD_MODEL = True
 MODEL_NAME = '0.48279620350804014__448_3_0_5_1e-05_16_0.1.h5'
 
+EVAL_ONLY = True
+
 ###################################
 
 classes_paths = os.listdir(dataset_path)
@@ -115,28 +117,29 @@ else:
                           activation='softmax')
   ])
 
-if FREEZE_EPOCHS > 0:
-  model.compile(optimizer='adam', 
-                loss='categorical_crossentropy', 
+if not EVAL_ONLY :
+  if FREEZE_EPOCHS > 0:
+    model.compile(optimizer='adam', 
+                  loss='categorical_crossentropy', 
+                  metrics=['accuracy'])
+
+    history = model.fit(train_data,
+                        steps_per_epoch=len(train_data),
+                        epochs=FREEZE_EPOCHS,
+                        validation_data=test_data,
+                        validation_steps=len(test_data))
+
+
+  model.compile(optimizer=tf.keras.optimizers.Adam(LR),
+                loss='categorical_crossentropy',
                 metrics=['accuracy'])
 
-  history = model.fit(train_data,
-                      steps_per_epoch=len(train_data),
-                      epochs=FREEZE_EPOCHS,
-                      validation_data=test_data,
-                      validation_steps=len(test_data))
 
-
-model.compile(optimizer=tf.keras.optimizers.Adam(LR),
-              loss='categorical_crossentropy',
-              metrics=['accuracy'])
-
-
-history_fine = model.fit(train_data,
-                      steps_per_epoch=len(train_data),
-                      epochs=UNFREEZE_EPOCHS,
-                      validation_data=test_data,
-                      validation_steps=len(test_data))
+  history_fine = model.fit(train_data,
+                        steps_per_epoch=len(train_data),
+                        epochs=UNFREEZE_EPOCHS,
+                        validation_data=test_data,
+                        validation_steps=len(test_data))
 
 loss, acc = model.evaluate(test_data, verbose=2)
 print('Model, accuracy: {:5.2f}%'.format(100 * acc))
