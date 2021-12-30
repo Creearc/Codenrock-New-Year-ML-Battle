@@ -23,8 +23,8 @@ UNFREEZE_EPOCHS = 5
 UNFREEZE_ADAM_LR = 1e-5
 DROPOUT = 0.1
 
-OUTPUT_FILE = 'm_8.tflite'
-OUTPUT_FILE_Q = 'm_8_q.tflite'
+OUTPUT_FILE = 'm_9.tflite'
+OUTPUT_FILE_Q = 'm_9_q.tflite'
 
 ###################################
 
