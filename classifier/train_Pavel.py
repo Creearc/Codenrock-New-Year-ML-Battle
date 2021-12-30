@@ -91,7 +91,11 @@ for UNFREEZE_EPOCHS in UNFREEZE_EPOCHS_CONFIG:
     for LR in LR_CONFIG:
       for FILTERS in FILTERS_CONFIG:
         results = []
+        
         log('epochs: {} filters: {} drop: {}  lr: {}\n'.format(UNFREEZE_EPOCHS, FILTERS, DROPOUT, LR))
+        args = [IMAGE_SIZE, K_PARTS, FREEZE_EPOCHS, UNFREEZE_EPOCHS, LR, FILTERS, DROPOUT]
+        OUTPUT_FILE = '{}.h5'.format('_'.join([str(i) for i in args]))
+        
         for k, training_data, validation_data in k_fold_cross_val(data_parts, K_PARTS):
           train_data = idg.flow_from_dataframe(training_data,
                                                target_size=(IMAGE_SIZE, IMAGE_SIZE),
@@ -167,6 +171,8 @@ for UNFREEZE_EPOCHS in UNFREEZE_EPOCHS_CONFIG:
           
           #model.load_weights('./checkpoints/my_checkpoint')
           log('{} |   F1: {} accuracy: {}\n'.format(k, score, accuracy))
+          if score > 0.98:
+            model.save('results/{}__{}'.format(score, OUTPUT_FILE))
 
           results.append(score)
           
