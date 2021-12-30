@@ -1,5 +1,5 @@
 import os
-os.environ['CUDA_VISIBLE_DEVICES'] = '0'
+os.environ['CUDA_VISIBLE_DEVICES'] = '-1'
 os.environ['TF_FORCE_GPU_ALLOW_GROWTH'] = 'true'
 import tensorflow as tf
 assert float(tf.__version__[:3]) >= 2.3
@@ -8,14 +8,15 @@ import numpy as np
 gpus = tf.config.experimental.list_physical_devices('GPU')
 tf.config.experimental.set_memory_growth(gpus[0], True)
 
+dataset_path = '/home/alexandr/datasets/santas_2'
+
 ###################################
 MODEL_NAME = '0.48279620350804014__448_3_0_5_1e-05_16_0.1.h5'
 
-OUTPUT_FILE = ''
-OUTPUT_FILE_Q = ''
+OUTPUT_FILE = 'm_9.tflite'
+OUTPUT_FILE_Q = 'm_9_q.tflite'
 
 ###################################
-
 
 model = tf.keras.models.load_model('results/{}'.format(MODEL_NAME))
 
