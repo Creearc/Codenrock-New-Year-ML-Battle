@@ -104,7 +104,7 @@ model = tf.keras.Sequential([
   tf.keras.layers.Conv2D(filters=FILTERS, kernel_size=3, activation='relu'),
   tf.keras.layers.Dropout(DROPOUT),
   tf.keras.layers.GlobalAveragePooling2D(),
-  tf.keras.layers.Dense(units=len(train_generator.class_indices),
+  tf.keras.layers.Dense(units=CLASSES_NUM,
                         activation='softmax')
 ])
 
