@@ -6,6 +6,7 @@ assert float(tf.__version__[:3]) >= 2.3
 import numpy as np
 import pandas as pd
 import tensorflow_addons as tfa
+from sklearn.metrics import f1_score
 
 def log(text):
   f = open('log.txt', 'a')
@@ -143,16 +144,13 @@ for UNFREEZE_EPOCHS in UNFREEZE_EPOCHS_CONFIG:
 
           scores = model.evaluate(test_data)
           predictions = model.predict_classes(test_data, verbose=0)
-          print(scores)
-          print(predictions)
+          images, labels = next(alidation_data)
 
-          batch_images, batch_labels = next(test_data)
-          logits = model(batch_images)
-          prediction = np.argmax(logits, axis=1)
-          truth = np.argmax(batch_labels, axis=1)
+          f1 = f1_score(labels, predictions)
+          print(f1)
 
           metric = tfa.metrics.F1Score(num_classes=CLASSES_NUM, threshold=0.5)
-          metric.update_state(truth, prediction)
+          metric.update_state(truth, predictions)
           result = metric.result()
           print(result)
           
