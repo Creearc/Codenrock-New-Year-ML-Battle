@@ -146,9 +146,10 @@ for UNFREEZE_EPOCHS in UNFREEZE_EPOCHS_CONFIG:
           prediction = np.argmax(logits, axis=1)
           truth = np.argmax(batch_labels, axis=1)
 
-          f1 = 2*(tf.compat.v1.metrics.recall(truth, prediction) * tf.compat.v1.metrics.precision(truth, prediction)) / ( tf.compat.v1.metrics.recall(truth, prediction) + tf.compat.v1.metrics.precision(truth, prediction))
-
-          score = tf.contrib.metrics.f1_score(batch_truth, batch_prediction) 
+          metric = tfa.metrics.F1Score(num_classes=CLASSES_NUM, threshold=0.5)
+          metric.update_state(batch_truth, batch_prediction)
+          result = metric.result()
+          print(result)
           
           log('{} epochs: {} filters: {} drop: {}  lr: {}  score: {}\n'.format(k, UNFREEZE_EPOCHS,
                                                                                FILTERS, DROPOUT, LR,
