@@ -144,7 +144,7 @@ for UNFREEZE_EPOCHS in UNFREEZE_EPOCHS_CONFIG:
 
           scores = model.evaluate(test_data)
           predictions = model.predict_classes(test_data, verbose=0)
-          images, labels = next(validation_data)
+          labels = validation_data['class_id']
 
           f1 = f1_score(labels, predictions)
           print(f1)
