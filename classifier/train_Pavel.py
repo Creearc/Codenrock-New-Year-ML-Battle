@@ -45,8 +45,7 @@ base_model = tf.keras.applications.MobileNetV2(input_shape=IMG_SHAPE,
                                               include_top=False, 
                                               weights='imagenet')
 
-f = open('log.txt', 'a')
-f.close()
+log('_______________________________________________________________')
 
 classes_paths = os.listdir(dataset_path)
 CLASSES_NUM = len(classes_paths)
