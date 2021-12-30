@@ -123,8 +123,6 @@ for UNFREEZE_EPOCHS in UNFREEZE_EPOCHS_CONFIG:
                 loss='categorical_crossentropy', 
                 metrics=['accuracy'])
 
-          model.summary()
-
           history = model.fit(train_data,
                                    steps_per_epoch=len(train_data), 
                                    epochs=FREEZE_EPOCHS, 
