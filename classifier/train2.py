@@ -129,6 +129,13 @@ if not EVAL_ONLY :
                         validation_data=test_data,
                         validation_steps=len(test_data))
 
+  if not LOAD_MODEL:
+    base_model.trainable = True
+    fine_tune_at = 100
+
+    # Freeze all the layers before the `fine_tune_at` layer
+    for layer in base_model.layers[:fine_tune_at]:
+      layer.trainable =  False
 
   model.compile(optimizer=tf.keras.optimizers.Adam(LR),
                 loss='categorical_crossentropy',
