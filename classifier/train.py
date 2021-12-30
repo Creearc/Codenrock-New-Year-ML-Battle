@@ -45,12 +45,10 @@ val_generator = datagen.flow_from_directory(
     batch_size=BATCH_SIZE, 
     subset='validation')
 
-print(next(val_generator))
 
 image_batch, label_batch = next(val_generator)
 image_batch.shape, label_batch.shape
 
-print(train_generator.class_indices)
 
 labels = '\n'.join(sorted(train_generator.class_indices.keys()))
 
@@ -75,26 +73,27 @@ model = tf.keras.Sequential([
                         activation='softmax')
 ])
 
-model.compile(optimizer='adam', 
-              loss='categorical_crossentropy', 
-              metrics=['accuracy'])
+if FREEZE_EPOCHS > 0:
+  model.compile(optimizer='adam', 
+                loss='categorical_crossentropy', 
+                metrics=['accuracy'])
 
-model.summary()
+  model.summary()
 
-print('Number of trainable weights = {}'.format(len(model.trainable_weights)))
+  print('Number of trainable weights = {}'.format(len(model.trainable_weights)))
 
-history = model.fit(train_generator,
-                    steps_per_epoch=len(train_generator), 
-                    epochs=FREEZE_EPOCHS, # <--------------------------------------
-                    validation_data=val_generator,
-                    validation_steps=len(val_generator))
+  history = model.fit(train_generator,
+                      steps_per_epoch=len(train_generator), 
+                      epochs=FREEZE_EPOCHS, # <--------------------------------------
+                      validation_data=val_generator,
+                      validation_steps=len(val_generator))
 
 
-acc = history.history['accuracy']
-val_acc = history.history['val_accuracy']
+  acc = history.history['accuracy']
+  val_acc = history.history['val_accuracy']
 
-loss = history.history['loss']
-val_loss = history.history['val_loss']
+  loss = history.history['loss']
+  val_loss = history.history['val_loss']
 
 print("Number of layers in the base model: ", len(base_model.layers))
 
