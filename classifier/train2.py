@@ -29,10 +29,10 @@ DROPOUT = 0.2
 args = [IMAGE_SIZE, K_PARTS, FREEZE_EPOCHS, UNFREEZE_EPOCHS, LR, FILTERS, DROPOUT]
 OUTPUT_FILE = '{}.h5'.format('_'.join([str(i) for i in args]))
 
-LOAD_MODEL = True
+LOAD_MODEL = not  True
 MODEL_NAME = '0.48279620350804014__448_3_0_5_1e-05_16_0.1.h5'
 
-EVAL_ONLY = True
+EVAL_ONLY = not True
 
 ###################################
 
