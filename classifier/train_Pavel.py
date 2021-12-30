@@ -141,6 +141,9 @@ for UNFREEZE_EPOCHS in UNFREEZE_EPOCHS_CONFIG:
                                    validation_data=test_data,
                                    validation_steps=len(test_data))
 
+          scores = model.evaluate(test_data)
+          print(scores)
+
           batch_images, batch_labels = next(test_data)
           logits = model(batch_images)
           prediction = np.argmax(logits, axis=1)
