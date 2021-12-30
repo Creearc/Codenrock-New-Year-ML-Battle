@@ -26,7 +26,7 @@ DROPOUT_CONFIG = [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]
 DROPOUT_CONFIG = [0.2, 0.3, 0.4, 0.5]
 
 FREEZE_EPOCHS = 10
-UNFREEZE_EPOCHS_CONFIG = [50, 55, 60, 65]
+UNFREEZE_EPOCHS_CONFIG = [60, 70, 80, 90]
 
 LR_CONFIG = [1e-5, 1e-6, 1e-7]
 
@@ -91,6 +91,7 @@ for UNFREEZE_EPOCHS in UNFREEZE_EPOCHS_CONFIG:
     for LR in LR_CONFIG:
       for FILTERS in FILTERS_CONFIG:
         results = []
+        log('epochs: {} filters: {} drop: {}  lr: {}\n'.format(UNFREEZE_EPOCHS, FILTERS, DROPOUT, LR))
         for k, training_data, validation_data in k_fold_cross_val(data_parts, K_PARTS):
           train_data = idg.flow_from_dataframe(training_data,
                                                target_size=(IMAGE_SIZE, IMAGE_SIZE),
@@ -165,13 +166,11 @@ for UNFREEZE_EPOCHS in UNFREEZE_EPOCHS_CONFIG:
           score = f1_score(labels, predictions, average='weighted')
           
           #model.load_weights('./checkpoints/my_checkpoint')
-          log('{} epochs: {} filters: {} drop: {}  lr: {}  F1: {} accuracy: {}\n'.format(k, UNFREEZE_EPOCHS,
-                                                                               FILTERS, DROPOUT, LR,
-                                                                               score, accuracy))
+          log('{} |   F1: {} accuracy: {}\n'.format(k, score, accuracy))
 
           results.append(score)
           
-        log('Average result: {}\n'.format(sum(results) / len(results)))
+        log('Average result: {}\n\n'.format(sum(results) / len(results)))
 
         tf.keras.backend.clear_session()
 
