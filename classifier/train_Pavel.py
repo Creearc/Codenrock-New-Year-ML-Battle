@@ -32,8 +32,7 @@ FREEZE_EPOCHS = 0
 UNFREEZE_EPOCHS_CONFIG = [5]
 #UNFREEZE_EPOCHS_CONFIG = [70, 75, 80, 90]
 
-OPTIMIZER_CONFIG = [tf.keras.losses.CategoricalHinge,
-                    tf.keras.optimizers.Adam,
+OPTIMIZER_CONFIG = [tf.keras.optimizers.Adam,
                     tf.keras.optimizers.Adamax]
 LR_CONFIG = [1e-5, 1e-6, 1e-7]
 
