@@ -22,11 +22,11 @@ dataset_path = '/home/alexandr/datasets/santas_2'
 tf.random.set_seed(42)
 np.random.seed(42)
 
-IMAGE_SIZE = 448
+IMAGE_SIZE = 224
 BATCH_SIZE = 32
 
 DROPOUT_CONFIG = [0.6, 0.7, 0.8, 0.9]
-DROPOUT_CONFIG = [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]
+#DROPOUT_CONFIG = [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]
 
 FREEZE_EPOCHS = 0
 UNFREEZE_EPOCHS_CONFIG = [5]
