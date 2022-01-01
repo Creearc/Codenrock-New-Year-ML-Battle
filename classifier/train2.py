@@ -14,6 +14,8 @@ tf.config.experimental.set_memory_growth(gpus[0], True)
 dataset_path = '/home/alexandr/datasets/santas_2'
 
 ###################################
+tf.random.set_seed(1234)
+
 IMAGE_SIZE = 448
 BATCH_SIZE = 32
 
