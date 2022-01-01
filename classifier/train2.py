@@ -14,7 +14,7 @@ tf.config.experimental.set_memory_growth(gpus[0], True)
 dataset_path = '/home/alexandr/datasets/santas_2'
 
 ###################################
-tf.random.set_seed(1234)
+initializer = tf.keras.initializers.GlorotUniform(seed=42)
 
 IMAGE_SIZE = 448
 BATCH_SIZE = 32
@@ -113,11 +113,14 @@ else:
 
   model = tf.keras.Sequential([
     base_model,
-    tf.keras.layers.Conv2D(filters=FILTERS, kernel_size=3, activation='relu'),
+    tf.keras.layers.Conv2D(filters=FILTERS, kernel_size=3,
+                           activation='relu',
+                           kernel_initializer=initializer),
     tf.keras.layers.Dropout(DROPOUT),
     tf.keras.layers.GlobalAveragePooling2D(),
     tf.keras.layers.Dense(units=CLASSES_NUM,
-                          activation='softmax')
+                          activation='softmax',
+                          kernel_initializer=initializer)
   ])
 
 if not EVAL_ONLY :
@@ -151,14 +154,9 @@ if not EVAL_ONLY :
                         validation_data=test_data,
                         validation_steps=len(test_data))
 
-loss, acc = model.evaluate(test_data, verbose=2)
-print('Model, accuracy: {:5.2f}%'.format(100 * acc))
-
 predictions = model.predict_classes(test_data, verbose=0)
 labels = validation_data['class_id'].to_numpy()
 labels = labels.astype(np.int)
-for i in range(len(labels)):
-  print(labels[i], predictions[i])
 
 accuracy = accuracy_score(labels, predictions)
 print('Result accuracy: {}'.format(accuracy))
