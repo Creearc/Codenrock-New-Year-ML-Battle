@@ -15,6 +15,7 @@ dataset_path = '/home/alexandr/datasets/santas_2'
 
 ###################################
 initializer = tf.keras.initializers.GlorotUniform(seed=42)
+np.seed(42)
 
 IMAGE_SIZE = 448
 BATCH_SIZE = 32
