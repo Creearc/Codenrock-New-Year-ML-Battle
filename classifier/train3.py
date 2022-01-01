@@ -64,7 +64,7 @@ data_parts = [dict() for i in range(K_PARTS)]
 for key in data.keys():
   tmp = np.array_split(data[key], K_PARTS)
   for i in range(K_PARTS):
-    data_parts[i][key] = np.random.shuffle(tmp[i])
+    data_parts[i][key] = tmp[i]
 
 
 def k_fold_cross_val(data_parts, K_PARTS):
