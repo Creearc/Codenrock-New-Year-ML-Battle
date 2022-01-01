@@ -35,7 +35,7 @@ args = [IMAGE_SIZE, K_PARTS, FREEZE_EPOCHS,
         '|'.join([str(i[0]) for i in UNFREEZE_CONFIG]),
         FILTERS, DROPOUT]
 
-OUTPUT_FILE = '{}.h5'.format('_'.join([str(i) for i in args]))
+OUTPUT_FILE_NAME = '{}'.format('_'.join([str(i) for i in args]))
 
 LOAD_MODEL = not  True
 MODEL_NAME = '0.48279620350804014__448_3_0_5_1e-05_16_0.1.h5'
@@ -43,8 +43,8 @@ MODEL_NAME = 'base.h5'
 
 EVAL_ONLY = not True
 
-OUTPUT_FILE = 'm_4.tflite'
-OUTPUT_FILE_Q = 'm_4_q.tflite'
+OUTPUT_FILE = '{}.tflite'.format(OUTPUT_FILE_NAME)
+OUTPUT_FILE_Q = '{}_q.tflite'.format(OUTPUT_FILE_NAME)
 
 ###################################
 
@@ -179,7 +179,7 @@ print('Result accuracy: {}'.format(accuracy))
 score = f1_score(labels, predictions, average='weighted')
 print('Result F1: {}'.format(score))
 
-model.save('results/{}__{}'.format(score, OUTPUT_FILE))
+model.save('results/{}__{}'.format(score, OUTPUT_FILE_NAME))
 tf.keras.backend.clear_session()
 
 
@@ -187,7 +187,7 @@ tf.keras.backend.clear_session()
 converter = tf.lite.TFLiteConverter.from_keras_model(model)
 tflite_model = converter.convert()
 
-with open(OUTPUT_FILE, 'wb') as f:
+with open('results/{}'.format(OUTPUT_FILE), 'wb') as f:
   f.write(tflite_model)
 
 # A generator that provides a representative dataset
@@ -216,7 +216,7 @@ converter.inference_input_type = tf.uint8
 converter.inference_output_type = tf.uint8
 tflite_model = converter.convert()
 
-with open(OUTPUT_FILE_Q, 'wb') as f:
+with open('results/{}'.format(OUTPUT_FILE_Q), 'wb') as f:
   f.write(tflite_model)
 
 batch_images, batch_labels = next(test_data)
