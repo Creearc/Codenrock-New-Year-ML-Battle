@@ -25,9 +25,9 @@ DROPOUT = 0.2
 K_PARTS = 5
 
 FREEZE_EPOCHS = 10
-UNFREEZE_CONFIG = [(20, 1e-5),
-                   (10, 1e-6),
-                   (5, 1e-7)]
+UNFREEZE_CONFIG = [(30, 1e-5),
+                   (20, 1e-6),
+                   (15, 1e-7)]
 
 args = [IMAGE_SIZE, K_PARTS, FREEZE_EPOCHS,
         '|'.join([str(i[0]) for i in UNFREEZE_CONFIG]),
