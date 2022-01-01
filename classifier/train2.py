@@ -31,6 +31,7 @@ OUTPUT_FILE = '{}.h5'.format('_'.join([str(i) for i in args]))
 
 LOAD_MODEL = not  True
 MODEL_NAME = '0.48279620350804014__448_3_0_5_1e-05_16_0.1.h5'
+MODEL_NAME = 'base.h5'
 
 EVAL_ONLY = not True
 
