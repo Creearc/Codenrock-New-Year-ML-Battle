@@ -90,6 +90,9 @@ def k_fold_cross_val(data_parts, K_PARTS):
     
 k, training_data, validation_data = k_fold_cross_val(data_parts, K_PARTS)
 
+training_data = training_data.sample(frac=1)
+validation_data = validation_data.sample(frac=1)
+
 idg = tf.keras.preprocessing.image.ImageDataGenerator(rescale=1./255)
 
 train_data = idg.flow_from_dataframe(training_data,
