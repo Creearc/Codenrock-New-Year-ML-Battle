@@ -11,10 +11,10 @@ tf.config.experimental.set_memory_growth(gpus[0], True)
 dataset_path = '/home/alexandr/datasets/santas_2'
 
 ###################################
-MODEL_NAME = '0.48279620350804014__448_3_0_5_1e-05_16_0.1.h5'
+MODEL_NAME = '0.9231350116124644__448_5_10_50_1e-05_32_0.2.h5'
 
-OUTPUT_FILE = 'm_9.tflite'
-OUTPUT_FILE_Q = 'm_9_q.tflite'
+OUTPUT_FILE = 'm_3.tflite'
+OUTPUT_FILE_Q = 'm_3_q.tflite'
 
 IMAGE_SIZE = 448
 BATCH_SIZE = 32
