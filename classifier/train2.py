@@ -117,7 +117,7 @@ else:
                            activation='relu',
                            kernel_initializer=initializer),
     tf.keras.layers.Dropout(DROPOUT,
-                            kernel_initializer=initializer),
+                            seed=42),
     tf.keras.layers.GlobalAveragePooling2D(),
     tf.keras.layers.Dense(units=CLASSES_NUM,
                           activation='softmax',
