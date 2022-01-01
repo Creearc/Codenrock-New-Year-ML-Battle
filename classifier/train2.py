@@ -107,8 +107,7 @@ else:
   # Create the base model from the pre-trained MobileNet V2
   base_model = tf.keras.applications.MobileNetV2(input_shape=IMG_SHAPE,
                                                  include_top=False,
-                                                 weights='imagenet',
-                                                 kernel_initializer=initializer)
+                                                 weights='imagenet')
 
   base_model.trainable = False
 
@@ -117,7 +116,8 @@ else:
     tf.keras.layers.Conv2D(filters=FILTERS, kernel_size=3,
                            activation='relu',
                            kernel_initializer=initializer),
-    tf.keras.layers.Dropout(DROPOUT),
+    tf.keras.layers.Dropout(DROPOUT,
+                            kernel_initializer=initializer),
     tf.keras.layers.GlobalAveragePooling2D(),
     tf.keras.layers.Dense(units=CLASSES_NUM,
                           activation='softmax',
