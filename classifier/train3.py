@@ -93,7 +93,12 @@ k, training_data, validation_data = k_fold_cross_val(data_parts, K_PARTS)
 training_data = training_data.sample(frac=1)
 validation_data = validation_data.sample(frac=1)
 
-idg = tf.keras.preprocessing.image.ImageDataGenerator(rescale=1./255)
+idg = tf.keras.preprocessing.image.ImageDataGenerator(horizontal_flip=True,
+                                                      rotation_range=15,
+                                                      width_shift_range=0.2,
+                                                      height_shift_range=0.2,
+                                                      zoom_range=[0.8, 1.2],
+                                                      rescale=1./255)
 
 train_data = idg.flow_from_dataframe(training_data,
                                     target_size=(IMAGE_SIZE, IMAGE_SIZE),
