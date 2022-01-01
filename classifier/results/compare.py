@@ -1,6 +1,6 @@
 
 files = ['1.txt',
-         '3.txt']
+         '4.txt']
 
 res = []
 
