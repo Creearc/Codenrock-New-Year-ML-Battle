@@ -168,7 +168,6 @@ model.save('results/{}__{}'.format(score, OUTPUT_FILE))
 tf.keras.backend.clear_session()
 
 
-model = tf.keras.models.load_model('results/{}'.format(OUTPUT_FILE))
 
 converter = tf.lite.TFLiteConverter.from_keras_model(model)
 tflite_model = converter.convert()
