@@ -25,14 +25,14 @@ DROPOUT = 0.2
 K_PARTS = 5
 
 FREEZE_EPOCHS = 10
-UNFREEZE_config = [(20, 1e-5),
+UNFREEZE_CONFIG = [(20, 1e-5),
                    (10, 1e-6),
                    (5, 1e-7)]
 
-print(1e-5 / 1e-1)
 
+print('|'.join([i[0] for i in UNFREEZE_CONFIG]))
 
-args = [IMAGE_SIZE, K_PARTS, FREEZE_EPOCHS, UNFREEZE_EPOCHS, LR, FILTERS, DROPOUT]
+args = [IMAGE_SIZE, K_PARTS, FREEZE_EPOCHS, UNFREEZE_EPOCHS, FILTERS, DROPOUT]
 OUTPUT_FILE = '{}.h5'.format('_'.join([str(i) for i in args]))
 
 LOAD_MODEL = not  True
