@@ -14,8 +14,6 @@ tf.config.experimental.set_memory_growth(gpus[0], True)
 dataset_path = '/home/alexandr/datasets/santas_2'
 
 ###################################
-initializer = tf.keras.initializers.GlorotUniform(seed=42)
-np.random.seed(42)
 tf.random.set_seed(42)
 
 IMAGE_SIZE = 448
@@ -116,14 +114,11 @@ else:
   model = tf.keras.Sequential([
     base_model,
     tf.keras.layers.Conv2D(filters=FILTERS, kernel_size=3,
-                           activation='relu',
-                           kernel_initializer=initializer),
-    tf.keras.layers.Dropout(DROPOUT,
-                            seed=42),
+                           activation='relu'),
+    tf.keras.layers.Dropout(DROPOUT),
     tf.keras.layers.GlobalAveragePooling2D(),
     tf.keras.layers.Dense(units=CLASSES_NUM,
-                          activation='softmax',
-                          kernel_initializer=initializer)
+                          activation='softmax')
   ])
 
 if not EVAL_ONLY :
