@@ -15,6 +15,7 @@ dataset_path = '/home/alexandr/datasets/santas_2'
 
 ###################################
 tf.random.set_seed(42)
+np.random.seed(42)
 
 IMAGE_SIZE = 448
 BATCH_SIZE = 32
@@ -89,37 +90,21 @@ def k_fold_cross_val(data_parts, K_PARTS):
     
 k, training_data, validation_data = k_fold_cross_val(data_parts, K_PARTS)
 
-##idg = tf.keras.preprocessing.image.ImageDataGenerator(rescale=1./255)
-##
-##train_data = idg.flow_from_dataframe(training_data,
-##                                    target_size=(IMAGE_SIZE, IMAGE_SIZE),
-##                                     x_col = "image_name",
-##                                     y_col = 'class_id',
-##                                     batch_size=BATCH_SIZE, 
-##                                     shuffle = False)
-##          
-##test_data = idg.flow_from_dataframe(validation_data,
-##                                    target_size=(IMAGE_SIZE, IMAGE_SIZE),
-##                                    x_col = "image_name",
-##                                    y_col = 'class_id',
-##                                    batch_size=BATCH_SIZE, 
-##                                    shuffle = False)
+idg = tf.keras.preprocessing.image.ImageDataGenerator(rescale=1./255)
 
-datagen = tf.keras.preprocessing.image.ImageDataGenerator(
-    rescale=1./255, 
-    validation_split=VALIDATION_SPLIT)
-
-train_data = datagen.flow_from_directory(
-    dataset_path,
-    target_size=(IMAGE_SIZE, IMAGE_SIZE),
-    batch_size=BATCH_SIZE, 
-    subset='training')
-
-test_data = datagen.flow_from_directory(
-    dataset_path,
-    target_size=(IMAGE_SIZE, IMAGE_SIZE),
-    batch_size=BATCH_SIZE, 
-    subset='validation')
+train_data = idg.flow_from_dataframe(training_data,
+                                    target_size=(IMAGE_SIZE, IMAGE_SIZE),
+                                     x_col = "image_name",
+                                     y_col = 'class_id',
+                                     batch_size=BATCH_SIZE, 
+                                     shuffle = False)
+          
+test_data = idg.flow_from_dataframe(validation_data,
+                                    target_size=(IMAGE_SIZE, IMAGE_SIZE),
+                                    x_col = "image_name",
+                                    y_col = 'class_id',
+                                    batch_size=BATCH_SIZE, 
+                                    shuffle = False)
 
 
 IMG_SHAPE = (IMAGE_SIZE, IMAGE_SIZE, 3)
