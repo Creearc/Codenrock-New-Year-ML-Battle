@@ -100,14 +100,14 @@ train_data = idg.flow_from_dataframe(training_data,
                                      x_col = "image_name",
                                      y_col = 'class_id',
                                      batch_size=BATCH_SIZE, 
-                                     shuffle = not False)
+                                     shuffle = False)
           
 test_data = idg.flow_from_dataframe(validation_data,
                                     target_size=(IMAGE_SIZE, IMAGE_SIZE),
                                     x_col = "image_name",
                                     y_col = 'class_id',
                                     batch_size=BATCH_SIZE, 
-                                    shuffle = not False)
+                                    shuffle = False)
 
 
 IMG_SHAPE = (IMAGE_SIZE, IMAGE_SIZE, 3)
