@@ -62,7 +62,7 @@ for i in range(len(classes_paths)):
 # Split data
 data_parts = [dict() for i in range(K_PARTS)]
 for key in data.keys():
-  tmp = np.array_split(np..random.shuffle(data[key]), K_PARTS)
+  tmp = np.array_split(np.random.shuffle(data[key]), K_PARTS)
   for i in range(K_PARTS):
     data_parts[i][key] = tmp[i]
 
