@@ -29,6 +29,8 @@ UNFREEZE_config = [(20, 1e-5),
                    (10, 1e-6),
                    (5, 1e-7)]
 
+print(1e-5 / 1e-1)
+
 
 args = [IMAGE_SIZE, K_PARTS, FREEZE_EPOCHS, UNFREEZE_EPOCHS, LR, FILTERS, DROPOUT]
 OUTPUT_FILE = '{}.h5'.format('_'.join([str(i) for i in args]))
