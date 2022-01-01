@@ -23,13 +23,13 @@ BATCH_SIZE = 32
 FILTERS = 32
 DROPOUT = 0.2
 
-K_PARTS = 5
+K_PARTS = 7
 VALIDATION_SPLIT = 0.2
 
-FREEZE_EPOCHS = 10
+FREEZE_EPOCHS = 20
 UNFREEZE_CONFIG = [(50, 1e-5),
-                   (20, 1e-6),
-                   (15, 1e-7)]
+                   (30, 1e-6),
+                   (25, 1e-7)]
 
 args = [IMAGE_SIZE, K_PARTS, FREEZE_EPOCHS,
         '|'.join([str(i[0]) for i in UNFREEZE_CONFIG]),

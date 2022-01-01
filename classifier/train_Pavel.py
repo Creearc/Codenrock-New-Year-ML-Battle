@@ -19,6 +19,9 @@ tf.config.experimental.set_memory_growth(gpus[0], True)
 dataset_path = '/home/alexandr/datasets/santas_2'
 
 ###################################
+tf.random.set_seed(42)
+np.random.seed(42)
+
 IMAGE_SIZE = 448
 BATCH_SIZE = 32
 
@@ -98,6 +101,9 @@ for UNFREEZE_EPOCHS in UNFREEZE_EPOCHS_CONFIG:
         OUTPUT_FILE = '{}.h5'.format('_'.join([str(i) for i in args]))
         
         for k, training_data, validation_data in k_fold_cross_val(data_parts, K_PARTS):
+          training_data = training_data.sample(frac=1)
+          validation_data = validation_data.sample(frac=1)
+
           train_data = idg.flow_from_dataframe(training_data,
                                                target_size=(IMAGE_SIZE, IMAGE_SIZE),
                                                x_col = "image_name",
