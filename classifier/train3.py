@@ -19,14 +19,16 @@ tf.random.set_seed(42)
 IMAGE_SIZE = 448
 BATCH_SIZE = 32
 
+FILTERS = 32
+DROPOUT = 0.2
+
 K_PARTS = 5
 
 FREEZE_EPOCHS = 10
-UNFREEZE_EPOCHS = 180
+UNFREEZE_config = [(20, 1e-5),
+                   (10, 1e-6),
+                   (5, 1e-7)]
 
-LR = 1e-5
-FILTERS = 32
-DROPOUT = 0.2
 
 args = [IMAGE_SIZE, K_PARTS, FREEZE_EPOCHS, UNFREEZE_EPOCHS, LR, FILTERS, DROPOUT]
 OUTPUT_FILE = '{}.h5'.format('_'.join([str(i) for i in args]))
@@ -144,16 +146,17 @@ if not EVAL_ONLY :
     for layer in base_model.layers[:fine_tune_at]:
       layer.trainable =  False
 
-  model.compile(optimizer=tf.keras.optimizers.Adam(LR),
-                loss='categorical_crossentropy',
-                metrics=['accuracy'])
+  for UNFREEZE_EPOCHS, LR in UNFREEZE_CONFIG:
+    model.compile(optimizer=tf.keras.optimizers.Adam(LR),
+                  loss='categorical_crossentropy',
+                  metrics=['accuracy'])
 
 
-  history_fine = model.fit(train_data,
-                        steps_per_epoch=len(train_data),
-                        epochs=UNFREEZE_EPOCHS,
-                        validation_data=test_data,
-                        validation_steps=len(test_data))
+    history_fine = model.fit(train_data,
+                          steps_per_epoch=len(train_data),
+                          epochs=UNFREEZE_EPOCHS,
+                          validation_data=test_data,
+                          validation_steps=len(test_data))
 
 predictions = model.predict_classes(test_data, verbose=0)
 labels = validation_data['class_id'].to_numpy()
