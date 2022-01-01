@@ -62,7 +62,7 @@ for i in range(len(classes_paths)):
 # Split data
 data_parts = [dict() for i in range(K_PARTS)]
 for key in data.keys():
-  tmp = np.array_split(np.random.shuffle(data[key]), K_PARTS)
+  tmp = np.array_split(data[key], K_PARTS)
   for i in range(K_PARTS):
     data_parts[i][key] = tmp[i]
 
@@ -97,14 +97,14 @@ train_data = idg.flow_from_dataframe(training_data,
                                      x_col = "image_name",
                                      y_col = 'class_id',
                                      batch_size=BATCH_SIZE, 
-                                     shuffle = False)
+                                     shuffle = not False)
           
 test_data = idg.flow_from_dataframe(validation_data,
                                     target_size=(IMAGE_SIZE, IMAGE_SIZE),
                                     x_col = "image_name",
                                     y_col = 'class_id',
                                     batch_size=BATCH_SIZE, 
-                                    shuffle = False)
+                                    shuffle = not False)
 
 
 IMG_SHAPE = (IMAGE_SIZE, IMAGE_SIZE, 3)
