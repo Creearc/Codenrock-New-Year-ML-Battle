@@ -253,7 +253,7 @@ def classify_image(interpreter, input):
   top_1 = np.argmax(output)
   return top_1
 
-interpreter = tf.lite.Interpreter(OUTPUT_FILE_Q)
+interpreter = tf.lite.Interpreter('results/{}'.format(OUTPUT_FILE_Q))
 interpreter.allocate_tensors()
 
 # Collect all inference predictions in a list
