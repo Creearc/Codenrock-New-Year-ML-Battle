@@ -30,7 +30,7 @@ UNFREEZE_CONFIG = [(20, 1e-5),
                    (5, 1e-7)]
 
 
-print('|'.join([i[0] for i in UNFREEZE_CONFIG]))
+print('|'.join([str(i[0]) for i in UNFREEZE_CONFIG]))
 
 args = [IMAGE_SIZE, K_PARTS, FREEZE_EPOCHS, UNFREEZE_EPOCHS, FILTERS, DROPOUT]
 OUTPUT_FILE = '{}.h5'.format('_'.join([str(i) for i in args]))
