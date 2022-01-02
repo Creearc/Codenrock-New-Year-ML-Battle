@@ -18,6 +18,7 @@ tf.random.set_seed(42)
 np.random.seed(42)
 
 IMAGE_SIZE = 448
+IMG_SHAPE = (IMAGE_SIZE, IMAGE_SIZE, 3)
 BATCH_SIZE = 32
 
 FILTERS = 64
@@ -132,11 +133,6 @@ for k, training_data, validation_data in k_fold_cross_val(data_parts, K_PARTS):
                                       y_col = 'class_id',
                                       batch_size=BATCH_SIZE, 
                                       shuffle = False)
-
-
-  IMG_SHAPE = (IMAGE_SIZE, IMAGE_SIZE, 3)
-
-
 
   if not EVAL_ONLY :
     if FREEZE_EPOCHS > 0:
