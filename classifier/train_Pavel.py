@@ -22,21 +22,23 @@ dataset_path = '/home/alexandr/datasets/santas_2'
 tf.random.set_seed(42)
 np.random.seed(42)
 
-IMAGE_SIZE = 224
+IMAGE_SIZE = 224*2
 BATCH_SIZE = 32
 
-DROPOUT_CONFIG = [0.6, 0.7, 0.8, 0.9]
+DROPOUT_CONFIG = [0.0]
 #DROPOUT_CONFIG = [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]
 
 FREEZE_EPOCHS = 0
-UNFREEZE_EPOCHS_CONFIG = [5]
+UNFREEZE_EPOCHS_CONFIG = [10, 20, 30, 40, 50, 60, 70, 80]
 #UNFREEZE_EPOCHS_CONFIG = [70, 75, 80, 90]
 
 OPTIMIZER_CONFIG = [tf.keras.optimizers.Adam,
                     tf.keras.optimizers.Adamax]
-LR_CONFIG = [1e-5, 1e-6, 1e-7]
 
-FILTERS_CONFIG = [8, 16, 32, 64]
+OPTIMIZER_CONFIG = [tf.keras.optimizers.Adam]
+LR_CONFIG = [1e-5]
+
+FILTERS_CONFIG = [64]
 #FILTERS_CONFIG = [32, 16, 8]
 
 K_PARTS = 5
