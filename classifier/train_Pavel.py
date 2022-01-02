@@ -22,7 +22,7 @@ dataset_path = '/home/alexandr/datasets/santas_2'
 tf.random.set_seed(42)
 np.random.seed(42)
 
-IMAGE_SIZE = 224*2
+IMAGE_SIZE = 224*4
 BATCH_SIZE = 32
 
 DROPOUT_CONFIG = [0.0]
