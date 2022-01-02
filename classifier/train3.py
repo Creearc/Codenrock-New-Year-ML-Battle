@@ -24,12 +24,12 @@ FILTERS = 64
 DROPOUT = 0.0
 
 K_PARTS = 5
-VALIDATION_SPLIT = 0.2
+VALIDATION_SPLIT = 0.0
 
-FREEZE_EPOCHS = 50
-UNFREEZE_CONFIG = [(50, 1e-5),
-                   (30, 1e-6),
-                   (25, 1e-7)]
+FREEZE_EPOCHS = 0
+UNFREEZE_CONFIG = [(10, 1e-5),
+                   (10, 1e-6),
+                   (15, 1e-7)]
 
 args = [IMAGE_SIZE, K_PARTS, FREEZE_EPOCHS,
         '|'.join([str(i[0]) for i in UNFREEZE_CONFIG]),
