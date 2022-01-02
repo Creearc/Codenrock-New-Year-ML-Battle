@@ -22,14 +22,14 @@ dataset_path = '/home/alexandr/datasets/santas_2'
 tf.random.set_seed(42)
 np.random.seed(42)
 
-IMAGE_SIZE = 224*4
+IMAGE_SIZE = 224*2
 BATCH_SIZE = 32
 
 DROPOUT_CONFIG = [0.0]
 #DROPOUT_CONFIG = [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]
 
 FREEZE_EPOCHS = 0
-UNFREEZE_EPOCHS_CONFIG = [10, 20, 30, 40, 50, 60, 70, 80]
+UNFREEZE_EPOCHS_CONFIG = [5]
 #UNFREEZE_EPOCHS_CONFIG = [70, 75, 80, 90]
 
 OPTIMIZER_CONFIG = [tf.keras.optimizers.Adam,
@@ -108,23 +108,6 @@ for UNFREEZE_EPOCHS in UNFREEZE_EPOCHS_CONFIG:
           OUTPUT_FILE = '{}.h5'.format('_'.join([str(i) for i in args]))
           
           for k, training_data, validation_data in k_fold_cross_val(data_parts, K_PARTS):
-            training_data = training_data.sample(frac=1)
-            validation_data = validation_data.sample(frac=1)
-
-            train_data = idg.flow_from_dataframe(training_data,
-                                                 target_size=(IMAGE_SIZE, IMAGE_SIZE),
-                                                 x_col = "image_name",
-                                                 y_col = 'class_id',
-                                                 batch_size=BATCH_SIZE, 
-                                                 shuffle = False)
-            
-            test_data = idg.flow_from_dataframe(validation_data,
-                                                target_size=(IMAGE_SIZE, IMAGE_SIZE),
-                                                x_col = "image_name",
-                                                y_col = 'class_id',
-                                                batch_size=BATCH_SIZE, 
-                                                shuffle = False)
-
             base_model = tf.keras.applications.MobileNetV2(input_shape=IMG_SHAPE,
                                                 include_top=False, 
                                                 weights='imagenet')
@@ -139,38 +122,58 @@ for UNFREEZE_EPOCHS in UNFREEZE_EPOCHS_CONFIG:
               tf.keras.layers.Dense(units=CLASSES_NUM,
                                     activation='softmax')
             ])
+            
+            for i in range(10):
+              training_data = training_data.sample(frac=1)
+              validation_data = validation_data.sample(frac=1)
 
-            if FREEZE_EPOCHS > 0:
-              base_model.trainable = False
+              train_data = idg.flow_from_dataframe(training_data,
+                                                   target_size=(IMAGE_SIZE, IMAGE_SIZE),
+                                                   x_col = "image_name",
+                                                   y_col = 'class_id',
+                                                   batch_size=BATCH_SIZE, 
+                                                   shuffle = False)
               
-              model.compile(optimizer='adam', 
-                    loss='categorical_crossentropy', 
-                    metrics=['accuracy'])
+              test_data = idg.flow_from_dataframe(validation_data,
+                                                  target_size=(IMAGE_SIZE, IMAGE_SIZE),
+                                                  x_col = "image_name",
+                                                  y_col = 'class_id',
+                                                  batch_size=BATCH_SIZE, 
+                                                  shuffle = False)
 
-              history = model.fit(train_data,
+              
+
+              if FREEZE_EPOCHS > 0:
+                base_model.trainable = False
+                
+                model.compile(optimizer='adam', 
+                      loss='categorical_crossentropy', 
+                      metrics=['accuracy'])
+
+                history = model.fit(train_data,
+                                         steps_per_epoch=len(train_data), 
+                                         epochs=FREEZE_EPOCHS, 
+                                         validation_data=test_data,
+                                         validation_steps=len(test_data))
+              
+
+              base_model.trainable = True
+              fine_tune_at = 100
+
+              # Freeze all the layers before the `fine_tune_at` layer
+              for layer in base_model.layers[:fine_tune_at]:
+                layer.trainable =  False
+                
+              model.compile(optimizer=OPTIMIZER(LR),
+                            loss='categorical_crossentropy',
+                            metrics=['accuracy'])
+
+
+              history_fine = model.fit(train_data,
                                        steps_per_epoch=len(train_data), 
-                                       epochs=FREEZE_EPOCHS, 
+                                       epochs=UNFREEZE_EPOCHS, 
                                        validation_data=test_data,
                                        validation_steps=len(test_data))
-            
-
-            base_model.trainable = True
-            fine_tune_at = 100
-
-            # Freeze all the layers before the `fine_tune_at` layer
-            for layer in base_model.layers[:fine_tune_at]:
-              layer.trainable =  False
-              
-            model.compile(optimizer=OPTIMIZER(LR),
-                          loss='categorical_crossentropy',
-                          metrics=['accuracy'])
-
-
-            history_fine = model.fit(train_data,
-                                     steps_per_epoch=len(train_data), 
-                                     epochs=UNFREEZE_EPOCHS, 
-                                     validation_data=test_data,
-                                     validation_steps=len(test_data))
             
             
 
