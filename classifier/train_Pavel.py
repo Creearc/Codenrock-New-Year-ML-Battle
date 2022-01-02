@@ -29,7 +29,7 @@ DROPOUT_CONFIG = [0.0]
 #DROPOUT_CONFIG = [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]
 
 FREEZE_EPOCHS = 0
-UNFREEZE_EPOCHS_CONFIG = [2]
+UNFREEZE_EPOCHS_CONFIG = [10]
 #UNFREEZE_EPOCHS_CONFIG = [70, 75, 80, 90]
 
 OPTIMIZER_CONFIG = [tf.keras.optimizers.Adam,
@@ -123,9 +123,8 @@ for UNFREEZE_EPOCHS in UNFREEZE_EPOCHS_CONFIG:
                                     activation='softmax')
             ])
             
-            for i in range(10):
+            for i in range(20):
               training_data = training_data.sample(frac=1)
-              print(training_data)
               validation_data = validation_data.sample(frac=1)
 
               train_data = idg.flow_from_dataframe(training_data,
