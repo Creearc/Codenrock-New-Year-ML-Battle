@@ -125,6 +125,7 @@ for UNFREEZE_EPOCHS in UNFREEZE_EPOCHS_CONFIG:
             
             for i in range(10):
               training_data = training_data.sample(frac=1)
+              print(training_data)
               validation_data = validation_data.sample(frac=1)
 
               train_data = idg.flow_from_dataframe(training_data,
