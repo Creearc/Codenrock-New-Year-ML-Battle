@@ -28,9 +28,9 @@ K_PARTS = 5
 VALIDATION_SPLIT = 0.0
 
 FREEZE_EPOCHS = 0
-UNFREEZE_CONFIG = [(10, 1e-5),
-                   (10, 1e-8),
-                   (15, 1e-11)]
+UNFREEZE_CONFIG = [(5, 1e-5),
+                   (3, 1e-8),
+                   (2, 1e-11)]
 
 args = [IMAGE_SIZE, K_PARTS, FREEZE_EPOCHS,
         '|'.join([str(i[0]) for i in UNFREEZE_CONFIG]),
@@ -108,63 +108,64 @@ else:
     tf.keras.layers.Dense(units=CLASSES_NUM,
                           activation='softmax')
   ])
-    
-for k, training_data, validation_data in k_fold_cross_val(data_parts, K_PARTS):
-  training_data = training_data.sample(frac=1)
-  validation_data = validation_data.sample(frac=1)
 
-  idg = tf.keras.preprocessing.image.ImageDataGenerator(horizontal_flip=True,
-                                                        rotation_range=15,
-                                                        width_shift_range=0.2,
-                                                        height_shift_range=0.2,
-                                                        zoom_range=[0.8, 1.2],
-                                                        rescale=1./255)
+for period in range(5):    
+  for k, training_data, validation_data in k_fold_cross_val(data_parts, K_PARTS):
+    training_data = training_data.sample(frac=1)
+    validation_data = validation_data.sample(frac=1)
 
-  train_data = idg.flow_from_dataframe(training_data,
-                                      target_size=(IMAGE_SIZE, IMAGE_SIZE),
-                                       x_col = "image_name",
-                                       y_col = 'class_id',
-                                       batch_size=BATCH_SIZE, 
-                                       shuffle = False)
-            
-  test_data = idg.flow_from_dataframe(validation_data,
-                                      target_size=(IMAGE_SIZE, IMAGE_SIZE),
-                                      x_col = "image_name",
-                                      y_col = 'class_id',
-                                      batch_size=BATCH_SIZE, 
-                                      shuffle = False)
+    idg = tf.keras.preprocessing.image.ImageDataGenerator(horizontal_flip=True,
+                                                          rotation_range=45,
+                                                          width_shift_range=0.6,
+                                                          height_shift_range=0.6,
+                                                          zoom_range=[0.6, 1.2],
+                                                          rescale=1./255)
 
-  if not EVAL_ONLY :
-    if FREEZE_EPOCHS > 0:
-      model.compile(optimizer='adam', 
-                    loss='categorical_crossentropy', 
-                    metrics=['accuracy'])
+    train_data = idg.flow_from_dataframe(training_data,
+                                        target_size=(IMAGE_SIZE, IMAGE_SIZE),
+                                         x_col = "image_name",
+                                         y_col = 'class_id',
+                                         batch_size=BATCH_SIZE, 
+                                         shuffle = False)
+              
+    test_data = idg.flow_from_dataframe(validation_data,
+                                        target_size=(IMAGE_SIZE, IMAGE_SIZE),
+                                        x_col = "image_name",
+                                        y_col = 'class_id',
+                                        batch_size=BATCH_SIZE, 
+                                        shuffle = False)
 
-      history = model.fit(train_data,
-                          steps_per_epoch=len(train_data),
-                          epochs=FREEZE_EPOCHS,
-                          validation_data=test_data,
-                          validation_steps=len(test_data))
+    if not EVAL_ONLY :
+      if FREEZE_EPOCHS > 0:
+        model.compile(optimizer='adam', 
+                      loss='categorical_crossentropy', 
+                      metrics=['accuracy'])
 
-    if not LOAD_MODEL:
-      base_model.trainable = True
-      fine_tune_at = 100
-
-      # Freeze all the layers before the `fine_tune_at` layer
-      for layer in base_model.layers[:fine_tune_at]:
-        layer.trainable =  False
-
-    for UNFREEZE_EPOCHS, LR in UNFREEZE_CONFIG:
-      model.compile(optimizer=tf.keras.optimizers.Adam(LR),
-                    loss='categorical_crossentropy',
-                    metrics=['accuracy'])
-
-
-      history_fine = model.fit(train_data,
+        history = model.fit(train_data,
                             steps_per_epoch=len(train_data),
-                            epochs=UNFREEZE_EPOCHS,
+                            epochs=FREEZE_EPOCHS,
                             validation_data=test_data,
                             validation_steps=len(test_data))
+
+      if not LOAD_MODEL:
+        base_model.trainable = True
+        fine_tune_at = 100
+
+        # Freeze all the layers before the `fine_tune_at` layer
+        for layer in base_model.layers[:fine_tune_at]:
+          layer.trainable =  False
+
+      for UNFREEZE_EPOCHS, LR in UNFREEZE_CONFIG:
+        model.compile(optimizer=tf.keras.optimizers.Adam(LR),
+                      loss='categorical_crossentropy',
+                      metrics=['accuracy'])
+
+
+        history_fine = model.fit(train_data,
+                              steps_per_epoch=len(train_data),
+                              epochs=UNFREEZE_EPOCHS,
+                              validation_data=test_data,
+                              validation_steps=len(test_data))
 
 predictions = model.predict_classes(test_data, verbose=0)
 labels = validation_data['class_id'].to_numpy()
