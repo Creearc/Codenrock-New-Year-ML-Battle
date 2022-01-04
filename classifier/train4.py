@@ -28,7 +28,7 @@ K_PARTS = 5
 VALIDATION_SPLIT = 0.0
 
 FREEZE_EPOCHS = 0
-UNFREEZE_CONFIG = [(5, 1e-5),
+UNFREEZE_CONFIG = [(10, 1e-5),
                    (5, 1e-8),
                    (5, 1e-11)]
 
