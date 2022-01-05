@@ -21,14 +21,15 @@ IMAGE_SIZE = 448
 IMG_SHAPE = (IMAGE_SIZE, IMAGE_SIZE, 3)
 BATCH_SIZE = 32
 
-FILTERS = 32
-DROPOUT = 0.2
+FILTERS = 64
+DROPOUT = 0.0
 
 K_PARTS = 3
 VALIDATION_SPLIT = 0.0
 
 FREEZE_EPOCHS = 0
-UNFREEZE_CONFIG = [(10, 1e-5)]
+UNFREEZE_CONFIG = [(10, 1e-5),
+                   (10, 1e-8)]
 
 args = [IMAGE_SIZE, K_PARTS, FREEZE_EPOCHS,
         '|'.join([str(i[0]) for i in UNFREEZE_CONFIG]),
@@ -108,7 +109,7 @@ else:
   ])
 
 for UNFREEZE_EPOCHS, LR in UNFREEZE_CONFIG:
-  for period in range(15):    
+  for period in range(5):    
     for k, training_data, validation_data in k_fold_cross_val(data_parts, K_PARTS):
       training_data = training_data.sample(frac=1)
       validation_data = validation_data.sample(frac=1)
