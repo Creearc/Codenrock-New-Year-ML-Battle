@@ -37,9 +37,8 @@ args = [IMAGE_SIZE, K_PARTS, FREEZE_EPOCHS,
 
 OUTPUT_FILE_NAME = '{}'.format('_'.join([str(i) for i in args]))
 
-LOAD_MODEL = not  True
-MODEL_NAME = '0.48279620350804014__448_3_0_5_1e-05_16_0.1.h5'
-MODEL_NAME = 'base.h5'
+LOAD_MODEL = True
+MODEL_NAME = '0.8654310907491829__448_3_0_10|10_64_0.0'
 
 EVAL_ONLY = not True
 
