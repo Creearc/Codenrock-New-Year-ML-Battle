@@ -39,15 +39,15 @@ args = [IMAGE_SIZE, K_PARTS, FREEZE_EPOCHS,
         FILTERS, DROPOUT]
 
 OUTPUT_FILE_NAME = '{}'.format('_'.join([str(i) for i in args]))
+OUTPUT_FILE = '{}.tflite'.format(OUTPUT_FILE_NAME)
+OUTPUT_FILE_Q = '{}_q.tflite'.format(OUTPUT_FILE_NAME)
+
+###################################
 
 LOAD_MODEL = not  True
 MODEL_NAME = '0.48279620350804014__448_3_0_5_1e-05_16_0.1.h5'
-MODEL_NAME = 'base.h5'
 
 EVAL_ONLY = not True
-
-OUTPUT_FILE = '{}.tflite'.format(OUTPUT_FILE_NAME)
-OUTPUT_FILE_Q = '{}_q.tflite'.format(OUTPUT_FILE_NAME)
 
 ###################################
 
