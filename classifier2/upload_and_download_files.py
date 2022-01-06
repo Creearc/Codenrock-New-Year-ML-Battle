@@ -10,7 +10,6 @@ tf.config.experimental.set_memory_growth(gpus[0], True)
 
 assert float(tf.__version__[:3]) >= 2.3
 import tensorflow.lite as tflite
-import os
 import numpy as np
 import cv2
 from PIL import Image
