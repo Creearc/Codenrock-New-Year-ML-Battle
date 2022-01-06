@@ -124,8 +124,7 @@ else:
   # Create the base model from the pre-trained MobileNet V2
   base_model = tf.keras.applications.EfficientNetB7(input_shape=IMG_SHAPE,
                                                     include_top=False,
-                                                    weights='imagenet',
-                                                    classes=CLASSES_NUM)
+                                                    weights='imagenet')
 
   #base_model.trainable = False
 
@@ -152,12 +151,12 @@ if not EVAL_ONLY :
                         validation_steps=len(test_data))
 
   if not LOAD_MODEL:
-    base_model.trainable = True
-    fine_tune_at = 100
-
-    # Freeze all the layers before the `fine_tune_at` layer
-    for layer in base_model.layers[:fine_tune_at]:
-      layer.trainable =  False
+##    base_model.trainable = True
+##    fine_tune_at = 100
+##
+##    # Freeze all the layers before the `fine_tune_at` layer
+##    for layer in base_model.layers[:fine_tune_at]:
+##      layer.trainable =  False
 
   for UNFREEZE_EPOCHS, LR in UNFREEZE_CONFIG:
     model.compile(optimizer=tf.keras.optimizers.Adam(LR),
