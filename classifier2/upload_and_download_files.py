@@ -130,7 +130,7 @@ def uploaded_file(filename):
                                filename)
 
 if __name__ == "__main__":
-    model = tf.keras.models.load_model('nikita_0.h5')
+    model = tf.keras.models.load_model('results/nikita_0.h5')
     labels = load_labels('frost_labels.txt')
     
     app.run(host='0.0.0.0', port=8000, debug=not True)
