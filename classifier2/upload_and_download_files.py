@@ -59,13 +59,13 @@ def display_result(top_result, frame, labels):
     k = 640 / w
     frame = cv2.resize(frame, (int(w * k), int(h * k)))
 
-    for idx, (i, score) in enumerate(top_result):
+    for idx, score in enumerate(top_result):
         # print('{} - {:0.4f}'.format(label, score))
         x = 12
         y = 24 * idx + 24
-        cv2.putText(frame, '{} - {:0.4f}'.format(labels[i], score),
+        cv2.putText(frame, '{} - {:0.4f}'.format(labels[idx], score),
                     (x, y), font, size, color, thickness)
-        cv2.putText(frame, '{} - {:0.4f}'.format(labels[i], score),
+        cv2.putText(frame, '{} - {:0.4f}'.format(labels[idx], score),
                     (x, y), font, size, (255, 255, 255), thickness-2)
     return frame
 
