@@ -54,10 +54,6 @@ OUTPUT_FILE_Q = '{}_q.tflite'.format(OUTPUT_FILE_NAME)
 
 img_augmentation = tf.keras.Sequential(
     [
-        tf.keras.layers.RandomRotation(factor=0.15),
-        tf.keras.layers.RandomTranslation(height_factor=0.1, width_factor=0.1),
-        tf.keras.layers.RandomFlip(),
-        tf.keras.layers.RandomContrast(factor=0.1),
     ],
     name="img_augmentation",
 )
