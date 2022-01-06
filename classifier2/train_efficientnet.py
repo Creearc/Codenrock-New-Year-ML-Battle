@@ -51,6 +51,19 @@ OUTPUT_FILE_Q = '{}_q.tflite'.format(OUTPUT_FILE_NAME)
 
 ###################################
 
+
+img_augmentation = Sequential(
+    [
+        layers.RandomRotation(factor=0.15),
+        layers.RandomTranslation(height_factor=0.1, width_factor=0.1),
+        layers.RandomFlip(),
+        layers.RandomContrast(factor=0.1),
+    ],
+    name="img_augmentation",
+)
+
+
+
 classes_paths = os.listdir(dataset_path)
 CLASSES_NUM = len(classes_paths)
 
@@ -124,22 +137,12 @@ if LOAD_MODEL:
   model = tf.keras.models.load_model('results/{}'.format(MODEL_NAME))
 
 else:
-  # Create the base model from the pre-trained MobileNet V2
-  base_model = tf.keras.applications.EfficientNetB7(input_shape=inputs,
-                                                    include_top=False,
-                                                    weights='imagenet')
-
-  #base_model.trainable = False
-
-  model = tf.keras.Sequential([
-    base_model,
-    tf.keras.layers.Conv2D(filters=FILTERS, kernel_size=3,
-                           activation='relu'),
-    tf.keras.layers.Dropout(DROPOUT),
-    tf.keras.layers.GlobalAveragePooling2D(),
-    tf.keras.layers.Dense(units=CLASSES_NUM,
-                          activation='softmax')
-  ])
+  x = img_augmentation(inputs)
+  outputs = tf.keras.applications.EfficientNetB7(include_top=True,
+                                                 weights='imagenet',
+                                                 classes=CLASSES_NUM)(x)
+  model = tf.keras.Model(inputs, outputs)
+  
 
 if not EVAL_ONLY :
   if FREEZE_EPOCHS > 0:
