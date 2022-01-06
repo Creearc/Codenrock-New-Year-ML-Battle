@@ -30,7 +30,7 @@ class full_net():
 
 class lite_net():
   def __init__(self, path, img_shape=(448, 448)):
-    self.interpreter = tflite.Interpreter(model_path=model_path)
+    self.interpreter = tflite.Interpreter(model_path=path)
     self.interpreter.allocate_tensors()
     input_details = self.interpreter.get_input_details()
     input_shape = input_details[0]['shape']
