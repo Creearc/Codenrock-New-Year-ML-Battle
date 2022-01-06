@@ -14,6 +14,9 @@ tf.config.experimental.set_memory_growth(gpus[0], True)
 ###################################
 K_PARTS = 5
 
+IMAGE_SIZE = 448
+IMG_SHAPE = (IMAGE_SIZE, IMAGE_SIZE, 3)
+
 MODEL_NAMES = ['m1.h5',
                'm2.h5'                     
                ]
@@ -25,10 +28,7 @@ models = []
 
 for MODEL in MODEL_NAMES:
   tmp = tf.keras.models.load_model('results/{}'.format(MODEL))
-  if not (tmp is None):
-    models.append(tmp)
-  else:
-    print('{} is empty'.format(MODEL))
+  models.append(tmp(tf.keras.Input(shape = IMG_SHAPE)))
 
 model =  tf.keras.layers.concatenate(models, axis = 3)
 
