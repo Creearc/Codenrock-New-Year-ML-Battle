@@ -52,14 +52,6 @@ OUTPUT_FILE_Q = '{}_q.tflite'.format(OUTPUT_FILE_NAME)
 ###################################
 
 
-img_augmentation = tf.keras.Sequential(
-    [
-    ],
-    name="img_augmentation",
-)
-
-
-
 classes_paths = os.listdir(dataset_path)
 CLASSES_NUM = len(classes_paths)
 
@@ -133,9 +125,8 @@ if LOAD_MODEL:
   model = tf.keras.models.load_model('results/{}'.format(MODEL_NAME))
 
 else:
-  x = img_augmentation(inputs)
   outputs = tf.keras.applications.EfficientNetB7(include_top=True,
-                                                 weights='imagenet')(x)
+                                                 weights='imagenet')
   #model = tf.keras.Model(inputs, outputs)
   model = tf.keras.Sequential([
     inputs,
