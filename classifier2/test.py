@@ -18,7 +18,7 @@ model = tf.keras.models.load_model('results/0.4840034574405531__456_5_1_0|0|0_64
 
 labels = ['Nobody', 'Father Frost', 'Santa']
 height, width = 456, 456
-height, width = 512, 512
+#height, width = 512, 512
 
 predictions = []
 labels = []
