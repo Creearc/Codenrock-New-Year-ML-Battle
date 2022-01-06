@@ -30,7 +30,7 @@ DROPOUT = 0.2
 K_PARTS = 5
 VALIDATION_SPLIT = 0.0
 
-FREEZE_EPOCHS = 1
+FREEZE_EPOCHS = 0
 UNFREEZE_CONFIG = [(10, 1e-5),
                    (0, 1e-6),
                    (0, 1e-7)]
@@ -162,7 +162,7 @@ for k, training_data, validation_data in k_fold_cross_val(data_parts, K_PARTS):
                             epochs=UNFREEZE_EPOCHS,
                             validation_data=test_data,
                             validation_steps=len(test_data))
-  break 
+ 
 
 predictions = []
 labels = []
