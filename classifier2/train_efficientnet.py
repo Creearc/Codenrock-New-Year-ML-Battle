@@ -21,7 +21,7 @@ IMAGE_SIZE = 456
 IMG_SHAPE = (IMAGE_SIZE, IMAGE_SIZE, 3)
 inputs = tf.keras.layers.Input(shape=(IMAGE_SIZE, IMAGE_SIZE, 3))
 
-BATCH_SIZE = 4
+BATCH_SIZE = 2
 
 FILTERS = 64
 DROPOUT = 0.0
