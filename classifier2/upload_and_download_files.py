@@ -16,35 +16,6 @@ import cv2
 from PIL import Image
 import time
 
-
-def process_image(interpreter, image, input_index, k=3):
-    r"""Process an image, Return top K result in a list of 2-Tuple(confidence_score, label)"""
-    input_data = np.expand_dims(image, axis=0)  # expand to 4-dim
-
-    # Process
-    interpreter.set_tensor(input_index, input_data)
-    interpreter.invoke()
-
-    # Get outputs
-    output_details = interpreter.get_output_details()
-    output_data = interpreter.get_tensor(output_details[0]['index'])
-    output_data = np.squeeze(output_data)
-
-    # Get top K result
-    top_k = output_data.argsort()[-k:][::-1]  # Top_k index
-    result = []
-    ind, mx = 0, 0
-    
-    for i in top_k:
-        score = float(output_data[i] / 255.0)
-        result.append((i, score))
-        if score > mx:
-            mx = score
-            ind = i
-
-    print('Result: {}'.format(labels[ind]))
-    return result
-
 def display_result(top_result, frame, labels):
     r"""Display top K result in top right corner"""
     font = cv2.FONT_HERSHEY_SIMPLEX
@@ -75,7 +46,7 @@ def detect_image(input_img_path, output_img_path):
     img_n = np.expand_dims(img_n, 0)
 
     t = time.time()
-    y = model.predict_classes(img_n)
+    y = model.predict(img_n)
     print(time.time() - t)
     print(y)
     img = display_result(y[0], img.copy(), labels)
@@ -133,7 +104,7 @@ def uploaded_file(filename):
 
 if __name__ == "__main__":
     model = tf.keras.models.load_model('results/nikita_0.h5')
-    labels = ['Father Frost', 'Santa', 'Nobody']
+    labels = ['Nobody', 'Father Frost', 'Santa']
 
     height, width = 456, 456
     
