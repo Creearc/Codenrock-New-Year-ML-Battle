@@ -168,7 +168,7 @@ if not EVAL_ONLY :
     )
 
 
-    history_fine = model.fit(train_data,
+    history_fine = model.fit_generator(train_data,
                           steps_per_epoch=len(train_data),
                           epochs=UNFREEZE_EPOCHS,
                           validation_data=test_data,
