@@ -15,7 +15,6 @@ import numpy as np
 import cv2
 from PIL import Image
 import time
-from tensorflow.keras.applications.imagenet_utils import decode_predictions
 
 
 def process_image(interpreter, image, input_index, k=3):
@@ -78,7 +77,7 @@ def detect_image(input_img_path, output_img_path):
     t = time.time()
     y = model.predict(img_n)
     print(time.time() - t)
-    print(decode_predictions(y))
+    print(y[0])
     img = display_result(y[0], img.copy(), labels)
     cv2.imwrite(output_img_path, img)
 
