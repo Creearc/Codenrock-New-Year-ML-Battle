@@ -153,11 +153,9 @@ for k, training_data, validation_data in k_fold_cross_val(data_parts, K_PARTS):
     conv_base.trainable = True
 
     for UNFREEZE_EPOCHS, LR in UNFREEZE_CONFIG:
-      model.compile(
-      loss="categorical_crossentropy",
-      optimizer=tf.keras.optimizers.Adam(LR),
-      metrics=["acc"],
-      )
+      model.compile(loss="categorical_crossentropy",
+                    optimizer=tf.keras.optimizers.Adam(LR),
+                    metrics=["acc"])
 
 
       history_fine = model.fit(train_data,
