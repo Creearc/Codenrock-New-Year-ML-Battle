@@ -26,7 +26,11 @@ OUTPUT_FILE_NAME = '448_5_0_10|5|5_64_0.0.h5'
 models = []
 
 for MODEL in MODEL_NAMES:
-  models.append(tf.keras.models.load_model('results/{}'.format(MODEL)))
+  tmp = tf.keras.models.load_model('results/{}'.format(MODEL))
+  if not (tmp is None):
+    models.append(tmp)
+  else:
+    print('{} is empty'.format(MODEL))
 
 model =  tf.keras.layers.concatenate(models, axis = 3)
 
