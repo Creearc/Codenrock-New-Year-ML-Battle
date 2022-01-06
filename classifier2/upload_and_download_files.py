@@ -103,7 +103,7 @@ def uploaded_file(filename):
                                filename)
 
 if __name__ == "__main__":
-    model = tf.keras.models.load_model('results/nikita_0.h5')
+    model = tf.keras.models.load_model('results/nikita_2.h5')
     labels = ['Nobody', 'Father Frost', 'Santa']
 
     height, width = 456, 456
