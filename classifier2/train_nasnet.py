@@ -6,6 +6,7 @@ assert float(tf.__version__[:3]) >= 2.3
 import numpy as np
 import pandas as pd
 from sklearn.metrics import f1_score, accuracy_score
+import cv2
 
 gpus = tf.config.experimental.list_physical_devices('GPU')
 tf.config.experimental.set_memory_growth(gpus[0], True)
@@ -165,9 +166,19 @@ for k, training_data, validation_data in k_fold_cross_val(data_parts, K_PARTS):
                             validation_steps=len(test_data))
   break 
 
-predictions = model.predict_classes(test_data, verbose=0)
-labels = validation_data['class_id'].to_numpy()
-labels = labels.astype(np.int)
+for folder in os.listdir(dataset_path):
+  for file in os.listdir('{}/{}'.format(dataset_path, folder)):
+    
+    img = cv2.imread('{}/{}/{}'.format(dataset_path, folder, file),
+                     cv2.IMREAD_COLOR)
+    
+    img_n = cv2.resize(img, (width, height))
+    img_n = np.expand_dims(img_n, 0)
+
+    y = model.predict_classes(img_n)[0]
+    predictions.append(str(y))
+    labels.append(str(folder))
+
 
 accuracy = accuracy_score(labels, predictions)
 print('Result accuracy: {}'.format(accuracy))
@@ -175,7 +186,7 @@ score = f1_score(labels, predictions, average='weighted')
 print('Result F1: {}'.format(score))
 
 model.save('results/{}__{}.h5'.format(score, OUTPUT_FILE_NAME))
-tf.keras.backend.clear_session()
+
 
 
 
