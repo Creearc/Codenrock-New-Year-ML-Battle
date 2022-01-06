@@ -6,6 +6,7 @@ assert float(tf.__version__[:3]) >= 2.3
 import numpy as np
 import pandas as pd
 from sklearn.metrics import f1_score, accuracy_score
+import cv2
 
 gpus = tf.config.experimental.list_physical_devices('GPU')
 tf.config.experimental.set_memory_growth(gpus[0], True)
@@ -30,7 +31,7 @@ K_PARTS = 5
 VALIDATION_SPLIT = 0.0
 
 FREEZE_EPOCHS = 1
-UNFREEZE_CONFIG = [(2, 1e-5),
+UNFREEZE_CONFIG = [(0, 1e-5),
                    (0, 1e-6),
                    (0, 1e-7)]
 
