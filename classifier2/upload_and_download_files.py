@@ -72,6 +72,7 @@ def detect_image(input_img_path, output_img_path):
     img = cv2.imread(input_img_path, cv2.IMREAD_COLOR)
 
     img_n = cv2.resize(img, (width, height))
+    print(img_n.shape)
 
     y = model.predict(img_n)
     print(y)
