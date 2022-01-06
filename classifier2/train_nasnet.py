@@ -17,7 +17,7 @@ dataset_path = '/home/alexandr/datasets/santas_2'
 tf.random.set_seed(42)
 np.random.seed(42)
 
-IMAGE_SIZE = 331
+IMAGE_SIZE = 512
 IMG_SHAPE = (IMAGE_SIZE, IMAGE_SIZE, 3)
 inputs = tf.keras.layers.Input(shape=(IMAGE_SIZE, IMAGE_SIZE, 3))
 
