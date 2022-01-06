@@ -2,11 +2,12 @@ import os
 from flask import Flask, request, redirect, url_for
 from werkzeug.utils import secure_filename
 
+import tensorflow as tf
+
 os.environ['CUDA_VISIBLE_DEVICES'] = '0'
 gpus = tf.config.experimental.list_physical_devices('GPU')
 tf.config.experimental.set_memory_growth(gpus[0], True)
 
-import tensorflow as tf
 assert float(tf.__version__[:3]) >= 2.3
 import tensorflow.lite as tflite
 import os
