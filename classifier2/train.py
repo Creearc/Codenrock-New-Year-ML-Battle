@@ -21,7 +21,7 @@ BATCH_SIZE = 32
 
 K_PARTS = 5
 
-EPOCHS = 5
+EPOCHS = 25
 LR = 1e-5
 
 OUTPUT_FILE_NAME = 'lenet_1'
