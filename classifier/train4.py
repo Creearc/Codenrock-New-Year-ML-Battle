@@ -27,7 +27,7 @@ DROPOUT = 0.0
 K_PARTS = 3
 VALIDATION_SPLIT = 0.0
 
-FREEZE_EPOCHS = 0
+FREEZE_EPOCHS = 3
 UNFREEZE_CONFIG = [(10, 1e-5),
                    (2, 1e-8)]
 
