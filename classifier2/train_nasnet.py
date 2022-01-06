@@ -96,8 +96,8 @@ if LOAD_MODEL:
 
 else:
     # VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
-    conv_base = tf.keras.applications.NASNetLarge(include_top=False,
-                                                   weights=None, #'imagenet',
+    conv_base = tf.keras.applications.InceptionResNetV2(include_top=False,
+                                                   weights='imagenet',
                                                    input_shape=IMG_SHAPE)
     #model = tf.keras.Model(inputs, outputs)
     model = tf.keras.Sequential([
