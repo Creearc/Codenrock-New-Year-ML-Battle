@@ -24,7 +24,7 @@ inputs = tf.keras.layers.Input(shape=(IMAGE_SIZE, IMAGE_SIZE, 3))
 BATCH_SIZE = 2
 
 FILTERS = 64
-DROPOUT = 0.0
+DROPOUT = 0.2
 
 K_PARTS = 5
 VALIDATION_SPLIT = 0.0
