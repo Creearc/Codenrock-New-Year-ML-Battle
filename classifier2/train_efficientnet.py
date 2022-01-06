@@ -135,9 +135,18 @@ if LOAD_MODEL:
 else:
   x = img_augmentation(inputs)
   outputs = tf.keras.applications.EfficientNetB7(include_top=True,
-                                                 weights='imagenet',
-                                                 classes=CLASSES_NUM)(x)
-  model = tf.keras.Model(inputs, outputs)
+                                                 weights='imagenet')(x)
+  #model = tf.keras.Model(inputs, outputs)
+  model = tf.keras.Sequential([
+    inputs,
+    outputs,
+    tf.keras.layers.Conv2D(filters=FILTERS, kernel_size=3,
+                           activation='relu'),
+    tf.keras.layers.Dropout(DROPOUT),
+    tf.keras.layers.GlobalAveragePooling2D(),
+    tf.keras.layers.Dense(units=CLASSES_NUM,
+                          activation='softmax')
+  ])
   
 
 if not EVAL_ONLY :
