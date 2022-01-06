@@ -29,7 +29,7 @@ VALIDATION_SPLIT = 0.0
 
 FREEZE_EPOCHS = 0
 UNFREEZE_CONFIG = [(10, 1e-5),
-                   (10, 1e-8)]
+                   (2, 1e-8)]
 
 args = [IMAGE_SIZE, K_PARTS, FREEZE_EPOCHS,
         '|'.join([str(i[0]) for i in UNFREEZE_CONFIG]),
@@ -115,9 +115,9 @@ for UNFREEZE_EPOCHS, LR in UNFREEZE_CONFIG:
 
       idg = tf.keras.preprocessing.image.ImageDataGenerator(horizontal_flip=True,
                                                             rotation_range=45,
-                                                            width_shift_range=[-0.6, 0.6],
-                                                            height_shift_range=[-0.6, 0.6],
-                                                            zoom_range=[0.6, 1.2],
+                                                            width_shift_range=[-0.3, 0.3],
+                                                            height_shift_range=[-0.3, 0.3],
+                                                            zoom_range=[0.4, 1.3],
                                                             rescale=1./255)
 
       train_data = idg.flow_from_dataframe(training_data,
@@ -147,12 +147,12 @@ for UNFREEZE_EPOCHS, LR in UNFREEZE_CONFIG:
                               validation_steps=len(test_data))
 
         
-        base_model.trainable = True
-        fine_tune_at = 100
+          base_model.trainable = True
+          fine_tune_at = 100
 
-        # Freeze all the layers before the `fine_tune_at` layer
-        for layer in base_model.layers[:fine_tune_at]:
-          layer.trainable =  False
+          # Freeze all the layers before the `fine_tune_at` layer
+          for layer in base_model.layers[:fine_tune_at]:
+            layer.trainable =  False
 
         
         model.compile(optimizer=tf.keras.optimizers.Adam(LR),
