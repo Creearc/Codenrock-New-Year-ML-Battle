@@ -18,6 +18,9 @@ tf.random.set_seed(42)
 np.random.seed(42)
 
 IMAGE_SIZE = 600
+IMG_SHAPE = (IMAGE_SIZE, IMAGE_SIZE, 3)
+inputs = layers.Input(shape=(IMG_SIZE, IMG_SIZE, 3))
+
 BATCH_SIZE = 32
 
 FILTERS = 64
@@ -115,15 +118,15 @@ test_data = idg.flow_from_dataframe(validation_data,
                                     shuffle = False)
 
 
-IMG_SHAPE = (IMAGE_SIZE, IMAGE_SIZE, 3)
+
 
 if LOAD_MODEL:
   model = tf.keras.models.load_model('results/{}'.format(MODEL_NAME))
 
 else:
   # Create the base model from the pre-trained MobileNet V2
-  base_model = tf.keras.applications.EfficientNetB7(input_shape=IMG_SHAPE,
-                                                    include_top=False,
+  base_model = tf.keras.applications.EfficientNetB7(input_shape=inputs,
+                                                    include_top=True,
                                                     weights='imagenet')
 
   #base_model.trainable = False
