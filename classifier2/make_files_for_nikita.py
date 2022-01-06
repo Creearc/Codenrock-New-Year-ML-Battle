@@ -72,4 +72,4 @@ for folder in os.listdir(dataset_path):
 
     for net in nets:
       result = net.run(img)
-      print(result, folder)
+      print(result, np.argmax(result), folder)
