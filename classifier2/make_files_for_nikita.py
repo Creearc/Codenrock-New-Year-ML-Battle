@@ -50,7 +50,7 @@ class lite_net():
     output_data = self.interpreter.get_tensor(output_details[0]['index'])
     output_data = np.squeeze(output_data)
 
-    return output_data
+    return [i / 255.0 for i in output_data]
 
 
 
