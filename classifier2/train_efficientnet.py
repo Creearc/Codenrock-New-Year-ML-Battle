@@ -26,11 +26,11 @@ BATCH_SIZE = 2
 FILTERS = 64
 DROPOUT = 0.0
 
-K_PARTS = 5
+K_PARTS = 2
 VALIDATION_SPLIT = 0.0
 
-FREEZE_EPOCHS = 3
-UNFREEZE_CONFIG = [(10, 1e-5),
+FREEZE_EPOCHS = 1
+UNFREEZE_CONFIG = [(5, 1e-5),
                    (0, 1e-6),
                    (0, 1e-7)]
 
