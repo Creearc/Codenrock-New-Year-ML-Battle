@@ -17,7 +17,7 @@ dataset_path = '/home/alexandr/datasets/santas_2'
 tf.random.set_seed(42)
 np.random.seed(42)
 
-IMAGE_SIZE = 448
+IMAGE_SIZE = 600
 BATCH_SIZE = 32
 
 FILTERS = 64
