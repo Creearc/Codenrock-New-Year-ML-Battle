@@ -125,7 +125,7 @@ if LOAD_MODEL:
   model = tf.keras.models.load_model('results/{}'.format(MODEL_NAME))
 
 else:
-  conv_base = tf.keras.applications.EfficientNetB7(include_top=False,
+  conv_base = tf.keras.applications.EfficientNetB6(include_top=False,
                                                  weights='imagenet',
                                                  input_shape=IMG_SHAPE)
   #model = tf.keras.Model(inputs, outputs)
