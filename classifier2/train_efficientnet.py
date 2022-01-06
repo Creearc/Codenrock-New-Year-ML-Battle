@@ -150,7 +150,7 @@ if not EVAL_ONLY :
                         validation_data=test_data,
                         validation_steps=len(test_data))
 
-  if not LOAD_MODEL:
+##  if not LOAD_MODEL:
 ##    base_model.trainable = True
 ##    fine_tune_at = 100
 ##
