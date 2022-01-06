@@ -136,7 +136,8 @@ else:
     tf.keras.layers.Dense(units=CLASSES_NUM,
                           activation='softmax')
   ])
-  
+
+  model.summary()
 
 if not EVAL_ONLY :
   if FREEZE_EPOCHS > 0:
