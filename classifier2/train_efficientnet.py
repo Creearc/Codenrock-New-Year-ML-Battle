@@ -21,7 +21,7 @@ IMAGE_SIZE = 448
 IMG_SHAPE = (IMAGE_SIZE, IMAGE_SIZE, 3)
 inputs = tf.keras.layers.Input(shape=(IMAGE_SIZE, IMAGE_SIZE, 3))
 
-BATCH_SIZE = 32
+BATCH_SIZE = 1# 32
 
 FILTERS = 64
 DROPOUT = 0.0
@@ -168,7 +168,7 @@ if not EVAL_ONLY :
     )
 
 
-    history_fine = model.fit_generator(train_data,
+    history_fine = model.fit(train_data,
                           steps_per_epoch=len(train_data),
                           epochs=UNFREEZE_EPOCHS,
                           validation_data=test_data,
