@@ -166,13 +166,14 @@ for k, training_data, validation_data in k_fold_cross_val(data_parts, K_PARTS):
                             validation_steps=len(test_data))
   break 
 
+
 for folder in os.listdir(dataset_path):
   for file in os.listdir('{}/{}'.format(dataset_path, folder)):
     
     img = cv2.imread('{}/{}/{}'.format(dataset_path, folder, file),
                      cv2.IMREAD_COLOR)
     
-    img_n = cv2.resize(img, (width, height))
+    img_n = cv2.resize(img, (IMAGE_SIZE, IMAGE_SIZE))
     img_n = np.expand_dims(img_n, 0)
 
     y = model.predict_classes(img_n)[0]
