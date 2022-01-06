@@ -123,10 +123,11 @@ if LOAD_MODEL:
 else:
   # Create the base model from the pre-trained MobileNet V2
   base_model = tf.keras.applications.EfficientNetB7(input_shape=IMG_SHAPE,
-                                                 include_top=False,
-                                                 weights='imagenet')
+                                                    include_top=False,
+                                                    weights='imagenet',
+                                                    classes=CLASSES_NUM)
 
-  base_model.trainable = False
+  #base_model.trainable = False
 
   model = tf.keras.Sequential([
     base_model,
