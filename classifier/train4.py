@@ -37,7 +37,7 @@ args = [IMAGE_SIZE, K_PARTS, FREEZE_EPOCHS,
 
 OUTPUT_FILE_NAME = '{}'.format('_'.join([str(i) for i in args]))
 
-LOAD_MODEL = True
+LOAD_MODEL = not True
 MODEL_NAME = '0.8654310907491829__448_3_0_10|10_64_0.0'
 
 EVAL_ONLY = not True
