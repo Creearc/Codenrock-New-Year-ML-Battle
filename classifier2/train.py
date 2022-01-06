@@ -21,6 +21,8 @@ BATCH_SIZE = 32
 
 K_PARTS = 5
 
+EPOCHS = 5
+
 OUTPUT_FILE_NAME = 'lenet_1'
 
 MODEL_NAME = '{}.h5'.format(OUTPUT_FILE_NAME)
@@ -116,7 +118,7 @@ model.compile(optimizer='adam',
 
 history = model.fit(train_data,
                         steps_per_epoch=len(train_data),
-                        epochs=FREEZE_EPOCHS,
+                        epochs=EPOCHS,
                         validation_data=test_data,
                         validation_steps=len(test_data))
 
