@@ -17,13 +17,6 @@ def load_labels(label_path):
         return [line.strip() for line in f.readlines()]
 
 
-def load_model(model_path):
-    r"""Load TFLite model, returns a Interpreter instance."""
-    interpreter = tflite.Interpreter(model_path=model_path)
-    interpreter.allocate_tensors()
-    return interpreter
-
-
 def process_image(interpreter, image, input_index, k=3):
     r"""Process an image, Return top K result in a list of 2-Tuple(confidence_score, label)"""
     input_data = np.expand_dims(image, axis=0)  # expand to 4-dim
@@ -74,16 +67,16 @@ def display_result(top_result, frame, labels):
     return frame
 
 def detect_image(input_img_path, output_img_path):
-    global interpreter, labels, input_index, height, width
+    global model, labels, input_index, height, width
     
     img = cv2.imread(input_img_path, cv2.IMREAD_COLOR)
 
     img_n = Image.fromarray(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
     img_n = img_n.resize((width, height))
 
-    
-    top_result = process_image(interpreter, img_n, input_index)
-    img = display_result(top_result, img.copy(), labels)
+    y = model.predict(img_n)
+    print(y)
+    img = display_result(y, img.copy(), labels)
     cv2.imwrite(output_img_path, img)
 
 
@@ -137,14 +130,7 @@ def uploaded_file(filename):
                                filename)
 
 if __name__ == "__main__":
-    interpreter = load_model('results/lenet_1.tflite')
+    model = tf.keras.models.load_model('nikita_0.h5')
     labels = load_labels('frost_labels.txt')
-
-    input_details = interpreter.get_input_details()
-
-    input_shape = input_details[0]['shape']
-    height = input_shape[1]
-    width = input_shape[2]
-    input_index = input_details[0]['index']
-    print(input_shape)
+    
     app.run(host='0.0.0.0', port=8000, debug=not True)
