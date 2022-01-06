@@ -40,8 +40,6 @@ args = [IMAGE_SIZE, K_PARTS, FREEZE_EPOCHS,
         FILTERS, DROPOUT]
 
 OUTPUT_FILE_NAME = '{}'.format('_'.join([str(i) for i in args]))
-OUTPUT_FILE = '{}.tflite'.format(OUTPUT_FILE_NAME)
-OUTPUT_FILE_Q = '{}_q.tflite'.format(OUTPUT_FILE_NAME)
 
 ###################################
 
