@@ -30,9 +30,9 @@ K_PARTS = 5
 VALIDATION_SPLIT = 0.0
 
 FREEZE_EPOCHS = 1
-UNFREEZE_CONFIG = [(2, 1e-5),
-                   (0, 1e-6),
-                   (0, 1e-7)]
+UNFREEZE_CONFIG = [(4, 1e-5),
+                   (2, 1e-6),
+                   (1, 1e-7)]
 
 args = [IMAGE_SIZE, K_PARTS, FREEZE_EPOCHS,
         '|'.join([str(i[0]) for i in UNFREEZE_CONFIG]),
