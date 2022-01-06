@@ -15,11 +15,6 @@ import time
 gpus = tf.config.experimental.list_physical_devices('GPU')
 tf.config.experimental.set_memory_growth(gpus[0], True)
 
-def load_labels(label_path):
-    r"""Returns a list of labels"""
-    with open(label_path, 'r') as f:
-        return [line.strip() for line in f.readlines()]
-
 
 def process_image(interpreter, image, input_index, k=3):
     r"""Process an image, Return top K result in a list of 2-Tuple(confidence_score, label)"""
@@ -81,6 +76,7 @@ def detect_image(input_img_path, output_img_path):
     t = time.time()
     y = model.predict(img_n)[0]
     print(time.time() - t)
+    print(y)
     img = display_result(y, img.copy(), labels)
     cv2.imwrite(output_img_path, img)
 
@@ -136,7 +132,7 @@ def uploaded_file(filename):
 
 if __name__ == "__main__":
     model = tf.keras.models.load_model('results/nikita_0.h5')
-    labels = load_labels('frost_labels.txt')
+    labels = ['Father Frost', 'Santa', 'Nobody']
 
     height, width = 456, 456
     
