@@ -14,8 +14,8 @@ tf.config.experimental.set_memory_growth(gpus[0], True)
 ###################################
 K_PARTS = 5
 
-MODEL_NAMES = ['0.9843802107650238__448_5_0_10|5|5_64_0.0',
-               '0.9766045379811267__448_5_0_10|5|5_64_0.0'                     
+MODEL_NAMES = ['m1.h5',
+               'm2.h5'                     
                ]
 
 OUTPUT_FILE_NAME = '448_5_0_10|5|5_64_0.0.h5'
