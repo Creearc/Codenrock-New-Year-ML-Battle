@@ -29,7 +29,7 @@ DROPOUT = 0.0
 K_PARTS = 5
 VALIDATION_SPLIT = 0.0
 
-FREEZE_EPOCHS = 0
+FREEZE_EPOCHS = 5
 UNFREEZE_CONFIG = [(10, 1e-5),
                    (0, 1e-6),
                    (0, 1e-7)]
@@ -152,13 +152,7 @@ if not EVAL_ONLY :
                         validation_data=test_data,
                         validation_steps=len(test_data))
 
-##  if not LOAD_MODEL:
-##    base_model.trainable = True
-##    fine_tune_at = 100
-##
-##    # Freeze all the layers before the `fine_tune_at` layer
-##    for layer in base_model.layers[:fine_tune_at]:
-##      layer.trainable =  False
+   conv_base.trainable = True
 
   for UNFREEZE_EPOCHS, LR in UNFREEZE_CONFIG:
     model.compile(
@@ -183,7 +177,7 @@ print('Result accuracy: {}'.format(accuracy))
 score = f1_score(labels, predictions, average='weighted')
 print('Result F1: {}'.format(score))
 
-model.save('results/{}__{}'.format(score, OUTPUT_FILE_NAME))
+model.save('results/{}__{}.h5'.format(score, OUTPUT_FILE_NAME))
 tf.keras.backend.clear_session()
 
 
