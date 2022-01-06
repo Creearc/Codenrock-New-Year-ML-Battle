@@ -152,7 +152,7 @@ if not EVAL_ONLY :
                         validation_data=test_data,
                         validation_steps=len(test_data))
 
-   conv_base.trainable = True
+  conv_base.trainable = True
 
   for UNFREEZE_EPOCHS, LR in UNFREEZE_CONFIG:
     model.compile(
