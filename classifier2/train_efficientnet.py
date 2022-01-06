@@ -163,7 +163,7 @@ if not EVAL_ONLY :
   for UNFREEZE_EPOCHS, LR in UNFREEZE_CONFIG:
     model.compile(
     loss="categorical_crossentropy",
-    optimizer=optimizers.RMSprop(lr=LR),
+    optimizer=tf.keras.optimizers.RMSprop(lr=LR),
     metrics=["acc"],
     )
 
