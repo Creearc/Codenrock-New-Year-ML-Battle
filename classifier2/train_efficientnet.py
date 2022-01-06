@@ -17,7 +17,7 @@ dataset_path = '/home/alexandr/datasets/santas_2'
 tf.random.set_seed(42)
 np.random.seed(42)
 
-IMAGE_SIZE = 448
+IMAGE_SIZE = 456
 IMG_SHAPE = (IMAGE_SIZE, IMAGE_SIZE, 3)
 inputs = tf.keras.layers.Input(shape=(IMAGE_SIZE, IMAGE_SIZE, 3))
 
@@ -125,7 +125,8 @@ if LOAD_MODEL:
   model = tf.keras.models.load_model('results/{}'.format(MODEL_NAME))
 
 else:
-  conv_base = tf.keras.applications.EfficientNetB6(include_top=False,
+  # VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
+  conv_base = tf.keras.applications.EfficientNetB5(include_top=False,
                                                  weights='imagenet',
                                                  input_shape=IMG_SHAPE)
   #model = tf.keras.Model(inputs, outputs)
