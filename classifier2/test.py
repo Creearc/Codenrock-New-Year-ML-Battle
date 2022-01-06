@@ -14,7 +14,7 @@ tf.config.experimental.set_memory_growth(gpus[0], True)
 
 dataset_path = '/home/alexandr/datasets/santas_2'
 
-model = tf.keras.models.load_model('results/nikita_2.h5')
+model = tf.keras.models.load_model('results/nikita_0.h5')
 
 labels = ['Nobody', 'Father Frost', 'Santa']
 height, width = 456, 456
