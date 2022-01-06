@@ -6,7 +6,6 @@ assert float(tf.__version__[:3]) >= 2.3
 import numpy as np
 import pandas as pd
 from sklearn.metrics import f1_score, accuracy_score
-import numpy as np
 import cv2
 
 gpus = tf.config.experimental.list_physical_devices('GPU')
@@ -14,7 +13,7 @@ tf.config.experimental.set_memory_growth(gpus[0], True)
 
 dataset_path = '/home/alexandr/datasets/santas_2'
 
-model = tf.keras.models.load_model('results/0.4840034574405531__456_5_1_0|0|0_64_0.2.pb')
+model = tf.keras.models.load_model('results/0.3264679975447085__456_3_0_10|2|1_64_0.2')
 
 labels = ['Nobody', 'Father Frost', 'Santa']
 height, width = 456, 456
