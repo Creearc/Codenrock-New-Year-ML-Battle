@@ -23,7 +23,9 @@ height, width = 456, 456
 for folder in os.listdir(dataset_path):
   for file in os.listdir('{}/{}'.format(dataset_path, folder)):
     
-    img = cv2.imread(input_img_path, cv2.IMREAD_COLOR)
+    img = cv2.imread('{}/{}/{}'.format(dataset_path, folder, file),
+                     cv2.IMREAD_COLOR)
+    
     img_n = cv2.resize(img, (width, height))
     img_n = np.expand_dims(img_n, 0)
 
