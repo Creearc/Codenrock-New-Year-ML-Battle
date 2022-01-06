@@ -22,6 +22,7 @@ BATCH_SIZE = 32
 K_PARTS = 5
 
 EPOCHS = 5
+LR = 1e-5
 
 OUTPUT_FILE_NAME = 'lenet_1'
 
@@ -112,8 +113,8 @@ model.add(layers.Dense(CLASSES_NUM, activation='softmax'))
 model.summary()
 
 
-model.compile(optimizer='adam', 
-                  loss='categorical_crossentropy', 
+model.compile(optimizer=tf.keras.optimizers.Adam(LR),
+                  loss='categorical_crossentropy',
                   metrics=['accuracy'])
 
 history = model.fit(train_data,
