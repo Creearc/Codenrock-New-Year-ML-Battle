@@ -91,6 +91,24 @@ def k_fold_cross_val(data_parts, K_PARTS):
 
     yield k, train_data_generator, test_data_generator
 
+if LOAD_MODEL:
+    model = tf.keras.models.load_model('results/{}'.format(MODEL_NAME))
+
+else:
+    # VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
+    conv_base = tf.keras.applications.EfficientNetB5(include_top=False,
+                                                   weights='imagenet',
+                                                   input_shape=IMG_SHAPE)
+    #model = tf.keras.Model(inputs, outputs)
+    model = tf.keras.Sequential([
+      conv_base,
+      tf.keras.layers.GlobalMaxPooling2D(name="gap"),
+      tf.keras.layers.Dropout(DROPOUT),
+      tf.keras.layers.Dense(units=CLASSES_NUM,
+                            activation='softmax')
+    ])
+
+
     
 for k, training_data, validation_data in k_fold_cross_val(data_parts, K_PARTS):
 
@@ -118,27 +136,7 @@ for k, training_data, validation_data in k_fold_cross_val(data_parts, K_PARTS):
                                       batch_size=BATCH_SIZE, 
                                       shuffle = False)
 
-
-
-
-  if LOAD_MODEL:
-    model = tf.keras.models.load_model('results/{}'.format(MODEL_NAME))
-
-  else:
-    # VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
-    conv_base = tf.keras.applications.EfficientNetB5(include_top=False,
-                                                   weights='imagenet',
-                                                   input_shape=IMG_SHAPE)
-    #model = tf.keras.Model(inputs, outputs)
-    model = tf.keras.Sequential([
-      conv_base,
-      tf.keras.layers.GlobalMaxPooling2D(name="gap"),
-      tf.keras.layers.Dropout(DROPOUT),
-      tf.keras.layers.Dense(units=CLASSES_NUM,
-                            activation='softmax')
-    ])
-
-    conv_base.trainable = False
+  conv_base.trainable = False
 
   if not EVAL_ONLY :
     if FREEZE_EPOCHS > 0:
