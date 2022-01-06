@@ -166,6 +166,9 @@ for k, training_data, validation_data in k_fold_cross_val(data_parts, K_PARTS):
                             validation_steps=len(test_data))
   break 
 
+predictions = []
+labels = []
+
 
 for folder in os.listdir(dataset_path):
   for file in os.listdir('{}/{}'.format(dataset_path, folder)):
@@ -186,7 +189,7 @@ print('Result accuracy: {}'.format(accuracy))
 score = f1_score(labels, predictions, average='weighted')
 print('Result F1: {}'.format(score))
 
-model.save('results/{}__{}.h5'.format(score, OUTPUT_FILE_NAME))
+model.save('results/{}__{}.pb'.format(score, OUTPUT_FILE_NAME))
 
 
 
