@@ -132,5 +132,7 @@ def uploaded_file(filename):
 if __name__ == "__main__":
     model = tf.keras.models.load_model('results/nikita_0.h5')
     labels = load_labels('frost_labels.txt')
+
+    height, width = 456, 456
     
     app.run(host='0.0.0.0', port=8000, debug=not True)
