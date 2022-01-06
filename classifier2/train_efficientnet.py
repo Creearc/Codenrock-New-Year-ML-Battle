@@ -125,12 +125,12 @@ if LOAD_MODEL:
   model = tf.keras.models.load_model('results/{}'.format(MODEL_NAME))
 
 else:
-  outputs = tf.keras.applications.EfficientNetB7(include_top=False,
+  conv_base = tf.keras.applications.EfficientNetB7(include_top=False,
                                                  weights='imagenet',
                                                  input_shape=IMG_SHAPE)
   #model = tf.keras.Model(inputs, outputs)
   model = tf.keras.Sequential([
-    outputs,
+    conv_base,
     tf.keras.layers.GlobalMaxPooling2D(name="gap"),
     tf.keras.layers.Dropout(DROPOUT),
     tf.keras.layers.Dense(units=CLASSES_NUM,
@@ -138,6 +138,7 @@ else:
   ])
 
   model.summary()
+  conv_base.trainable = False
 
 if not EVAL_ONLY :
   if FREEZE_EPOCHS > 0:
