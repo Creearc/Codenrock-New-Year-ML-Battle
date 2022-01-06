@@ -26,11 +26,11 @@ BATCH_SIZE = 2
 FILTERS = 64
 DROPOUT = 0.0
 
-K_PARTS = 2
+K_PARTS = 5
 VALIDATION_SPLIT = 0.0
 
 FREEZE_EPOCHS = 1
-UNFREEZE_CONFIG = [(5, 1e-5),
+UNFREEZE_CONFIG = [(2, 1e-5),
                    (0, 1e-6),
                    (0, 1e-7)]
 
@@ -155,7 +155,7 @@ for k, training_data, validation_data in k_fold_cross_val(data_parts, K_PARTS):
     for UNFREEZE_EPOCHS, LR in UNFREEZE_CONFIG:
       model.compile(
       loss="categorical_crossentropy",
-      optimizer=tf.keras.optimizers.RMSprop(lr=LR),
+      optimizer=tf.keras.optimizers.Adam(LR),
       metrics=["acc"],
       )
 
@@ -165,6 +165,7 @@ for k, training_data, validation_data in k_fold_cross_val(data_parts, K_PARTS):
                             epochs=UNFREEZE_EPOCHS,
                             validation_data=test_data,
                             validation_steps=len(test_data))
+  break 
 
 predictions = model.predict_classes(test_data, verbose=0)
 labels = validation_data['class_id'].to_numpy()

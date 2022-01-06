@@ -32,7 +32,6 @@ for folder in os.listdir(dataset_path):
     img_n = np.expand_dims(img_n, 0)
 
     y = model.predict_classes(img_n)[0]
-    print(y, folder)
     predictions.append(str(y))
     labels.append(str(folder))
 
