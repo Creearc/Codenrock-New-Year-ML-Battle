@@ -89,84 +89,84 @@ def k_fold_cross_val(data_parts, K_PARTS):
                                                                 'class_id' : str(key)},
                                                                ignore_index=True)
 
-    return k, train_data_generator, test_data_generator
+    yield k, train_data_generator, test_data_generator
 
     
-k, training_data, validation_data = k_fold_cross_val(data_parts, K_PARTS)
+for k, training_data, validation_data in k_fold_cross_val(data_parts, K_PARTS):
 
-training_data = training_data.sample(frac=1)
-validation_data = validation_data.sample(frac=1)
+  training_data = training_data.sample(frac=1)
+  validation_data = validation_data.sample(frac=1)
 
-idg = tf.keras.preprocessing.image.ImageDataGenerator(horizontal_flip=True,
-                                                      rotation_range=15,
-                                                      width_shift_range=0.2,
-                                                      height_shift_range=0.2,
-                                                      zoom_range=[0.8, 1.2],
-                                                      rescale=1./255)
+  idg = tf.keras.preprocessing.image.ImageDataGenerator(horizontal_flip=True,
+                                                        rotation_range=15,
+                                                        width_shift_range=0.2,
+                                                        height_shift_range=0.2,
+                                                        zoom_range=[0.8, 1.2],
+                                                        rescale=1./255)
 
-train_data = idg.flow_from_dataframe(training_data,
-                                    target_size=(IMAGE_SIZE, IMAGE_SIZE),
-                                     x_col = "image_name",
-                                     y_col = 'class_id',
-                                     batch_size=BATCH_SIZE, 
-                                     shuffle = False)
-          
-test_data = idg.flow_from_dataframe(validation_data,
-                                    target_size=(IMAGE_SIZE, IMAGE_SIZE),
-                                    x_col = "image_name",
-                                    y_col = 'class_id',
-                                    batch_size=BATCH_SIZE, 
-                                    shuffle = False)
-
-
+  train_data = idg.flow_from_dataframe(training_data,
+                                      target_size=(IMAGE_SIZE, IMAGE_SIZE),
+                                       x_col = "image_name",
+                                       y_col = 'class_id',
+                                       batch_size=BATCH_SIZE, 
+                                       shuffle = False)
+            
+  test_data = idg.flow_from_dataframe(validation_data,
+                                      target_size=(IMAGE_SIZE, IMAGE_SIZE),
+                                      x_col = "image_name",
+                                      y_col = 'class_id',
+                                      batch_size=BATCH_SIZE, 
+                                      shuffle = False)
 
 
-if LOAD_MODEL:
-  model = tf.keras.models.load_model('results/{}'.format(MODEL_NAME))
-
-else:
-  # VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
-  conv_base = tf.keras.applications.EfficientNetB5(include_top=False,
-                                                 weights='imagenet',
-                                                 input_shape=IMG_SHAPE)
-  #model = tf.keras.Model(inputs, outputs)
-  model = tf.keras.Sequential([
-    conv_base,
-    tf.keras.layers.GlobalMaxPooling2D(name="gap"),
-    tf.keras.layers.Dropout(DROPOUT),
-    tf.keras.layers.Dense(units=CLASSES_NUM,
-                          activation='softmax')
-  ])
-
-  conv_base.trainable = False
-
-if not EVAL_ONLY :
-  if FREEZE_EPOCHS > 0:
-    model.compile(optimizer='adam', 
-                  loss='categorical_crossentropy', 
-                  metrics=['accuracy'])
-
-    history = model.fit(train_data,
-                        steps_per_epoch=len(train_data),
-                        epochs=FREEZE_EPOCHS,
-                        validation_data=test_data,
-                        validation_steps=len(test_data))
-
-  conv_base.trainable = True
-
-  for UNFREEZE_EPOCHS, LR in UNFREEZE_CONFIG:
-    model.compile(
-    loss="categorical_crossentropy",
-    optimizer=tf.keras.optimizers.RMSprop(lr=LR),
-    metrics=["acc"],
-    )
 
 
-    history_fine = model.fit(train_data,
+  if LOAD_MODEL:
+    model = tf.keras.models.load_model('results/{}'.format(MODEL_NAME))
+
+  else:
+    # VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
+    conv_base = tf.keras.applications.EfficientNetB5(include_top=False,
+                                                   weights='imagenet',
+                                                   input_shape=IMG_SHAPE)
+    #model = tf.keras.Model(inputs, outputs)
+    model = tf.keras.Sequential([
+      conv_base,
+      tf.keras.layers.GlobalMaxPooling2D(name="gap"),
+      tf.keras.layers.Dropout(DROPOUT),
+      tf.keras.layers.Dense(units=CLASSES_NUM,
+                            activation='softmax')
+    ])
+
+    conv_base.trainable = False
+
+  if not EVAL_ONLY :
+    if FREEZE_EPOCHS > 0:
+      model.compile(optimizer='adam', 
+                    loss='categorical_crossentropy', 
+                    metrics=['accuracy'])
+
+      history = model.fit(train_data,
                           steps_per_epoch=len(train_data),
-                          epochs=UNFREEZE_EPOCHS,
+                          epochs=FREEZE_EPOCHS,
                           validation_data=test_data,
                           validation_steps=len(test_data))
+
+    conv_base.trainable = True
+
+    for UNFREEZE_EPOCHS, LR in UNFREEZE_CONFIG:
+      model.compile(
+      loss="categorical_crossentropy",
+      optimizer=tf.keras.optimizers.RMSprop(lr=LR),
+      metrics=["acc"],
+      )
+
+
+      history_fine = model.fit(train_data,
+                            steps_per_epoch=len(train_data),
+                            epochs=UNFREEZE_EPOCHS,
+                            validation_data=test_data,
+                            validation_steps=len(test_data))
 
 predictions = model.predict_classes(test_data, verbose=0)
 labels = validation_data['class_id'].to_numpy()
