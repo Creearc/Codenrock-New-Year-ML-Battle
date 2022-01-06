@@ -108,7 +108,7 @@ model.add(layers.Activation('sigmoid'))
 model.add(layers.Conv2D(120, 5, activation='tanh'))
 model.add(layers.Flatten())
 model.add(layers.Dense(84, activation='tanh'))
-model.add(layers.Dense(10, activation='softmax'))
+model.add(layers.Dense(CLASSES_NUM, activation='softmax'))
 model.summary()
 
 
