@@ -125,7 +125,7 @@ if LOAD_MODEL:
   model = tf.keras.models.load_model('results/{}'.format(MODEL_NAME))
 
 else:
-  outputs = tf.keras.applications.EfficientNetB7(include_top=True,
+  outputs = tf.keras.applications.EfficientNetB7(include_top=False,
                                                  weights='imagenet')
   #model = tf.keras.Model(inputs, outputs)
   model = tf.keras.Sequential([
