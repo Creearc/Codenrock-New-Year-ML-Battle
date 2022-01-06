@@ -30,10 +30,10 @@ DROPOUT = 0.2
 K_PARTS = 5
 VALIDATION_SPLIT = 0.0
 
-FREEZE_EPOCHS = 1
-UNFREEZE_CONFIG = [(0, 1e-5),
-                   (0, 1e-6),
-                   (0, 1e-7)]
+FREEZE_EPOCHS = 10
+UNFREEZE_CONFIG = [(10, 1e-5),
+                   (2, 1e-6),
+                   (1, 1e-7)]
 
 args = [IMAGE_SIZE, K_PARTS, FREEZE_EPOCHS,
         '|'.join([str(i[0]) for i in UNFREEZE_CONFIG]),
@@ -164,7 +164,7 @@ for k, training_data, validation_data in k_fold_cross_val(data_parts, K_PARTS):
                             epochs=UNFREEZE_EPOCHS,
                             validation_data=test_data,
                             validation_steps=len(test_data))
-  break 
+
 
 predictions = []
 labels = []
@@ -189,7 +189,7 @@ print('Result accuracy: {}'.format(accuracy))
 score = f1_score(labels, predictions, average='weighted')
 print('Result F1: {}'.format(score))
 
-model.save('results/{}__{}.pb'.format(score, OUTPUT_FILE_NAME))
+model.save('results/{}__{}'.format(score, OUTPUT_FILE_NAME))
 
 
 

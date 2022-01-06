@@ -187,7 +187,7 @@ print('Result accuracy: {}'.format(accuracy))
 score = f1_score(labels, predictions, average='weighted')
 print('Result F1: {}'.format(score))
 
-model.save('results/{}__{}.pb'.format(score, OUTPUT_FILE_NAME))
+model.save('results/{}__{}'.format(score, OUTPUT_FILE_NAME))
 
 
 
