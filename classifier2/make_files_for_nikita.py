@@ -57,7 +57,7 @@ class lite_net():
 dataset_path = '/home/alexandr/datasets/santas_2'
 
 nets = []
-nets.append(lite_net('/home/alexandr/Codenrock-New-Year-ML-Battle/classifier/results/0.9368530020703933__m_4.tflite'))
+nets.append(lite_net('results/mn_1.tflite'))
 
 
 predictions = [[] for i in range(len(nets))]
