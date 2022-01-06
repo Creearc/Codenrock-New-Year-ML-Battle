@@ -19,6 +19,8 @@ model = tf.keras.models.load_model('results/nikita_2.h5')
 labels = ['Nobody', 'Father Frost', 'Santa']
 height, width = 456, 456
 
+predictions = []
+labels = []
 
 for folder in os.listdir(dataset_path):
   for file in os.listdir('{}/{}'.format(dataset_path, folder)):
@@ -29,7 +31,12 @@ for folder in os.listdir(dataset_path):
     img_n = cv2.resize(img, (width, height))
     img_n = np.expand_dims(img_n, 0)
 
-    y = model.predict_classes(img_n)
-    print(y, folder)
+    y = model.predict_classes(img_n)[0]
+    predictions.append(str(y))
+    labels.append(str(folder))
 
 
+accuracy = accuracy_score(labels, predictions)
+print('Result accuracy: {}'.format(accuracy))
+score = f1_score(labels, predictions, average='weighted')
+print('Result F1: {}'.format(score))
