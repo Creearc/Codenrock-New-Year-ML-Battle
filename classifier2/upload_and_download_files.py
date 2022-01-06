@@ -10,6 +10,7 @@ import os
 import numpy as np
 import cv2
 from PIL import Image
+import time
 
 gpus = tf.config.experimental.list_physical_devices('GPU')
 tf.config.experimental.set_memory_growth(gpus[0], True)
@@ -76,10 +77,10 @@ def detect_image(input_img_path, output_img_path):
 
     img_n = cv2.resize(img, (width, height))
     img_n = np.expand_dims(img_n, 0)
-    print(img_n.shape, model.input_shape)
 
+    t = time.time()
     y = model.predict(img_n)[0]
-    print(y)
+    print(time.time() - t)
     img = display_result(y, img.copy(), labels)
     cv2.imwrite(output_img_path, img)
 
