@@ -2,7 +2,7 @@ import os
 from flask import Flask, request, redirect, url_for
 from werkzeug.utils import secure_filename
 
-os.environ['CUDA_VISIBLE_DEVICES'] = '-1'
+os.environ['CUDA_VISIBLE_DEVICES'] = '0'
 import tensorflow as tf
 assert float(tf.__version__[:3]) >= 2.3
 import tensorflow.lite as tflite
@@ -10,6 +10,9 @@ import os
 import numpy as np
 import cv2
 from PIL import Image
+
+gpus = tf.config.experimental.list_physical_devices('GPU')
+tf.config.experimental.set_memory_growth(gpus[0], True)
 
 def load_labels(label_path):
     r"""Returns a list of labels"""
@@ -75,7 +78,7 @@ def detect_image(input_img_path, output_img_path):
     img_n = np.expand_dims(img_n, 0)
     print(img_n.shape, model.input_shape)
 
-    y = model.predict(img_n)
+    y = model.predict(img_n)[0]
     print(y)
     img = display_result(y, img.copy(), labels)
     cv2.imwrite(output_img_path, img)
