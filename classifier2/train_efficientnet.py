@@ -19,7 +19,7 @@ np.random.seed(42)
 
 IMAGE_SIZE = 600
 IMG_SHAPE = (IMAGE_SIZE, IMAGE_SIZE, 3)
-inputs = tf.keras.layers.Input(shape=(IMG_SIZE, IMG_SIZE, 3))
+inputs = tf.keras.layers.Input(shape=(IMAGE_SIZE, IMAGE_SIZE, 3))
 
 BATCH_SIZE = 32
 
