@@ -75,9 +75,9 @@ def detect_image(input_img_path, output_img_path):
     img_n = np.expand_dims(img_n, 0)
 
     t = time.time()
-    y = model.predict(img_n)
+    y = model.predict_classes(img_n)
     print(time.time() - t)
-    print(y[0])
+    print(y)
     img = display_result(y[0], img.copy(), labels)
     cv2.imwrite(output_img_path, img)
 
