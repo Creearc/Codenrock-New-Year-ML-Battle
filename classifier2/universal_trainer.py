@@ -31,7 +31,7 @@ UNFREEZE_CONFIG = [(0, 1e-2),
 OUTPUT_FILE_NAME = 'dobrynya_1'
 
 LOAD = None
-LOAD = '0.48076923076923084__dobrynya_1.h5'
+LOAD = 'results/0.48076923076923084__dobrynya_1.h5'
 
 ######################################################################
 
