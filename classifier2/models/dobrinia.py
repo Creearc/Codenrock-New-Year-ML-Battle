@@ -80,8 +80,10 @@ class Model:
     self.IMG_SHAPE = (self.IMAGE_SIZE, self.IMAGE_SIZE, 3)
     
     input_layer = layers.Input(shape=self.IMG_SHAPE)
+
+    conc = nikita_layer(input_layer, filters_1=32, filters_2=64)
     
-    conc = depthwise_conv(input_layer,
+    conc = depthwise_conv(conc,
                           filters=16,
                           strides=(2, 2))
 
@@ -100,7 +102,6 @@ class Model:
                           filters=16,
                           strides=(1, 1))
         
-    conc = nikita_layer(conc, filters_1=32, filters_2=64)
     conc = nikita_layer(conc, filters_1=32, filters_2=32)
 
     conc = layers.Dropout(0.2)(conc)
