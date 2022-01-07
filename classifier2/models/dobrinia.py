@@ -2,7 +2,10 @@ import tensorflow as tf
 assert float(tf.__version__[:3]) >= 2.3
 from tensorflow.keras import datasets, layers, models, losses
 
-def nikita_layer(conc, filters_1=32, filters_2=64):
+def nikita_layer(conc,
+                 filters_1=32,
+                 filters_2=64,
+                 name=None):
   conc = layers.Conv2D(filters=filters_1, kernel_size=3,
                               strides=(1, 1),
                               padding='same',
@@ -13,7 +16,48 @@ def nikita_layer(conc, filters_1=32, filters_2=64):
                               strides=(2, 2),
                               padding='same',
                               activation='tanh')(conc)
-  conc = layers.BatchNormalization(momentum=0.99)(conc)
+  conc = layers.BatchNormalization(momentum=0.99,
+                                   name=name)(conc)
+  return conc
+
+def inception_module(conc,
+                     filters_1x1=64,
+                     filters_3x3_reduce=96,
+                     filters_3x3=128,
+                     filters_5x5_reduce=16,
+                     filters_5x5=32,
+                     filters_pool_proj=32,
+                     name='inception_3a'):
+
+  conv_1x1 = layers.Conv2D(filters=filters_1x1, kernel_size=1,
+                              strides=(1, 1),
+                              padding='same',
+                              activation='relu')(conc)
+
+  conv_3x3 = layers.Conv2D(filters=filters_3x3_reduce, kernel_size=1,
+                              strides=(1, 1),
+                              padding='same',
+                              activation='relu')(conv)
+  conv_3x3 = layers.Conv2D(filters=filters_3x3, kernel_size=3,
+                              strides=(1, 1),
+                              padding='same',
+                              activation='relu')(conv_3x3)
+
+  conv_5x5 = layers.Conv2D(filters=filters_5x5_reduce, kernel_size=1,
+                              strides=(1, 1),
+                              padding='same',
+                              activation='relu')(conv)
+  conv_5x5 = layers.Conv2D(filters=filters_5x5, kernel_size=5,
+                              strides=(1, 1),
+                              padding='same',
+                              activation='relu')(conv_5x5)
+
+  pool_proj = layers.Conv2D(filters=filters_pool_proj, kernel_size=1,
+                              strides=(1, 1),
+                              padding='same',
+                              activation='relu')(conv)
+
+  conc = layers.concatenate([conv_1x1, conv_3x3, conv_5x5, pool_proj], axis=3)
   return conc
 
 
@@ -29,40 +73,15 @@ class Model:
                                 padding='same',
                                 activation='relu')(input_layer)
 
-    conv_1x1 = layers.Conv2D(filters=16, kernel_size=1,
-                                strides=(1, 1),
-                                padding='same',
-                                activation='relu')(conv)
-    conv_1x1 = layers.BatchNormalization(momentum=0.99)(conv_1x1)
-
-    conv_3x3 = layers.Conv2D(filters=16, kernel_size=1,
-                                strides=(1, 1),
-                                padding='same',
-                                activation='relu')(conv)
-    conv_3x3 = layers.Conv2D(filters=32, kernel_size=3,
-                                strides=(1, 1),
-                                padding='same',
-                                activation='relu')(conv_3x3)
-    conv_3x3 = layers.BatchNormalization(momentum=0.99)(conv_3x3)
-
-    conv_5x5 = layers.Conv2D(filters=16, kernel_size=1,
-                                strides=(1, 1),
-                                padding='same',
-                                activation='relu')(conv)
-
-    conv_5x5 = layers.Conv2D(filters=32, kernel_size=5,
-                                strides=(1, 1),
-                                padding='same',
-                                activation='relu')(conv_5x5)
-    conv_5x5 = layers.BatchNormalization(momentum=0.99)(conv_5x5)
-
-    pool_proj = layers.Conv2D(filters=32, kernel_size=1,
-                                strides=(1, 1),
-                                padding='same',
-                                activation='relu')(conv)
-    pool_proj = layers.BatchNormalization(momentum=0.99)(pool_proj)
-
-    conc = layers.concatenate([conv_1x1, conv_3x3, conv_5x5, pool_proj], axis=3)
+    conc = inception_module(conv,
+                     filters_1x1=16,
+                     filters_3x3_reduce=16,
+                     filters_3x3=32,
+                     filters_5x5_reduce=16,
+                     filters_5x5=16,
+                     filters_pool_proj=16,
+                     name='inception_3a')
+   
 
     conc = layers.Conv2D(filters=32, kernel_size=3,
                               strides=(2, 2),
