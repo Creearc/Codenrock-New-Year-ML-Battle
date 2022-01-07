@@ -101,6 +101,8 @@ if __name__ == "__main__":
 
   blend_data = pd.DataFrame(columns = ['1_1','1_2','1_3','2_1','2_2','2_3','3_1','3_2','3_3'])
 
+  with open('blender.pickle', 'rb') as f:
+    blender = pickle.load(f)
 ##  if not os.path.exists('data/out/'):
 ##    os.mkdir('data/out/')
   
