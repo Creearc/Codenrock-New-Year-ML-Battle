@@ -97,18 +97,50 @@ elif v == 2:
 
 elif v == 3:
   model = models.Sequential()
-  model.add(layers.Conv2D(filters=64, kernel_size=9,
-                          strides=(3, 3),
+  model.add(layers.Conv2D(filters=64, kernel_size=3,
+                          strides=(2, 2),
                           padding='same',
                           activation='relu',
                           input_shape=IMG_SHAPE))
-  model.add(layers.AveragePooling2D(2))
-  model.add(layers.Activation('sigmoid'))
-  model.add(layers.Conv2D(filters=32, kernel_size=5,
-                          strides=(3, 3),
+
+  model.add(layers.Conv2D(filters=32, kernel_size=3,
+                          strides=(1, 1),
                           padding='same',
-                          activation='relu'))
-  
+                          activation='tanh',
+                          input_shape=IMG_SHAPE))
+  model.add(layers.AveragePooling2D(2))
+
+  model.add(layers.Conv2D(filters=256, kernel_size=3,
+                          strides=(1, 1),
+                          padding='same',
+                          activation='tanh',
+                          input_shape=IMG_SHAPE))
+
+  model.add(layers.Conv2D(filters=512, kernel_size=3,
+                          strides=(1, 1),
+                          padding='same',
+                          activation='tanh',
+                          input_shape=IMG_SHAPE))
+
+  model.add(layers.Conv2D(filters=512, kernel_size=3,
+                          strides=(1, 1),
+                          padding='same',
+                          activation='tanh',
+                          input_shape=IMG_SHAPE))
+  model.add(layers.AveragePooling2D(2))
+
+  model.add(layers.Conv2D(filters=256, kernel_size=3,
+                          strides=(1, 1),
+                          padding='same',
+                          activation='tanh',
+                          input_shape=IMG_SHAPE))
+
+  model.add(layers.Conv2D(filters=1024, kernel_size=3,
+                          strides=(1, 1),
+                          padding='same',
+                          activation='tanh',
+                          input_shape=IMG_SHAPE))
+
   model.add(layers.Dropout(DROPOUT))
   
   model.add(layers.GlobalAveragePooling2D())
