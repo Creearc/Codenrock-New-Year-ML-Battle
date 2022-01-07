@@ -109,10 +109,10 @@ elif v == 3:
                           padding='same',
                           activation='relu'))
   
-  model.add(layers.AveragePooling2D(23))
-  model.add(layers.Flatten())
-  
   model.add(layers.Dropout(DROPOUT))
+  
+  model.add(layers.AveragePooling2D())
+    
   #model.add(layers.Dense(256, activation='relu'))
   model.add(layers.Dense(CLASSES_NUM, activation='softmax'))  
     
