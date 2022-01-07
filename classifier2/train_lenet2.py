@@ -109,7 +109,7 @@ elif v == 3:
                           padding='same',
                           activation='relu'))
   
-  model.add(layers.AveragePooling2D(7))
+  model.add(layers.AveragePooling2D(23))
   
   model.add(layers.Dropout(DROPOUT))
   model.add(layers.Dense(256, activation='relu'))
