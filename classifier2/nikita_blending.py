@@ -71,7 +71,7 @@ for folder in os.listdir(dataset_path):
       break
     img = cv2.imread('{}/{}/{}'.format(dataset_path, folder, file),
                      cv2.IMREAD_COLOR)
-    labels.append(folder)
+    labels.append(int(folder))
     res_nn = dict()
 
     for i in range(len(nets)):
