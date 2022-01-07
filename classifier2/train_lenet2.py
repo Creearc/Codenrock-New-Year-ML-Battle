@@ -18,7 +18,7 @@ dataset_path = '/home/alexandr/datasets/santas_2'
 IMAGE_SIZE = 416
 IMG_SHAPE = (IMAGE_SIZE, IMAGE_SIZE, 3)
 
-BATCH_SIZE = 32
+BATCH_SIZE = 1#32
 
 K_PARTS = 3
 
@@ -77,25 +77,7 @@ def k_fold_cross_val(data_parts, K_PARTS):
     yield k, train_data_generator, test_data_generator
 
 v = 4
-# v1
-if v == 1:
-  model = models.Sequential()
-  model.add(layers.Conv2D(6, 5, activation='tanh', input_shape=IMG_SHAPE))
-  model.add(layers.Flatten())
-  model.add(layers.Dense(84, activation='tanh'))
-  model.add(layers.Dense(CLASSES_NUM, activation='softmax'))
-  
-#v2
-elif v == 2:
-  model = models.Sequential()
-  model.add(layers.Conv2D(filters=8, kernel_size=9,
-                          activation='tanh', input_shape=IMG_SHAPE))
-  model.add(layers.Flatten())
-  model.add(layers.Dense(32, activation='sigmoid'))
-  model.add(layers.Dropout(DROPOUT))
-  model.add(layers.Dense(CLASSES_NUM, activation='softmax'))
-
-elif v == 3:
+if v == 3:
   model = models.Sequential()
   
   model.add(layers.Conv2D(filters=64, kernel_size=3,
