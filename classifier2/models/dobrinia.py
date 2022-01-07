@@ -8,7 +8,7 @@ class Model:
     self.IMAGE_SIZE = 416
     self.IMG_SHAPE = (self.IMAGE_SIZE, self.IMAGE_SIZE, 3)
     
-    input_layer = layers.Input(shape=IMG_SHAPE)
+    input_layer = layers.Input(shape=self.IMG_SHAPE)
 
     conv = layers.Conv2D(filters=16, kernel_size=3,
                                 strides=(2, 2),
