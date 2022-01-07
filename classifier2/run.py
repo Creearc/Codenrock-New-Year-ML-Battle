@@ -92,7 +92,7 @@ class lite_net():
 
     
 if __name__ == "__main__":
-  dataset_path = '/home/alexandr/datasets/santas_2'
+  dataset_path = '/home/alexandr/datasets/santas_1'
 
   nets = []
   nets.append(lite_net('results/1_q.tflite'))
