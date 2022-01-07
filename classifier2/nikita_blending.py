@@ -81,7 +81,7 @@ for folder in os.listdir(dataset_path):
       #predictions[i].append(str(np.argmax(results)))
       #output_files[i].write('{};{}\n'.format(folder, ';'.join([str(r) for r in results])))
       #print(results, np.argmax(results), folder)
-    blend_data = blend_data.append(res_nn,index_ignore=True)
+    blend_data = blend_data.append(res_nn,ignore_index=True)
 
 with open('blender.pickle', 'rb') as f:
   blender = pickle.load(f)
