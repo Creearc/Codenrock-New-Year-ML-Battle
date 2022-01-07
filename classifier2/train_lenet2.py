@@ -24,9 +24,9 @@ K_PARTS = 5
 
 DROPOUT = 0.2
 
-UNFREEZE_CONFIG = [(10, 1e-2),
-                   (10, 1e-4),
-                   (10, 1e-6)]
+UNFREEZE_CONFIG = [(3, 1e-2),
+                   (2, 1e-4),
+                   (1, 1e-6)]
 
 OUTPUT_FILE_NAME = 'lenet_1'
 
