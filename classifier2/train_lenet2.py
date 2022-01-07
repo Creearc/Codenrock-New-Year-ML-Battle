@@ -193,8 +193,12 @@ elif v == 4:
                               activation='relu')(conv)
 
   conc = layers.concatenate([conv_1x1, conv_3x3, conv_5x5, pool_proj], axis=3)
-      
 
+  conc = layers.Conv2D(filters=32, kernel_size=3,
+                            strides=(2, 2),
+                            padding='same',
+                            activation='tanh')(conc)
+      
   for i in range(4):
 
     conc = layers.Conv2D(filters=32, kernel_size=3,
@@ -213,7 +217,7 @@ elif v == 4:
   conc = layers.GlobalAveragePooling2D()(conc)
   conc = layers.Dense(CLASSES_NUM, activation='softmax')(conc)
 
-  model = models.Model(input_layer, conc)
+  model = tf.keras.Model(input_layer, conc)
     
 model.summary()
 
