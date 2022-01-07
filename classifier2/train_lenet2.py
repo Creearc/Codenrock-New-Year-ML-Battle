@@ -106,40 +106,34 @@ elif v == 3:
   model.add(layers.Conv2D(filters=32, kernel_size=3,
                           strides=(1, 1),
                           padding='same',
-                          activation='tanh',
-                          input_shape=IMG_SHAPE))
+                          activation='tanh'))
   model.add(layers.AveragePooling2D(2))
 
   model.add(layers.Conv2D(filters=256, kernel_size=3,
                           strides=(1, 1),
                           padding='same',
-                          activation='tanh',
-                          input_shape=IMG_SHAPE))
+                          activation='tanh'))
 
   model.add(layers.Conv2D(filters=512, kernel_size=3,
                           strides=(1, 1),
                           padding='same',
-                          activation='tanh',
-                          input_shape=IMG_SHAPE))
+                          activation='tanh'))
 
   model.add(layers.Conv2D(filters=512, kernel_size=3,
                           strides=(1, 1),
                           padding='same',
-                          activation='tanh',
-                          input_shape=IMG_SHAPE))
+                          activation='tanh'))
   model.add(layers.AveragePooling2D(2))
 
   model.add(layers.Conv2D(filters=256, kernel_size=3,
                           strides=(1, 1),
                           padding='same',
-                          activation='tanh',
-                          input_shape=IMG_SHAPE))
+                          activation='tanh'))
 
   model.add(layers.Conv2D(filters=1024, kernel_size=3,
                           strides=(1, 1),
                           padding='same',
-                          activation='tanh',
-                          input_shape=IMG_SHAPE))
+                          activation='tanh'))
 
   model.add(layers.Dropout(DROPOUT))
   
