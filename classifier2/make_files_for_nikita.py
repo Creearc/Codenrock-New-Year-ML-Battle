@@ -65,7 +65,7 @@ nets.append(lite_net('results/m_5_q.tflite'))
 predictions = [[] for i in range(len(nets))]
 labels = []
 
-output_files = [open('{}_net.csv'.format(i), 'w') for i in range(len(nets))]
+output_files = [open('files_for_nikita/{}_net.csv'.format(i), 'w') for i in range(len(nets))]
 
 for folder in os.listdir(dataset_path):
   for file in os.listdir('{}/{}'.format(dataset_path, folder)):
