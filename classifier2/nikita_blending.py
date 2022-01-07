@@ -64,10 +64,11 @@ nets.append(lite_net('results/1_q.tflite'))
 ##nets.append(lite_net('results/m_5_q.tflite'))
 
 labels = []
-
+count = 0
 for folder in os.listdir(dataset_path):
   for file in os.listdir('{}/{}'.format(dataset_path, folder)):
-    
+    if count > 10:
+      break
     img = cv2.imread('{}/{}/{}'.format(dataset_path, folder, file),
                      cv2.IMREAD_COLOR)
     labels.append(folder)
@@ -81,6 +82,7 @@ for folder in os.listdir(dataset_path):
       #predictions[i].append(str(np.argmax(results)))
       #output_files[i].write('{};{}\n'.format(folder, ';'.join([str(r) for r in results])))
       #print(results, np.argmax(results), folder)
+      count += 1
     blend_data = blend_data.append(res_nn,ignore_index=True)
 
 with open('blender.pickle', 'rb') as f:
