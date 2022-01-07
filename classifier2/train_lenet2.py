@@ -111,7 +111,7 @@ elif v == 3:
   
   model.add(layers.Dropout(DROPOUT))
   
-  model.add(layers.AveragePooling2D())
+  model.add(layers.GlobalAveragePooling2D())
     
   #model.add(layers.Dense(256, activation='relu'))
   model.add(layers.Dense(CLASSES_NUM, activation='softmax'))  
