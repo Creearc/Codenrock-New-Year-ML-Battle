@@ -22,8 +22,11 @@ BATCH_SIZE = 10#32
 
 K_PARTS = 5
 
-EPOCHS = 50
-LR = 1e-5
+DROPOUT = 0.2
+
+UNFREEZE_CONFIG = [(10, 1e-2),
+                   (10, 1e-4),
+                   (10, 1e-6)]
 
 OUTPUT_FILE_NAME = 'lenet_1'
 
@@ -89,61 +92,63 @@ elif v == 2:
                           activation='tanh', input_shape=IMG_SHAPE))
   model.add(layers.Flatten())
   model.add(layers.Dense(32, activation='sigmoid'))
+  model.add(layers.Dropout(DROPOUT))
   model.add(layers.Dense(CLASSES_NUM, activation='softmax'))  
     
 model.summary()
-    
-for k, training_data, validation_data in k_fold_cross_val(data_parts, K_PARTS):
-  training_data = training_data.sample(frac=1)
-  validation_data = validation_data.sample(frac=1)
 
-  idg = tf.keras.preprocessing.image.ImageDataGenerator(horizontal_flip=True,
-                                                        rotation_range=15,
-                                                        width_shift_range=0.2,
-                                                        height_shift_range=0.2,
-                                                        zoom_range=[0.8, 1.2],
-                                                        rescale=1./255)
+for UNFREEZE_EPOCHS, LR in UNFREEZE_CONFIG:    
+  for k, training_data, validation_data in k_fold_cross_val(data_parts, K_PARTS):
+    training_data = training_data.sample(frac=1)
+    validation_data = validation_data.sample(frac=1)
 
-  train_data = idg.flow_from_dataframe(training_data,
-                                      target_size=(IMAGE_SIZE, IMAGE_SIZE),
-                                       x_col = "image_name",
-                                       y_col = 'class_id',
-                                       batch_size=BATCH_SIZE, 
-                                       shuffle = False)
-            
-  test_data = idg.flow_from_dataframe(validation_data,
-                                      target_size=(IMAGE_SIZE, IMAGE_SIZE),
-                                      x_col = "image_name",
-                                      y_col = 'class_id',
-                                      batch_size=BATCH_SIZE, 
-                                      shuffle = False)
+    idg = tf.keras.preprocessing.image.ImageDataGenerator(horizontal_flip=True,
+                                                          rotation_range=15,
+                                                          width_shift_range=0.2,
+                                                          height_shift_range=0.2,
+                                                          zoom_range=[0.8, 1.2],
+                                                          rescale=1./255)
 
-  model.compile(optimizer=tf.keras.optimizers.Adam(LR),
-                    loss='categorical_crossentropy',
-                    metrics=['accuracy'])
+    train_data = idg.flow_from_dataframe(training_data,
+                                        target_size=(IMAGE_SIZE, IMAGE_SIZE),
+                                         x_col = "image_name",
+                                         y_col = 'class_id',
+                                         batch_size=BATCH_SIZE, 
+                                         shuffle = False)
+              
+    test_data = idg.flow_from_dataframe(validation_data,
+                                        target_size=(IMAGE_SIZE, IMAGE_SIZE),
+                                        x_col = "image_name",
+                                        y_col = 'class_id',
+                                        batch_size=BATCH_SIZE, 
+                                        shuffle = False)
 
-  history = model.fit(train_data,
-                          steps_per_epoch=len(train_data),
-                          epochs=EPOCHS,
-                          validation_data=test_data,
-                          validation_steps=len(test_data))
+    model.compile(optimizer=tf.keras.optimizers.Adam(LR),
+                      loss='categorical_crossentropy',
+                      metrics=['accuracy'])
 
-predictions = []
-labels = []
+    history = model.fit(train_data,
+                            steps_per_epoch=len(train_data),
+                            epochs=UNFREEZE_EPOCHS,
+                            validation_data=test_data,
+                            validation_steps=len(test_data))
+
+  predictions = []
+  labels = []
 
 
-for folder in os.listdir(dataset_path):
-  for file in os.listdir('{}/{}'.format(dataset_path, folder)):
-    
-    img = cv2.imread('{}/{}/{}'.format(dataset_path, folder, file),
-                     cv2.IMREAD_COLOR)
-    
-    img_n = cv2.resize(img, (IMAGE_SIZE, IMAGE_SIZE))
-    img_n = np.expand_dims(img_n, 0)
+  for folder in os.listdir(dataset_path):
+    for file in os.listdir('{}/{}'.format(dataset_path, folder)):
+      
+      img = cv2.imread('{}/{}/{}'.format(dataset_path, folder, file),
+                       cv2.IMREAD_COLOR)
+      
+      img_n = cv2.resize(img, (IMAGE_SIZE, IMAGE_SIZE))
+      img_n = np.expand_dims(img_n, 0)
 
-    y = model.predict_classes(img_n)[0]
-    predictions.append(str(y))
-    labels.append(str(folder))
+      y = model.predict_classes(img_n)[0]
+      predictions.append(str(y))
+      labels.append(str(folder))
 
 
 accuracy = accuracy_score(labels, predictions)
