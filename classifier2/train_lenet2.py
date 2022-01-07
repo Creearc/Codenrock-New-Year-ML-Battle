@@ -202,7 +202,7 @@ elif v == 4:
                               padding='same',
                               activation='relu')(conv_5x5)
 
-  pool_proj = layers.MaxPool2D(pool_size=(3, 3),
+  pool_proj = layers.MaxPool2D(pool_size=(2, 2),
                                strides=(1, 1))(conv)
 
   pool_proj = layers.Conv2D(filters=32, kernel_size=1,
