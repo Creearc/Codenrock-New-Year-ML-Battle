@@ -18,7 +18,7 @@ dataset_path = '/home/alexandr/datasets/santas_2'
 IMAGE_SIZE = 512
 IMG_SHAPE = (IMAGE_SIZE, IMAGE_SIZE, 3)
 
-BATCH_SIZE = 1#32
+BATCH_SIZE = 10#32
 
 K_PARTS = 5
 
