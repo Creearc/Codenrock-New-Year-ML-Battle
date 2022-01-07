@@ -62,25 +62,29 @@ def inception_module(conc,
 
 def depthwise_conv(conc,
                    filters=64,
+                   kernel_size=1,
                    strides=(1, 1)):
   conc = layers.BatchNormalization(momentum=0.99)(conc)
   conc = layers.ReLU()(conc)
-  conc = layers.Conv2D(filters=filters, kernel_size=1,
-                              strides=strides,
-                              padding='same',
-                              activation='tanh')(conc)
+  conc = layers.Conv2D(filters=filters,
+                       kernel_size=kernel_size,
+                       strides=strides,
+                       padding='same',
+                       activation='tanh')(conc)
   conc = layers.BatchNormalization(momentum=0.99)(conc)
   conc = layers.ReLU()(conc)
   return conc
 
-def conv_3(conc,
-           filters=64,
-           strides=(1, 1)):
+def mobile_conv(conc,
+                filters=64,
+                kernel_size=1,
+                strides=(1, 1)):
 
-  conc = layers.Conv2D(filters=filters, kernel_size=3,
-                              strides=strides,
-                              padding='same',
-                              activation='tanh')(conc)
+  conc = layers.Conv2D(filters=filters,
+                       kernel_size=kernel_size,
+                       strides=strides,
+                       padding='same',
+                       activation='tanh')(conc)
   conc = layers.BatchNormalization(momentum=0.99)(conc)
   conc = layers.ReLU()(conc)
   return conc
@@ -97,13 +101,26 @@ class Model:
     
     conc = depthwise_conv(conc,
                           filters=16,
-                          strides=(2, 2))
-    conc = conv_3(conc,
-                  filters=16,
-                  strides=(1, 1))
+                          kernel=3,
+                          strides=(1, 1))
+    conc = mobile_conv(conc,
+                       filters=32,
+                       kernel=3,
+                       strides=(1, 1))
    
     conc = depthwise_conv(conc,
-                          filters=16,
+                          filters=64,
+                          kernel=3,
+                          strides=(2, 2))
+
+    conc = mobile_conv(conc,
+                       filters=128,
+                       kernel=3,
+                       strides=(1, 1))
+   
+    conc = depthwise_conv(conc,
+                          filters=128,
+                          kernel=3,
                           strides=(2, 2))
 
     conc = inception_module(conc,
