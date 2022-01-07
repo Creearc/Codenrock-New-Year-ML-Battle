@@ -88,7 +88,7 @@ if v == 1:
 #v2
 elif v == 2:
   model = models.Sequential()
-  model.add(layers.Conv2D(filters=32, kernel_size=9,
+  model.add(layers.Conv2D(filters=8, kernel_size=9,
                           activation='tanh', input_shape=IMG_SHAPE))
   model.add(layers.Flatten())
   model.add(layers.Dense(32, activation='sigmoid'))
