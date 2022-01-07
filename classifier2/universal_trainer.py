@@ -20,18 +20,18 @@ dataset_path = '/home/alexandr/datasets/santas_2'
 BATCH_SIZE = 16#32
 
 K_PARTS = 5
-NO_K_TRAINING = True
+NO_K_TRAINING = not True
 
 DROPOUT = 0.2
 
-UNFREEZE_CONFIG = [(5, 1e-2),
-                   (6, 1e-4),
+UNFREEZE_CONFIG = [(0, 1e-2),
+                   (0, 1e-4),
                    (10, 1e-6)]
 
 OUTPUT_FILE_NAME = 'dobrynya_1'
 
 LOAD = None
-#LOAD = ''
+LOAD = '0.48076923076923084__dobrynya_1.h5'
 
 ######################################################################
 
