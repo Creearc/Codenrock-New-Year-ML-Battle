@@ -81,7 +81,8 @@ class Model:
                      filters_5x5=16,
                      filters_pool_proj=16,
                      name='inception_3a')
-   
+
+    conc = layers.BatchNormalization(momentum=0.99)(conc) 
 
     conc = layers.Conv2D(filters=32, kernel_size=3,
                               strides=(2, 2),
@@ -89,12 +90,23 @@ class Model:
                               activation='tanh')(conc)
         
     conc = nikita_layer(conc, filters_1=32, filters_2=64)
-    conc = nikita_layer(conc, filters_1=32, filters_2=64)
-    conc = nikita_layer(conc, filters_1=32, filters_2=64)
-    conc = nikita_layer(conc, filters_1=32, filters_2=64)
+    conc = nikita_layer(conc, filters_1=32, filters_2=32)
 
     conc = layers.Dropout(0.2)(conc)
     conc = layers.GlobalAveragePooling2D()(conc)
     conc = layers.Dense(CLASSES_NUM, activation='softmax')(conc)
 
     self.model = tf.keras.Model(input_layer, conc)
+
+
+
+
+
+
+
+
+
+
+
+
+    
