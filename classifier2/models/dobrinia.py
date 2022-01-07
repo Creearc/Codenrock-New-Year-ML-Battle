@@ -2,6 +2,20 @@ import tensorflow as tf
 assert float(tf.__version__[:3]) >= 2.3
 from tensorflow.keras import datasets, layers, models, losses
 
+def nikita_layer(conc, filters_1=32, filters_2=64):
+  conc = layers.Conv2D(filters=filters_1, kernel_size=3,
+                              strides=(1, 1),
+                              padding='same',
+                              activation='tanh')(conc)
+
+  conc = layers.AveragePooling2D(2)(conc)
+  conc = layers.Conv2D(filters=filters_2, kernel_size=3,
+                              strides=(2, 2),
+                              padding='same',
+                              activation='tanh')(conc)
+  conc = layers.BatchNormalization(momentum=0.99)(conc)
+  return conc
+
 
 class Model:
   def __init__(self, CLASSES_NUM):
@@ -55,19 +69,10 @@ class Model:
                               padding='same',
                               activation='tanh')(conc)
         
-    for i in range(4):
-
-      conc = layers.Conv2D(filters=32, kernel_size=3,
-                              strides=(1, 1),
-                              padding='same',
-                              activation='tanh')(conc)
-
-      conc = layers.AveragePooling2D(2)(conc)
-      conc = layers.Conv2D(filters=64, kernel_size=3,
-                              strides=(2, 2),
-                              padding='same',
-                              activation='tanh')(conc)
-      conc = layers.BatchNormalization(momentum=0.99)(conc)
+    conc = nikita_layer(conc, filters_1=32, filters_2=64)
+    conc = nikita_layer(conc, filters_1=32, filters_2=64)
+    conc = nikita_layer(conc, filters_1=32, filters_2=64)
+    conc = nikita_layer(conc, filters_1=32, filters_2=64)
 
     conc = layers.Dropout(0.2)(conc)
     conc = layers.GlobalAveragePooling2D()(conc)
