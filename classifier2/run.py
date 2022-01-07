@@ -92,20 +92,21 @@ class lite_net():
 
     
 if __name__ == "__main__":
-  dataset_path = 'data/test'
+  dataset_path = '/home/alexandr/datasets/santas_2'
 
   nets = []
-  nets.append(lite_net('data/weight/1_q.tflite'))
-  nets.append(lite_net('data/weight/2_q.tflite'))
-  nets.append(lite_net('data/weight/m_5_q.tflite'))
+  nets.append(lite_net('results/1_q.tflite'))
+  nets.append(lite_net('results/2_q.tflite'))
+  nets.append(lite_net('results/m_5_q.tflite'))
 
   blend_data = pd.DataFrame(columns = ['1_1','1_2','1_3','2_1','2_2','2_3','3_1','3_2','3_3'])
 
-  if not os.path.exists('data/out/'):
-    os.mkdir('data/out/')
+##  if not os.path.exists('data/out/'):
+##    os.mkdir('data/out/')
   
-  f = open('data/out/submission.csv', 'w')
+  f = open('submission.csv', 'w')
   f.write('image_name	class_id\n')
+  count = 0
   for file in os.listdir(dataset_path):
       img = cv2.imread('{}/{}'.format(dataset_path, file))
 
@@ -127,6 +128,9 @@ if __name__ == "__main__":
     
       result =   res[0]
       f.write('{}	{}\n'.format(file, result))
+      count += 1
+      if count >= 10:
+        break
   f.close()
       
 
