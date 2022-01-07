@@ -24,9 +24,9 @@ K_PARTS = 3
 
 DROPOUT = 0.2
 
-UNFREEZE_CONFIG = [(1, 1e-1),
-                   (3, 1e-4),
-                   (2, 1e-6)]
+UNFREEZE_CONFIG = [(3, 1e-2),
+                   (4, 1e-4),
+                   (5, 1e-6)]
 
 OUTPUT_FILE_NAME = 'dobrynya_1'
 
@@ -109,15 +109,8 @@ elif v == 3:
                           padding='same',
                           activation='relu'))
   
-  model.add(layers.AveragePooling2D(2))
-  model.add(layers.Activation('sigmoid'))
-  model.add(layers.Conv2D(filters=32, kernel_size=5,
-                          strides=(2, 2),
-                          padding='same',
-                          activation='relu'))
-  
   model.add(layers.Flatten())
-  model.add(layers.Dense(32, activation='sigmoid'))
+  model.add(layers.Dense(256, activation='sigmoid'))
   model.add(layers.Dropout(DROPOUT))
   model.add(layers.Dense(CLASSES_NUM, activation='softmax'))  
     
