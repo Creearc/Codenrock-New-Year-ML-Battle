@@ -20,11 +20,11 @@ IMG_SHAPE = (IMAGE_SIZE, IMAGE_SIZE, 3)
 
 BATCH_SIZE = 10#32
 
-K_PARTS = 5
+K_PARTS = 3
 
 DROPOUT = 0.2
 
-UNFREEZE_CONFIG = [(1, 1e-6),
+UNFREEZE_CONFIG = [(2, 1e-1),
                    (2, 1e-4),
                    (1, 1e-6)]
 
@@ -102,6 +102,13 @@ elif v == 3:
                           padding='same',
                           activation='relu',
                           input_shape=IMG_SHAPE))
+  model.add(layers.AveragePooling2D(2))
+  model.add(layers.Activation('sigmoid'))
+  model.add(layers.Conv2D(filters=32, kernel_size=5,
+                          strides=(3, 3),
+                          padding='same',
+                          activation='relu'))
+  
   model.add(layers.Flatten())
   model.add(layers.Dense(32, activation='sigmoid'))
   model.add(layers.Dropout(DROPOUT))
