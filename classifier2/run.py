@@ -125,7 +125,7 @@ if __name__ == "__main__":
 
       res = blender.predict(blend_data)
     
-      result = 1# < ------------- Nikita !
+      result =   res[0]
       f.write('{}	{}\n'.format(file, result))
   f.close()
       
