@@ -80,7 +80,7 @@ def k_fold_cross_val(data_parts, K_PARTS):
 
 from models import dobrinia
 
-model = dobrinia.Model()
+model = dobrinia.Model(CLASSES_NUM)
 
 IMAGE_SIZE = model.IMAGE_SIZE
 IMG_SHAPE = (IMAGE_SIZE, IMAGE_SIZE, 3)

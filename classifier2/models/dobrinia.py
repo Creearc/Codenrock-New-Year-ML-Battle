@@ -4,7 +4,7 @@ from tensorflow.keras import datasets, layers, models, losses
 
 
 class Model:
-  def __init__(self):
+  def __init__(self, CLASSES_NUM):
     self.IMAGE_SIZE = 416
     self.IMG_SHAPE = (self.IMAGE_SIZE, self.IMAGE_SIZE, 3)
     
@@ -69,7 +69,7 @@ class Model:
                               activation='tanh')(conc)
       conc = layers.BatchNormalization(momentum=0.99)(conc)
 
-    conc = layers.Dropout(DROPOUT)(conc)
+    conc = layers.Dropout(0.2)(conc)
     conc = layers.GlobalAveragePooling2D()(conc)
     conc = layers.Dense(CLASSES_NUM, activation='softmax')(conc)
 
