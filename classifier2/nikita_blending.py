@@ -29,9 +29,11 @@ class full_net():
     
 
   def run(self, img):
-    c = Process(target=self.process, args=(img, ))
-    c.start()
-    c.join()
+    self.c = Process(target=self.process, args=(img, ))
+    self.c.start()
+
+  def wait(self):
+    self.c.join()
 
   def process(self, img):
     img_n = img.copy()
@@ -60,9 +62,12 @@ class lite_net():
 
 
   def run(self, img):
-    c = Process(target=self.process, args=(img, ))
-    c.start()
-    c.join()
+    self.c = Process(target=self.process, args=(img, ))
+    self.c.start()
+
+  def wait(self):
+    self.c.join()
+    
 
   def process(self, img):
     t = time.time()
@@ -112,6 +117,9 @@ for folder in os.listdir(dataset_path):
 
     for i in range(len(nets)):
       nets[i].run(img)
+
+    for i in range(len(nets)):
+      nets[i].wait()
 
     for i in range(len(nets)):
       results = nets[i].get()
