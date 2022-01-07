@@ -192,7 +192,7 @@ elif v == 4:
                               padding='same',
                               activation='relu')(conv)
 
-  conc = layers.Concatenate()([conv_1x1, conv_3x3, conv_5x5, pool_proj])
+  conc = layers.concatenate([conv_1x1, conv_3x3, conv_5x5, pool_proj], axis=3)
 
   conc = layers.Conv2D(filters=32, kernel_size=3,
                             strides=(2, 2),
@@ -217,7 +217,7 @@ elif v == 4:
   conc = layers.GlobalAveragePooling2D()(conc)
   conc = layers.Dense(CLASSES_NUM, activation='softmax')(conc)
 
-  model = tf.keras.Sequential([input_layer, conc])
+  model = tf.keras.Model(input_layer, conc)
     
 model.summary()
 
@@ -270,7 +270,7 @@ for UNFREEZE_EPOCHS, LR in UNFREEZE_CONFIG:
       img_n = cv2.resize(img, (IMAGE_SIZE, IMAGE_SIZE))
       img_n = np.expand_dims(img_n, 0)
 
-      y = model.predict_classes(img_n)[0]
+      y = np.argmax(model.predict(img_n))
       predictions.append(str(y))
       labels.append(str(folder))
 
