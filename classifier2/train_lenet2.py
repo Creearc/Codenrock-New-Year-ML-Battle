@@ -15,20 +15,20 @@ tf.config.experimental.set_memory_growth(gpus[0], True)
 ###################################
 dataset_path = '/home/alexandr/datasets/santas_2'
 
-IMAGE_SIZE = 512
+IMAGE_SIZE = 416
 IMG_SHAPE = (IMAGE_SIZE, IMAGE_SIZE, 3)
 
-BATCH_SIZE = 10#32
+BATCH_SIZE = 32
 
 K_PARTS = 3
 
 DROPOUT = 0.2
 
-UNFREEZE_CONFIG = [(2, 1e-1),
-                   (2, 1e-4),
-                   (1, 1e-6)]
+UNFREEZE_CONFIG = [(1, 1e-1),
+                   (3, 1e-4),
+                   (2, 1e-6)]
 
-OUTPUT_FILE_NAME = 'lenet_1'
+OUTPUT_FILE_NAME = 'dobrynya_1'
 
 MODEL_NAME = '{}.h5'.format(OUTPUT_FILE_NAME)
 
@@ -106,6 +106,13 @@ elif v == 3:
   model.add(layers.Activation('sigmoid'))
   model.add(layers.Conv2D(filters=32, kernel_size=5,
                           strides=(3, 3),
+                          padding='same',
+                          activation='relu'))
+  
+  model.add(layers.AveragePooling2D(2))
+  model.add(layers.Activation('sigmoid'))
+  model.add(layers.Conv2D(filters=32, kernel_size=5,
+                          strides=(2, 2),
                           padding='same',
                           activation='relu'))
   
