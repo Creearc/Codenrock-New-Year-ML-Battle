@@ -18,7 +18,7 @@ dataset_path = '/home/alexandr/datasets/santas_2'
 IMAGE_SIZE = 416
 IMG_SHAPE = (IMAGE_SIZE, IMAGE_SIZE, 3)
 
-BATCH_SIZE = 32*4
+BATCH_SIZE = 32*6
 
 K_PARTS = 3
 
@@ -97,8 +97,8 @@ elif v == 2:
 
 elif v == 3:
   model = models.Sequential()
-  model.add(layers.Conv2D(filters=32, kernel_size=9,
-                          strides=(5, 5),
+  model.add(layers.Conv2D(filters=64, kernel_size=9,
+                          strides=(3, 3),
                           padding='same',
                           activation='relu',
                           input_shape=IMG_SHAPE))
