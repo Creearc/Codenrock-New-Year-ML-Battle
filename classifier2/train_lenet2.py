@@ -104,7 +104,7 @@ elif v == 3:
                           activation='relu',
                           input_shape=IMG_SHAPE))
 
-  model.add(layers.concatenate()([ # inception module
+  model.add(layers.concatenate([ # inception module
     
     layers.Conv2D(filters=64, kernel_size=1,
                             strides=(1, 1),
