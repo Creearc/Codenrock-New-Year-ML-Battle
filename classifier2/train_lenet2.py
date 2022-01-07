@@ -73,11 +73,24 @@ def k_fold_cross_val(data_parts, K_PARTS):
 
     yield k, train_data_generator, test_data_generator
 
-model = models.Sequential()
-model.add(layers.Conv2D(6, 5, activation='tanh', input_shape=IMG_SHAPE))
-model.add(layers.Flatten())
-model.add(layers.Dense(84, activation='tanh'))
-model.add(layers.Dense(CLASSES_NUM, activation='softmax'))
+v = 2
+# v1
+if v == 1:
+  model = models.Sequential()
+  model.add(layers.Conv2D(6, 5, activation='tanh', input_shape=IMG_SHAPE))
+  model.add(layers.Flatten())
+  model.add(layers.Dense(84, activation='tanh'))
+  model.add(layers.Dense(CLASSES_NUM, activation='softmax'))
+  
+#v2
+elif v == 2:
+  model = models.Sequential()
+  model.add(layers.Conv2D(filters=32, kernel_size=9,
+                          activation='tanh', input_shape=IMG_SHAPE))
+  model.add(layers.Flatten())
+  model.add(layers.Dense(32, activation='tanh'))
+  model.add(layers.Dense(CLASSES_NUM, activation='softmax'))  
+    
 model.summary()
     
 for k, training_data, validation_data in k_fold_cross_val(data_parts, K_PARTS):
