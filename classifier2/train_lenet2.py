@@ -171,21 +171,22 @@ elif v == 3:
   model.add(layers.Dense(CLASSES_NUM, activation='softmax'))
 
 elif v == 4:
-  input_layer = layers.Conv2D(filters=64, kernel_size=3,
+  input_layer = layers.Input(shape=IMG_SHAPE)
+
+  conv = layers.Conv2D(filters=64, kernel_size=3,
                               strides=(2, 2),
                               padding='same',
-                              activation='relu',
-                              input_shape=IMG_SHAPE)
+                              activation='relu')(input_layer)
 
   conv_1x1 = layers.Conv2D(filters=64, kernel_size=1,
                               strides=(1, 1),
                               padding='same',
-                              activation='relu')(input_layer)
+                              activation='relu')(conv)
 
   conv_3x3 = layers.Conv2D(filters=96, kernel_size=1,
                               strides=(1, 1),
                               padding='same',
-                              activation='relu')(input_layer)
+                              activation='relu')(conv)
   conv_3x3 = layers.Conv2D(filters=128, kernel_size=3,
                               strides=(1, 1),
                               padding='same',
@@ -194,7 +195,7 @@ elif v == 4:
   conv_5x5 = layers.Conv2D(filters=16, kernel_size=1,
                               strides=(1, 1),
                               padding='same',
-                              activation='relu')(input_layer)
+                              activation='relu')(conv)
 
   conv_5x5 = layers.Conv2D(filters=32, kernel_size=5,
                               strides=(1, 1),
@@ -202,7 +203,7 @@ elif v == 4:
                               activation='relu')(conv_5x5)
 
   pool_proj = layers.MaxPool2D(pool_size=(3, 3),
-                               strides=(1, 1))(input_layer)
+                               strides=(1, 1))(conv)
 
   pool_proj = layers.Conv2D(filters=32, kernel_size=1,
                               strides=(1, 1),
@@ -230,7 +231,7 @@ elif v == 4:
   conc = layers.GlobalAveragePooling2D()(conc)
   conc = layers.Dense(CLASSES_NUM, activation='softmax')(conc)
 
-  model = tf.keras.Model(input_layer, conc)
+  model = Model(input_layer, conc)
     
 model.summary()
 
