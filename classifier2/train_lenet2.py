@@ -104,7 +104,7 @@ elif v == 3:
                           activation='relu',
                           input_shape=IMG_SHAPE))
 
-  for i in range(3):
+  for i in range(4):
 
     model.add(layers.Conv2D(filters=32, kernel_size=3,
                             strides=(1, 1),
@@ -112,20 +112,13 @@ elif v == 3:
                             activation='tanh'))
     model.add(layers.AveragePooling2D(2))
 
-    model.add(layers.Conv2D(filters=32, kernel_size=3,
-                            strides=(1, 1),
-                            padding='same',
-                            activation='tanh'))
-
     model.add(layers.Conv2D(filters=64, kernel_size=3,
                             strides=(2, 2),
                             padding='same',
                             activation='tanh'))
+    model.add(layers.BatchNormalization(momentum=0.99))
 
-    model.add(layers.Conv2D(filters=32, kernel_size=3,
-                            strides=(1, 1),
-                            padding='same',
-                            activation='tanh'))
+
 
   model.add(layers.Dropout(DROPOUT))
   
