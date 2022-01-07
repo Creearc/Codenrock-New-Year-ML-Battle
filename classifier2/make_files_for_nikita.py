@@ -63,13 +63,30 @@ nets.append(lite_net('results/1_q.tflite'))
 predictions = [[] for i in range(len(nets))]
 labels = []
 
+output_files = [open('{}_net.csv'.format(i), 'w') for i in range(len(nets))]
 
 for folder in os.listdir(dataset_path):
   for file in os.listdir('{}/{}'.format(dataset_path, folder)):
     
     img = cv2.imread('{}/{}/{}'.format(dataset_path, folder, file),
                      cv2.IMREAD_COLOR)
+    labels.append(folder)
 
-    for net in nets:
-      result = net.run(img)
-      print(result, np.argmax(result), folder)
+    for i in range(len(nets)):
+      results = nets[i].run(img)
+      predictions[i].append(np.argmax(results))
+      output_files[i].write('{};{}\n'.format(folder, ';'.join([r for r in results])))
+      #print(results, np.argmax(results), folder)
+
+
+for i in range(len(nets)):
+  output_files[i].close()
+
+
+for i in range(len(nets)):
+  print('Net {}'.format(i))
+  accuracy = accuracy_score(labels, predictions[i])
+  print('  Accuracy: {}'.format(accuracy))
+  score = f1_score(labels, predictions[i], average='weighted')
+  print('  F1: {}'.format(score))
+  
