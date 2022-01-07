@@ -58,6 +58,8 @@ dataset_path = '/home/alexandr/datasets/santas_2'
 
 nets = []
 nets.append(lite_net('results/1_q.tflite'))
+nets.append(lite_net('results/2_q.tflite'))
+nets.append(lite_net('results/m_5_q.tflite'))
 
 
 predictions = [[] for i in range(len(nets))]
