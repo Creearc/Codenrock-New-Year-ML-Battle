@@ -143,7 +143,7 @@ elif v == 3:
                               activation='relu')
     ]),
 
-    ], axis=3))
+    ], axis=1))
 
   
 
