@@ -24,7 +24,7 @@ K_PARTS = 5
 
 DROPOUT = 0.2
 
-UNFREEZE_CONFIG = [(3, 1e-2),
+UNFREEZE_CONFIG = [(1, 1e-6),
                    (2, 1e-4),
                    (1, 1e-6)]
 
