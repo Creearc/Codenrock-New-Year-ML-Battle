@@ -90,6 +90,8 @@ if LOAD is None:
 
   model = model.model
 else:
+  IMAGE_SIZE = 416
+  IMG_SHAPE = (IMAGE_SIZE, IMAGE_SIZE, 3)
   model = tf.keras.models.load_model(LOAD)
   
 model.summary()
