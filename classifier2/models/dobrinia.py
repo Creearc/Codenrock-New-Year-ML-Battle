@@ -37,7 +37,7 @@ def inception_module(conc,
   conv_3x3 = layers.Conv2D(filters=filters_3x3_reduce, kernel_size=1,
                               strides=(1, 1),
                               padding='same',
-                              activation='relu')(conv)
+                              activation='relu')(conc)
   conv_3x3 = layers.Conv2D(filters=filters_3x3, kernel_size=3,
                               strides=(1, 1),
                               padding='same',
@@ -46,7 +46,7 @@ def inception_module(conc,
   conv_5x5 = layers.Conv2D(filters=filters_5x5_reduce, kernel_size=1,
                               strides=(1, 1),
                               padding='same',
-                              activation='relu')(conv)
+                              activation='relu')(conc)
   conv_5x5 = layers.Conv2D(filters=filters_5x5, kernel_size=5,
                               strides=(1, 1),
                               padding='same',
@@ -55,7 +55,7 @@ def inception_module(conc,
   pool_proj = layers.Conv2D(filters=filters_pool_proj, kernel_size=1,
                               strides=(1, 1),
                               padding='same',
-                              activation='relu')(conv)
+                              activation='relu')(conc)
 
   conc = layers.concatenate([conv_1x1, conv_3x3, conv_5x5, pool_proj], axis=3)
   return conc
