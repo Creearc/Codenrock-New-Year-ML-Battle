@@ -109,8 +109,8 @@ elif v == 3:
                           padding='same',
                           activation='relu'))
   
-  model.add(layers.Dense(256, activation='sigmoid'))
   model.add(layers.Dropout(DROPOUT))
+  model.add(layers.Dense(256, activation='sigmoid'))
   model.add(layers.Dense(CLASSES_NUM, activation='softmax'))  
     
 model.summary()
