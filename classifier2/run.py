@@ -99,7 +99,7 @@ if __name__ == "__main__":
   nets.append(lite_net('results/2_q.tflite'))
   nets.append(lite_net('results/m_5_q.tflite'))
 
-  with open('blender.pickle', 'rb') as f:
+  with open('blender_LR.pickle', 'rb') as f:
     blender = pickle.load(f)
 ##  if not os.path.exists('data/out/'):
 ##    os.mkdir('data/out/')
@@ -127,6 +127,7 @@ if __name__ == "__main__":
       blend_data = blend_data.append(res_nn,ignore_index=True)
 
       res = blender.predict(blend_data)
+      print(res)
     
       result =   res[0][0]
       f.write('{}	{}\n'.format(file, result))
