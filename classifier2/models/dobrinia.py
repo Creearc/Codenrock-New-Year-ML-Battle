@@ -80,25 +80,24 @@ class Model:
     self.IMG_SHAPE = (self.IMAGE_SIZE, self.IMAGE_SIZE, 3)
     
     input_layer = layers.Input(shape=self.IMG_SHAPE)
-
-    conv = layers.Conv2D(filters=16, kernel_size=3,
-                                strides=(1, 1),
-                                padding='same',
-                                activation='relu')(input_layer)
+    
+    conc = depthwise_conv(input_layer,
+                          filters=16,
+                          strides=(2, 2))
 
     conc = inception_module(conv,
                      filters_1x1=16,
                      filters_3x3_reduce=16,
                      filters_3x3=32,
                      filters_5x5_reduce=16,
-                     filters_5x5=16,
+                     filters_5x5=32,
                      filters_pool_proj=16,
                      name='inception_3a')
 
     conc = layers.BatchNormalization(momentum=0.99)(conc) 
 
     conc = depthwise_conv(conc,
-                          filters=32,
+                          filters=16,
                           strides=(1, 1))
         
     conc = nikita_layer(conc, filters_1=32, filters_2=64)

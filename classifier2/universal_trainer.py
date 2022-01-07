@@ -17,7 +17,7 @@ tf.config.experimental.set_memory_growth(gpus[0], True)
 ######################################################################
 dataset_path = '/home/alexandr/datasets/santas_2'
 
-BATCH_SIZE = 8
+BATCH_SIZE = 32
 
 K_PARTS = 5
 NO_K_TRAINING = not True
