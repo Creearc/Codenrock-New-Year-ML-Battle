@@ -16,7 +16,7 @@ dataset_path = '/home/alexandr/datasets/santas_2'
 model = tf.keras.models.load_model('results/0.5066859279046168__dobrynya_1.h5')
 
 labels = ['Nobody', 'Father Frost', 'Santa']
-height, width = 456, 456
+height, width = 416, 416
 #height, width = 512, 512
 
 predictions = []
