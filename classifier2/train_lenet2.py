@@ -18,15 +18,15 @@ dataset_path = '/home/alexandr/datasets/santas_2'
 IMAGE_SIZE = 416
 IMG_SHAPE = (IMAGE_SIZE, IMAGE_SIZE, 3)
 
-BATCH_SIZE = 32
+BATCH_SIZE = 16#32
 
-K_PARTS = 3
+K_PARTS = 5
 
 DROPOUT = 0.2
 
-UNFREEZE_CONFIG = [(1, 1e-2),
-                   (3, 1e-4),
-                   (4, 1e-6)]
+UNFREEZE_CONFIG = [(5, 1e-2),
+                   (6, 1e-4),
+                   (10, 1e-6)]
 
 OUTPUT_FILE_NAME = 'dobrynya_1'
 
@@ -76,26 +76,8 @@ def k_fold_cross_val(data_parts, K_PARTS):
 
     yield k, train_data_generator, test_data_generator
 
-v = 3
-# v1
-if v == 1:
-  model = models.Sequential()
-  model.add(layers.Conv2D(6, 5, activation='tanh', input_shape=IMG_SHAPE))
-  model.add(layers.Flatten())
-  model.add(layers.Dense(84, activation='tanh'))
-  model.add(layers.Dense(CLASSES_NUM, activation='softmax'))
-  
-#v2
-elif v == 2:
-  model = models.Sequential()
-  model.add(layers.Conv2D(filters=8, kernel_size=9,
-                          activation='tanh', input_shape=IMG_SHAPE))
-  model.add(layers.Flatten())
-  model.add(layers.Dense(32, activation='sigmoid'))
-  model.add(layers.Dropout(DROPOUT))
-  model.add(layers.Dense(CLASSES_NUM, activation='softmax'))
-
-elif v == 3:
+v = 4
+if v == 3:
   model = models.Sequential()
   
   model.add(layers.Conv2D(filters=64, kernel_size=3,
@@ -143,7 +125,7 @@ elif v == 3:
                               activation='relu')
     ]),
 
-    ], axis=3))
+    ], axis=-1))
 
   
 
@@ -168,7 +150,77 @@ elif v == 3:
   model.add(layers.GlobalAveragePooling2D())
     
   #model.add(layers.Dense(256, activation='relu'))
-  model.add(layers.Dense(CLASSES_NUM, activation='softmax'))  
+  model.add(layers.Dense(CLASSES_NUM, activation='softmax'))
+
+elif v == 4:
+  input_layer = layers.Input(shape=IMG_SHAPE)
+
+  conv = layers.Conv2D(filters=64, kernel_size=3,
+                              strides=(2, 2),
+                              padding='same',
+                              activation='relu')(input_layer)
+
+  conv_1x1 = layers.Conv2D(filters=64, kernel_size=1,
+                              strides=(1, 1),
+                              padding='same',
+                              activation='relu')(conv)
+
+  conv_3x3 = layers.Conv2D(filters=96, kernel_size=1,
+                              strides=(1, 1),
+                              padding='same',
+                              activation='relu')(conv)
+  conv_3x3 = layers.Conv2D(filters=128, kernel_size=3,
+                              strides=(1, 1),
+                              padding='same',
+                              activation='relu')(conv_3x3)
+  conv_3x3 = layers.BatchNormalization(momentum=0.99)(conv_3x3)
+
+  conv_5x5 = layers.Conv2D(filters=16, kernel_size=1,
+                              strides=(1, 1),
+                              padding='same',
+                              activation='relu')(conv)
+
+  conv_5x5 = layers.Conv2D(filters=32, kernel_size=5,
+                              strides=(1, 1),
+                              padding='same',
+                              activation='relu')(conv_5x5)
+  conv_5x5 = layers.BatchNormalization(momentum=0.99)(conv_5x5)
+
+##  pool_proj = layers.MaxPool2D(pool_size=(2, 2),
+##                               strides=(1, 1))(conv)
+
+  pool_proj = layers.Conv2D(filters=32, kernel_size=1,
+                              strides=(1, 1),
+                              padding='same',
+                              activation='relu')(conv)
+  pool_proj = layers.BatchNormalization(momentum=0.99)(pool_proj)
+
+  conc = layers.concatenate([conv_1x1, conv_3x3, conv_5x5, pool_proj], axis=3)
+
+  conc = layers.Conv2D(filters=32, kernel_size=3,
+                            strides=(2, 2),
+                            padding='same',
+                            activation='tanh')(conc)
+      
+  for i in range(4):
+
+    conc = layers.Conv2D(filters=32, kernel_size=3,
+                            strides=(1, 1),
+                            padding='same',
+                            activation='tanh')(conc)
+
+    conc = layers.AveragePooling2D(2)(conc)
+    conc = layers.Conv2D(filters=64, kernel_size=3,
+                            strides=(2, 2),
+                            padding='same',
+                            activation='tanh')(conc)
+    conc = layers.BatchNormalization(momentum=0.99)(conc)
+
+  conc = layers.Dropout(DROPOUT)(conc)
+  conc = layers.GlobalAveragePooling2D()(conc)
+  conc = layers.Dense(CLASSES_NUM, activation='softmax')(conc)
+
+  model = tf.keras.Model(input_layer, conc)
     
 model.summary()
 
@@ -212,18 +264,18 @@ for UNFREEZE_EPOCHS, LR in UNFREEZE_CONFIG:
   labels = []
 
 
-  for folder in os.listdir(dataset_path):
-    for file in os.listdir('{}/{}'.format(dataset_path, folder)):
-      
-      img = cv2.imread('{}/{}/{}'.format(dataset_path, folder, file),
-                       cv2.IMREAD_COLOR)
-      
-      img_n = cv2.resize(img, (IMAGE_SIZE, IMAGE_SIZE))
-      img_n = np.expand_dims(img_n, 0)
+for folder in os.listdir(dataset_path):
+  for file in os.listdir('{}/{}'.format(dataset_path, folder)):
+    
+    img = cv2.imread('{}/{}/{}'.format(dataset_path, folder, file),
+                     cv2.IMREAD_COLOR)
+    
+    img_n = cv2.resize(img, (IMAGE_SIZE, IMAGE_SIZE))
+    img_n = np.expand_dims(img_n, 0)
 
-      y = model.predict_classes(img_n)[0]
-      predictions.append(str(y))
-      labels.append(str(folder))
+    y = np.argmax(model.predict(img_n))
+    predictions.append(str(y))
+    labels.append(str(folder))
 
 
 accuracy = accuracy_score(labels, predictions)

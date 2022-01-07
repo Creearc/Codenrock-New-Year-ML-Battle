@@ -91,54 +91,53 @@ class lite_net():
     return self.results.get()
 
     
+if __name__ == "__main__":
+  dataset_path = '/home/alexandr/datasets/santas_1'
 
-blend_data = pd.DataFrame(columns = ['1_1','1_2','1_3','2_1','2_2','2_3','3_1','3_2','3_3'])
+  nets = []
+  nets.append(lite_net('results/1_q.tflite'))
+  nets.append(lite_net('results/2_q.tflite'))
+  nets.append(lite_net('results/m_5_q.tflite'))
 
-dataset_path = '/home/alexandr/datasets/santas_2'
-
-nets = []
-nets.append(lite_net('results/1_q.tflite'))
-nets.append(lite_net('results/2_q.tflite'))
-nets.append(lite_net('results/m_5_q.tflite'))
-
-labels = []
-count = 0
-t = time.time()
-for folder in os.listdir(dataset_path):
-  for file in os.listdir('{}/{}'.format(dataset_path, folder)):
-##    if count > 10:
-##      break
-    img = cv2.imread('{}/{}/{}'.format(dataset_path, folder, file),
-                     cv2.IMREAD_COLOR)
-    labels.append(int(folder))
-    res_nn = dict()
-
-    for i in range(len(nets)):
-      nets[i].run(img)
-
-    for i in range(len(nets)):
-      nets[i].wait()
-
-    for i in range(len(nets)):
-      results = nets[i].get()
-      res_nn['{}_1'.format(i+1)] = results[0]
-      res_nn['{}_2'.format(i+1)] = results[1]
-      res_nn['{}_3'.format(i+1)] = results[2]
-      #predictions[i].append(str(np.argmax(results)))
-      #output_files[i].write('{};{}\n'.format(folder, ';'.join([str(r) for r in results])))
-      #print(results, np.argmax(results), folder)
-##      count += 1
-    blend_data = blend_data.append(res_nn,ignore_index=True)
-
-print('Time', time.time() - t)
-
-with open('blender.pickle', 'rb') as f:
-  blender = pickle.load(f)
-
-res = blender.predict(blend_data)
-
-accuracy = accuracy_score(labels, res)
-print('  Accuracy: {}'.format(accuracy))
-score = f1_score(labels, res, average='weighted')
-print('  F1: {}'.format(score))
+  with open('blender.pickle', 'rb') as f:
+    blender = pickle.load(f)
+##  if not os.path.exists('data/out/'):
+##    os.mkdir('data/out/')
   
+  f = open('submission.csv', 'w')
+  f.write('image_name	class_id\n')
+  count = 0
+  for file in os.listdir(dataset_path):
+      blend_data = pd.DataFrame(columns = ['1_1','1_2','1_3','2_1','2_2','2_3','3_1','3_2','3_3'])
+      res_nn = dict()
+      img = cv2.imread('{}/{}'.format(dataset_path, file))
+
+      for i in range(len(nets)):
+        nets[i].run(img)
+
+      for i in range(len(nets)):
+        nets[i].wait()
+
+      for i in range(len(nets)):
+        results = nets[i].get()
+        res_nn['{}_1'.format(i+1)] = results[0]
+        res_nn['{}_2'.format(i+1)] = results[1]
+        res_nn['{}_3'.format(i+1)] = results[2]
+
+      blend_data = blend_data.append(res_nn,ignore_index=True)
+
+      res = blender.predict(blend_data)
+    
+      result =   res[0][0]
+      f.write('{}	{}\n'.format(file, result))
+      count += 1
+      if count >= 10:
+        break
+  f.close()
+      
+
+
+
+
+
+    
