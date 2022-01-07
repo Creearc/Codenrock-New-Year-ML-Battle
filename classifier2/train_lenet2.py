@@ -113,7 +113,7 @@ elif v == 3:
   model.add(layers.Flatten())
   
   model.add(layers.Dropout(DROPOUT))
-  model.add(layers.Dense(256, activation='relu'))
+  #model.add(layers.Dense(256, activation='relu'))
   model.add(layers.Dense(CLASSES_NUM, activation='softmax'))  
     
 model.summary()
