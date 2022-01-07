@@ -26,15 +26,14 @@ DROPOUT = 0.2
 
 UNFREEZE_CONFIG = [(3, 1e-2),
                    (6, 1e-4),
-                   (10, 1e-6)]
+                   (50, 1e-6),
+                   (7, 1e-8),]
 
-UNFREEZE_CONFIG = [(10, 1e-5),
-                   (2, 1e-7)]
 
 OUTPUT_FILE_NAME = 'dobrynya_1'
 
 LOAD = None
-LOAD = 'results/0.48255649759799135__dobrynya_1.h5'
+#LOAD = 'results/0.48255649759799135__dobrynya_1.h5'
 #LOAD = 'results/0.5133689820328083__dobrynya_1.h5'
 
 ######################################################################
