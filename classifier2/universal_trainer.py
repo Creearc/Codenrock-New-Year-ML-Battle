@@ -20,7 +20,7 @@ dataset_path = '/home/alexandr/datasets/santas_2'
 BATCH_SIZE = 32
 
 K_PARTS = 5
-NO_K_TRAINING = not True
+NO_K_TRAINING = True
 
 DROPOUT = 0.2
 
