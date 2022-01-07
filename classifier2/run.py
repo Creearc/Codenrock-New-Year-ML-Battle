@@ -127,7 +127,6 @@ if __name__ == "__main__":
       blend_data = blend_data.append(res_nn,ignore_index=True)
 
       res = blender.predict(blend_data)
-      print(res)
     
       result =   res[0][0]
       f.write('{}	{}\n'.format(file, result))
