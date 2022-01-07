@@ -136,7 +136,7 @@ elif v == 3:
                             padding='same',
                             activation='relu'),
 
-    ]))
+    ], axis=3))
 
   
 
