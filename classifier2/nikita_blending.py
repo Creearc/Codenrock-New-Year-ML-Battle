@@ -70,7 +70,6 @@ class lite_net():
     
 
   def process(self, img):
-    t = time.time()
     img_n = img.copy()
     img_n = Image.fromarray(cv2.cvtColor(img_n, cv2.COLOR_BGR2RGB))
     img_n = img_n.resize(self.img_shape)
@@ -84,7 +83,6 @@ class lite_net():
     output_data = np.squeeze(output_data)
 
     self.results.put([i / 255.0 for i in output_data])
-    print('   time', time.time() - t)
 
   def get(self):
     while self.results.empty():
