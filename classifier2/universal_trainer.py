@@ -30,6 +30,9 @@ UNFREEZE_CONFIG = [(5, 1e-2),
 
 OUTPUT_FILE_NAME = 'dobrynya_1'
 
+LOAD = None
+#LOAD = ''
+
 ######################################################################
 
 classes_paths = os.listdir(dataset_path)
@@ -77,15 +80,18 @@ def k_fold_cross_val(data_parts, K_PARTS):
 
 
 # Model
+if LOAD is None:
+  from models import dobrinia
 
-from models import dobrinia
+  model = dobrinia.Model(CLASSES_NUM)
 
-model = dobrinia.Model(CLASSES_NUM)
+  IMAGE_SIZE = model.IMAGE_SIZE
+  IMG_SHAPE = (IMAGE_SIZE, IMAGE_SIZE, 3)
 
-IMAGE_SIZE = model.IMAGE_SIZE
-IMG_SHAPE = (IMAGE_SIZE, IMAGE_SIZE, 3)
-
-model = model.model
+  model = model.model
+else:
+  model = tf.keras.models.load_model(LOAD)
+  
 model.summary()
 
 for UNFREEZE_EPOCHS, LR in UNFREEZE_CONFIG:    
