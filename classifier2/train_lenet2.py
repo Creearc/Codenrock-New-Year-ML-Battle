@@ -76,7 +76,7 @@ def k_fold_cross_val(data_parts, K_PARTS):
 
     yield k, train_data_generator, test_data_generator
 
-v = 3
+v = 4
 # v1
 if v == 1:
   model = models.Sequential()
@@ -168,7 +168,69 @@ elif v == 3:
   model.add(layers.GlobalAveragePooling2D())
     
   #model.add(layers.Dense(256, activation='relu'))
-  model.add(layers.Dense(CLASSES_NUM, activation='softmax'))  
+  model.add(layers.Dense(CLASSES_NUM, activation='softmax'))
+
+elif v == 4:
+  input_layer = layers.Conv2D(filters=64, kernel_size=3,
+                              strides=(2, 2),
+                              padding='same',
+                              activation='relu',
+                              input_shape=IMG_SHAPE)
+
+  conv_1x1 = layers.Conv2D(filters=64, kernel_size=1,
+                              strides=(1, 1),
+                              padding='same',
+                              activation='relu')(input_layer)
+
+  conv_3x3 = layers.Conv2D(filters=96, kernel_size=1,
+                              strides=(1, 1),
+                              padding='same',
+                              activation='relu')(input_layer)
+  conv_3x3 = layers.Conv2D(filters=128, kernel_size=3,
+                              strides=(1, 1),
+                              padding='same',
+                              activation='relu')(conv_3x3)
+
+  conv_5x5 = layers.Conv2D(filters=16, kernel_size=1,
+                              strides=(1, 1),
+                              padding='same',
+                              activation='relu')(input_layer)
+
+  conv_5x5 = layers.Conv2D(filters=32, kernel_size=5,
+                              strides=(1, 1),
+                              padding='same',
+                              activation='relu')(conv_5x5)
+
+  pool_proj = layers.MaxPool2D(pool_size=(3, 3),
+                               strides=(1, 1))(input_layer)
+
+  pool_proj = layers.Conv2D(filters=32, kernel_size=1,
+                              strides=(1, 1),
+                              padding='same',
+                              activation='relu')(pool_proj)
+
+  conc = layers.concatenate([conv_1x1, conv_3x3, conv_5x5, pool_proj], axis=3)
+      
+
+  for i in range(4):
+
+    conc = layers.Conv2D(filters=32, kernel_size=3,
+                            strides=(1, 1),
+                            padding='same',
+                            activation='tanh')(conc)
+
+    conc = layers.AveragePooling2D(2)(conc)
+    conc = layers.Conv2D(filters=64, kernel_size=3,
+                            strides=(2, 2),
+                            padding='same',
+                            activation='tanh')(conc)
+    conc = layers.BatchNormalization(momentum=0.99)(conc)
+
+  conc = layers.Dropout(DROPOUT)(conc)
+  conc = layers.GlobalAveragePooling2D()(conc)
+  conc = layers.Dense(CLASSES_NUM, activation='softmax')(conc)
+
+  model = Model(input_layer, conc)
     
 model.summary()
 
