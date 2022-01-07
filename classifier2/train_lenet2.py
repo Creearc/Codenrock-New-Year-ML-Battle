@@ -108,6 +108,7 @@ elif v == 3:
                           strides=(3, 3),
                           padding='same',
                           activation='relu'))
+  model.add(layers.Flatten())
   
   model.add(layers.Dropout(DROPOUT))
   model.add(layers.Dense(256, activation='sigmoid'))
