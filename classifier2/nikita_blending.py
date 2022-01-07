@@ -98,6 +98,7 @@ nets.append(lite_net('results/m_5_q.tflite'))
 
 labels = []
 count = 0
+t = time.time()
 for folder in os.listdir(dataset_path):
   for file in os.listdir('{}/{}'.format(dataset_path, folder)):
     if count > 10:
@@ -120,6 +121,8 @@ for folder in os.listdir(dataset_path):
       #print(results, np.argmax(results), folder)
       count += 1
     blend_data = blend_data.append(res_nn,ignore_index=True)
+
+print('Time', time.time() - t)
 
 with open('blender.pickle', 'rb') as f:
   blender = pickle.load(f)
