@@ -60,6 +60,19 @@ def inception_module(conc,
   conc = layers.concatenate([conv_1x1, conv_3x3, conv_5x5, pool_proj], axis=3)
   return conc
 
+def depthwise_conv(conc,
+                   filters=64,
+                   strides=(1, 1)):
+  conc = layers.BatchNormalization(momentum=0.99)(conc)
+  conc = layers.ReLU()(conc)
+  conc = layers.Conv2D(filters=filters, kernel_size=1,
+                              strides=strides,
+                              padding='same',
+                              activation='tanh')(conc)
+  conc = layers.BatchNormalization(momentum=0.99)(conc)
+  conc = layers.ReLU()(conc)
+  return conc
+  
 
 class Model:
   def __init__(self, CLASSES_NUM):
@@ -69,7 +82,7 @@ class Model:
     input_layer = layers.Input(shape=self.IMG_SHAPE)
 
     conv = layers.Conv2D(filters=16, kernel_size=3,
-                                strides=(2, 2),
+                                strides=(1, 1),
                                 padding='same',
                                 activation='relu')(input_layer)
 
@@ -84,10 +97,9 @@ class Model:
 
     conc = layers.BatchNormalization(momentum=0.99)(conc) 
 
-    conc = layers.Conv2D(filters=32, kernel_size=3,
-                              strides=(2, 2),
-                              padding='same',
-                              activation='tanh')(conc)
+    conc = depthwise_conv(conc,
+                          filters=32,
+                          strides=(1, 1))
         
     conc = nikita_layer(conc, filters_1=32, filters_2=64)
     conc = nikita_layer(conc, filters_1=32, filters_2=32)
