@@ -208,7 +208,7 @@ elif v == 4:
   pool_proj = layers.Conv2D(filters=32, kernel_size=1,
                               strides=(1, 1),
                               padding='same',
-                              activation='relu')(pool_proj)
+                              activation='relu')(conv)
 
   conc = layers.concatenate([conv_1x1, conv_3x3, conv_5x5, pool_proj], axis=3)
       
