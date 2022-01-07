@@ -126,17 +126,6 @@ elif v == 3:
                             strides=(1, 1),
                             padding='same',
                             activation='tanh'))
-    model.add(layers.AveragePooling2D(2))
-
-    model.add(layers.Conv2D(filters=64, kernel_size=3,
-                            strides=(2, 2),
-                            padding='same',
-                            activation='tanh'))
-
-    model.add(layers.Conv2D(filters=32, kernel_size=3,
-                            strides=(1, 1),
-                            padding='same',
-                            activation='tanh'))
 
   model.add(layers.Dropout(DROPOUT))
   
