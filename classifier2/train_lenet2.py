@@ -18,7 +18,7 @@ dataset_path = '/home/alexandr/datasets/santas_2'
 IMAGE_SIZE = 512
 IMG_SHAPE = (IMAGE_SIZE, IMAGE_SIZE, 3)
 
-BATCH_SIZE = 16#32
+BATCH_SIZE = 1#32
 
 K_PARTS = 5
 
@@ -88,7 +88,7 @@ elif v == 2:
   model.add(layers.Conv2D(filters=32, kernel_size=9,
                           activation='tanh', input_shape=IMG_SHAPE))
   model.add(layers.Flatten())
-  model.add(layers.Dense(32, activation='tanh'))
+  model.add(layers.Dense(32, activation='sigmoid'))
   model.add(layers.Dense(CLASSES_NUM, activation='softmax'))  
     
 model.summary()
