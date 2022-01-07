@@ -192,7 +192,7 @@ elif v == 4:
                               padding='same',
                               activation='relu')(conv)
 
-  conc = layers.Concatenate()([conv_1x1, conv_3x3, conv_5x5, pool_proj], axis=3)
+  conc = layers.Concatenate()([conv_1x1, conv_3x3, conv_5x5, pool_proj])
 
   conc = layers.Conv2D(filters=32, kernel_size=3,
                             strides=(2, 2),
