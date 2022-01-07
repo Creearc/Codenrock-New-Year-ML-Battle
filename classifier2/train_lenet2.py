@@ -110,6 +110,7 @@ elif v == 3:
                           activation='relu'))
   
   model.add(layers.AveragePooling2D(23))
+  model.add(layers.Flatten())
   
   model.add(layers.Dropout(DROPOUT))
   model.add(layers.Dense(256, activation='relu'))
