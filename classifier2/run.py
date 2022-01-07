@@ -99,8 +99,6 @@ if __name__ == "__main__":
   nets.append(lite_net('results/2_q.tflite'))
   nets.append(lite_net('results/m_5_q.tflite'))
 
-  blend_data = pd.DataFrame(columns = ['1_1','1_2','1_3','2_1','2_2','2_3','3_1','3_2','3_3'])
-
   with open('blender.pickle', 'rb') as f:
     blender = pickle.load(f)
 ##  if not os.path.exists('data/out/'):
@@ -110,6 +108,7 @@ if __name__ == "__main__":
   f.write('image_name	class_id\n')
   count = 0
   for file in os.listdir(dataset_path):
+      blend_data = pd.DataFrame(columns = ['1_1','1_2','1_3','2_1','2_2','2_3','3_1','3_2','3_3'])
       res_nn = dict()
       img = cv2.imread('{}/{}'.format(dataset_path, file))
 
