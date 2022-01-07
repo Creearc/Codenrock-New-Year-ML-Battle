@@ -231,7 +231,7 @@ elif v == 4:
   conc = layers.GlobalAveragePooling2D()(conc)
   conc = layers.Dense(CLASSES_NUM, activation='softmax')(conc)
 
-  model = Model(input_layer, conc)
+  model = tf.keras.Model(input_layer, conc)
     
 model.summary()
 
