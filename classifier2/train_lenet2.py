@@ -109,32 +109,32 @@ elif v == 3:
     layers.Conv2D(filters=64, kernel_size=1,
                             strides=(1, 1),
                             padding='same',
-                            activation='relu')
+                            activation='relu'),
     
     layers.Conv2D(filters=96, kernel_size=1,
                             strides=(1, 1),
                             padding='same',
-                            activation='relu')
+                            activation='relu'),
     layers.Conv2D(filters=128, kernel_size=3,
                             strides=(1, 1),
                             padding='same',
-                            activation='relu')
+                            activation='relu'),
 
     layers.Conv2D(filters=16, kernel_size=1,
                             strides=(1, 1),
                             padding='same',
-                            activation='relu')
+                            activation='relu'),
     layers.Conv2D(filters=32, kernel_size=5,
                             strides=(1, 1),
                             padding='same',
-                            activation='relu')
+                            activation='relu'),
 
     layers.MaxPool2D(pool_size=(3, 3),
-                     strides=(1, 1))
+                     strides=(1, 1)),
     layers.Conv2D(filters=32, kernel_size=1,
                             strides=(1, 1),
                             padding='same',
-                            activation='relu')
+                            activation='relu'),
 
     ]))
 
