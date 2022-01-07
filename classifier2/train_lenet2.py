@@ -18,7 +18,7 @@ dataset_path = '/home/alexandr/datasets/santas_2'
 IMAGE_SIZE = 416
 IMG_SHAPE = (IMAGE_SIZE, IMAGE_SIZE, 3)
 
-BATCH_SIZE = 1#32
+BATCH_SIZE = 16#32
 
 K_PARTS = 3
 
@@ -173,6 +173,7 @@ elif v == 4:
                               strides=(1, 1),
                               padding='same',
                               activation='relu')(conv_3x3)
+  conv_3x3 = layers.BatchNormalization(momentum=0.99)(conv_3x3)
 
   conv_5x5 = layers.Conv2D(filters=16, kernel_size=1,
                               strides=(1, 1),
@@ -183,6 +184,7 @@ elif v == 4:
                               strides=(1, 1),
                               padding='same',
                               activation='relu')(conv_5x5)
+  conv_5x5 = layers.BatchNormalization(momentum=0.99)(conv_5x5)
 
 ##  pool_proj = layers.MaxPool2D(pool_size=(2, 2),
 ##                               strides=(1, 1))(conv)
@@ -191,6 +193,7 @@ elif v == 4:
                               strides=(1, 1),
                               padding='same',
                               activation='relu')(conv)
+  pool_proj = layers.BatchNormalization(momentum=0.99)(pool_proj)
 
   conc = layers.concatenate([conv_1x1, conv_3x3, conv_5x5, pool_proj], axis=3)
 
@@ -261,18 +264,18 @@ for UNFREEZE_EPOCHS, LR in UNFREEZE_CONFIG:
   labels = []
 
 
-  for folder in os.listdir(dataset_path):
-    for file in os.listdir('{}/{}'.format(dataset_path, folder)):
-      
-      img = cv2.imread('{}/{}/{}'.format(dataset_path, folder, file),
-                       cv2.IMREAD_COLOR)
-      
-      img_n = cv2.resize(img, (IMAGE_SIZE, IMAGE_SIZE))
-      img_n = np.expand_dims(img_n, 0)
+for folder in os.listdir(dataset_path):
+  for file in os.listdir('{}/{}'.format(dataset_path, folder)):
+    
+    img = cv2.imread('{}/{}/{}'.format(dataset_path, folder, file),
+                     cv2.IMREAD_COLOR)
+    
+    img_n = cv2.resize(img, (IMAGE_SIZE, IMAGE_SIZE))
+    img_n = np.expand_dims(img_n, 0)
 
-      y = np.argmax(model.predict(img_n))
-      predictions.append(str(y))
-      labels.append(str(folder))
+    y = np.argmax(model.predict(img_n))
+    predictions.append(str(y))
+    labels.append(str(folder))
 
 
 accuracy = accuracy_score(labels, predictions)
