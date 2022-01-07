@@ -108,6 +108,7 @@ if __name__ == "__main__":
   f.write('image_name	class_id\n')
   count = 0
   for file in os.listdir(dataset_path):
+      res_nn = dict()
       img = cv2.imread('{}/{}'.format(dataset_path, file))
 
       for i in range(len(nets)):
