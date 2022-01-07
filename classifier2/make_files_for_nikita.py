@@ -79,7 +79,6 @@ for folder in os.listdir(dataset_path):
       predictions[i].append(str(np.argmax(results)))
       output_files[i].write('{};{}\n'.format(folder, ';'.join([str(r) for r in results])))
       #print(results, np.argmax(results), folder)
-    print(labels, predictions)
 
 
 for i in range(len(nets)):
