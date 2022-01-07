@@ -101,26 +101,26 @@ class Model:
     
     conc = depthwise_conv(conc,
                           filters=16,
-                          kernel=3,
+                          kernel_size=3,
                           strides=(1, 1))
     conc = mobile_conv(conc,
                        filters=32,
-                       kernel=3,
+                       kernel_size=3,
                        strides=(1, 1))
    
     conc = depthwise_conv(conc,
                           filters=64,
-                          kernel=3,
+                          kernel_size=3,
                           strides=(2, 2))
 
     conc = mobile_conv(conc,
                        filters=128,
-                       kernel=3,
+                       kernel_size=3,
                        strides=(1, 1))
    
     conc = depthwise_conv(conc,
                           filters=128,
-                          kernel=3,
+                          kernel_size=3,
                           strides=(2, 2))
 
     conc = inception_module(conc,
