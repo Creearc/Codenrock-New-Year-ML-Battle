@@ -76,7 +76,7 @@ for folder in os.listdir(dataset_path):
 
     for i in range(len(nets)):
       results = nets[i].run(img)
-      predictions[i].append(np.argmax(results))
+      predictions[i].append(str(np.argmax(results)))
       output_files[i].write('{};{}\n'.format(folder, ';'.join([str(r) for r in results])))
       #print(results, np.argmax(results), folder)
     print(labels, predictions)
