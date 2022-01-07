@@ -181,7 +181,6 @@ for UNFREEZE_EPOCHS, LR in UNFREEZE_CONFIG:
       y = model.predict_classes(img_n)[0]
       predictions.append(str(y))
       labels.append(str(folder))
-  continue
 
 
 accuracy = accuracy_score(labels, predictions)
