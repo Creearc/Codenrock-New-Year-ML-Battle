@@ -72,6 +72,18 @@ def depthwise_conv(conc,
   conc = layers.BatchNormalization(momentum=0.99)(conc)
   conc = layers.ReLU()(conc)
   return conc
+
+def conv_3(conc,
+           filters=64,
+           strides=(1, 1)):
+
+  conc = layers.Conv2D(filters=filters, kernel_size=3,
+                              strides=strides,
+                              padding='same',
+                              activation='tanh')(conc)
+  conc = layers.BatchNormalization(momentum=0.99)(conc)
+  conc = layers.ReLU()(conc)
+  return conc
   
 
 class Model:
@@ -86,6 +98,13 @@ class Model:
     conc = depthwise_conv(conc,
                           filters=16,
                           strides=(2, 2))
+    conc = conv_3(conc,
+                  filters=16,
+                  strides=(1, 1))
+   
+    conc = depthwise_conv(conc,
+                          filters=16,
+                          strides=(2, 2))
 
     conc = inception_module(conc,
                      filters_1x1=16,
@@ -97,10 +116,6 @@ class Model:
                      name='inception_3a')
 
     conc = layers.BatchNormalization(momentum=0.99)(conc) 
-
-    conc = depthwise_conv(conc,
-                          filters=16,
-                          strides=(1, 1))     
 
     conc = layers.Dropout(0.2)(conc)
     conc = layers.GlobalAveragePooling2D()(conc)
