@@ -85,7 +85,7 @@ class Model:
                           filters=16,
                           strides=(2, 2))
 
-    conc = inception_module(conv,
+    conc = inception_module(conc,
                      filters_1x1=16,
                      filters_3x3_reduce=16,
                      filters_3x3=32,
