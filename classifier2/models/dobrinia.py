@@ -6,7 +6,7 @@ from tensorflow.keras import datasets, layers, models, losses
 class Model:
   def __init__(self):
     self.IMAGE_SIZE = 416
-    self.IMG_SHAPE = (IMAGE_SIZE, IMAGE_SIZE, 3)
+    self.IMG_SHAPE = (self.IMAGE_SIZE, self.IMAGE_SIZE, 3)
     
     input_layer = layers.Input(shape=IMG_SHAPE)
 

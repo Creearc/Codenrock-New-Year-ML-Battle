@@ -17,9 +17,6 @@ tf.config.experimental.set_memory_growth(gpus[0], True)
 ######################################################################
 dataset_path = '/home/alexandr/datasets/santas_2'
 
-IMAGE_SIZE = 416
-IMG_SHAPE = (IMAGE_SIZE, IMAGE_SIZE, 3)
-
 BATCH_SIZE = 16#32
 
 K_PARTS = 5
@@ -84,6 +81,10 @@ def k_fold_cross_val(data_parts, K_PARTS):
 from models import dobrinia
 
 model = dobrinia.Model()
+
+IMAGE_SIZE = model.IMAGE_SIZE
+IMG_SHAPE = (IMAGE_SIZE, IMAGE_SIZE, 3)
+
 model = model.model
 model.summary()
 
