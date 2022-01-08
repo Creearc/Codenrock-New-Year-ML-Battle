@@ -194,7 +194,7 @@ def squeeze_excite_block(m, bneck_depth, ratio=4):
                          padding='same',
                          activation='tanh')(conc)
   conc = tf.nn.sigmoid(conc)
-  conc = conc_1 * conc
+  conc = bneck_depth * conc
   return conc
 
 def bottleneck_block(x,
