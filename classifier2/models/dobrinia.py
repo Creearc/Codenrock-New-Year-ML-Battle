@@ -192,10 +192,20 @@ class Model:
                           kernel_size=3,
                           strides=(1, 1))
     conc = mobile_conv(conc,
-                       filters=32,
-                       kernel_size=3,
+                       filters=128,
+                       kernel_size=1,
                        strides=(2, 2))
 
+    conc = depthwise_conv(conc,
+                          filters=64,
+                          kernel_size=3,
+                          strides=(1, 1))
+
+    for i in range(3):
+      conc = mobile_conv(conc,
+                         filters=32,
+                         kernel_size=3,
+                         strides=(2, 2))
 
     conc = inception_module(conc,
                      filters_1x1=16,
