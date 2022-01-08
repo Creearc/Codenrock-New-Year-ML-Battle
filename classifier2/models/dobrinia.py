@@ -205,7 +205,7 @@ class Model:
                      name='inception_3a')  
     
     conc = depthwise_conv(conc,
-                          filters=16,
+                          filters=64,
                           kernel_size=3,
                           strides=(1, 1))   
 
