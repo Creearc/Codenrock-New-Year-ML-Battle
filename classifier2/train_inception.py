@@ -162,6 +162,7 @@ for k, training_data, validation_data in k_fold_cross_val(data_parts, K_PARTS):
                             epochs=UNFREEZE_EPOCHS,
                             validation_data=test_data,
                             validation_steps=len(test_data))
+  break
  
 
 predictions = []
