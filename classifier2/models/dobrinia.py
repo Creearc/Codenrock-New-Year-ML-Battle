@@ -172,6 +172,31 @@ def convolutional_block(x, filter):
     x = tf.keras.layers.Activation('relu')(x)
     return x
 
+def se_blocksqueeze_excite_block(m, bneck_depth, ratio=4):
+  filter_1 = max(1, int(input_channels * ratio))
+  filter_2 = num_reduced_filters
+
+  conc = tf.keras.layers.GlobalAveragePooling2D()(conc_1)
+  
+  conc = tf.expand_dims(input=conc, axis=1)
+  conc = tf.expand_dims(input=conc, axis=1)
+   
+  conc = layers.Conv2D(filters=filter_1,
+                         kernel_size=1,
+                         strides=(1, 1),
+                         padding='same',
+                         activation='tanh')(conc)
+  conc = swish(conc)
+  
+  conc = layers.Conv2D(filters=filter_2,
+                         kernel_size=1,
+                         strides=(1, 1),
+                         padding='same',
+                         activation='tanh')(conc)
+  conc = tf.nn.sigmoid(conc)
+  conc = conc_1 * conc
+  return conc
+
 def bottleneck_block(x,
                      expand=64,
                      squeeze=16,
@@ -190,7 +215,7 @@ def bottleneck_block(x,
   m = tf.keras.layers.BatchNormalization()(m)
   m = tf.keras.layers.Activation('relu')(m)
   if se:
-    m = squeeze_excite_block(m, ratio=4)
+    m = squeeze_excite_block(m, bneck_depth, ratio=4)
   m = tf.keras.layers.Conv2D(squeeze, (1,1), strides=1, padding='same')(m)
   m = tf.keras.layers.BatchNormalization()(m)
 
