@@ -192,7 +192,7 @@ class Model:
                           kernel_size=3,
                           strides=(1, 1))
     conc = mobile_conv(conc,
-                       filters=128,
+                       filters=32,
                        kernel_size=1,
                        strides=(2, 2))
 
