@@ -184,10 +184,11 @@ def bottleneck_block(x,
 
   m = tf.keras.layers.Conv2D(expand, (1,1), strides=1)(x)
   m = tf.keras.layers.BatchNormalization()(m)
-  #m = tf.keras.layers.Activation('relu6')(m)
-  m = tf.keras.layers.DepthwiseConv2D(bneck_depth, padding='same', strides=strides)(m)
+  m = tf.keras.layers.Activation('relu6')(m)
+  m = tf.keras.layers.DepthwiseConv2D(bneck_depth, padding='same',
+                                      strides=strides)(m)
   m = tf.keras.layers.BatchNormalization()(m)
-  #m = Activation('relu6')(m)
+  m = Activation('relu6')(m)
   if se:
     m = squeeze_excite_block(m, ratio=4)
   m = tf.keras.layers.Conv2D(squeeze, (1,1), strides=1, padding='same')(m)
