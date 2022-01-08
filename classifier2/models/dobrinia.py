@@ -175,6 +175,7 @@ class Model:
                      filters_5x5=128,
                      filters_pool_proj=32,
                      name='inception_3a')
+    conc = tf.keras.layers.BatchNormalization(axis=3)(conc)
 
     conc = tf.keras.layers.Add()([conc, conc_1])
     
@@ -221,6 +222,7 @@ class Model:
                      filters_5x5=32,
                      filters_pool_proj=16,
                      name='inception_3b')
+    conc = tf.keras.layers.BatchNormalization(axis=3)(conc)
     
     conc = tf.keras.layers.Add()([conc, conc_1])
                                  
