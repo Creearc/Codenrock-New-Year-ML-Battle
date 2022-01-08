@@ -164,7 +164,7 @@ class Model:
     input_layer = layers.Input(shape=self.IMG_SHAPE)
 
     
-    conc = inception_module(conc,
+    conc = inception_module(input_layer,
                      filters_1x1=16,
                      filters_3x3_reduce=32,
                      filters_3x3=64,
