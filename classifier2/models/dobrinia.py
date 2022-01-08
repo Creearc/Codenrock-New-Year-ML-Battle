@@ -163,19 +163,6 @@ class Model:
     
     input_layer = layers.Input(shape=self.IMG_SHAPE)
 
-    conc = mb_conv(input_layer,
-                   filter_1=16,
-                   filter_2=16,
-                   filter_3=32,
-                   kernel_size=3,
-                   strides=(2, 2))
-
-    conc = mb_conv(conc,
-                   filter_1=32,
-                   filter_2=32,
-                   filter_3=32,
-                   kernel_size=3,
-                   strides=(1, 1))
     
     conc = inception_module(conc,
                      filters_1x1=16,
@@ -199,6 +186,15 @@ class Model:
                           filters=64,
                           kernel_size=3,
                           strides=(2, 2))
+
+    conc = depthwise_conv(conc,
+                          filters=128,
+                          kernel_size=3,
+                          strides=(1, 1))
+    conc = mobile_conv(conc,
+                       filters=256,
+                       kernel_size=3,
+                       strides=(2, 2))
 
 
     conc = inception_module(conc,
