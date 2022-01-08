@@ -36,7 +36,7 @@ def mb_conv(conc,
     conc = depthwise_conv(conc,
                           filters=filter_2,
                           kernel_size=kernel_size,
-                          strides=strides))
+                          strides=strides)
     conc = layers.BatchNormalization(momentum=0.99)(conc)
 
     conc = se_block(conc)
