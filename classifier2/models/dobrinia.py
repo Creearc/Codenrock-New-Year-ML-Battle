@@ -172,7 +172,7 @@ def convolutional_block(x, filter):
     x = tf.keras.layers.Activation('relu')(x)
     return x
 
-def se_blocksqueeze_excite_block(m, bneck_depth, ratio=4):
+def squeeze_excite_block(m, bneck_depth, ratio=4):
   filter_1 = max(1, int(input_channels * ratio))
   filter_2 = num_reduced_filters
 
