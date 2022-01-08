@@ -126,11 +126,11 @@ for UNFREEZE_EPOCHS, LR in UNFREEZE_CONFIG:
                                         shuffle = False)
 
     model.compile(optimizer=tf.keras.optimizers.Adam(LR),
-                      loss=tf.keras.metrics.CategoricalCrossentropy(name="categorical_crossentropy",
+                      loss='categorical_crossentropy',
+                      metrics=['accuracy', tf.keras.metrics.CategoricalCrossentropy(name="categorical_crossentropy",
                                                                     dtype=None,
                                                                     from_logits=False,
-                                                                    label_smoothing=0.2),
-                      metrics=['accuracy'])
+                                                                    label_smoothing=0.2)])
 
     history = model.fit(train_data,
                             steps_per_epoch=len(train_data),
