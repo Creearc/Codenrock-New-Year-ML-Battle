@@ -2,6 +2,62 @@ import tensorflow as tf
 assert float(tf.__version__[:3]) >= 2.3
 from tensorflow.keras import datasets, layers, models, losses
 
+def se_block(conc,
+             filter_1=16,
+             filter_2=16):
+  conc = tf.keras.layers.GlobalAveragePooling2D()(conc)
+  conc = layers.Conv2D(filters=filters_1,
+                         kernel_size=1,
+                         strides=(1, 1),
+                         padding='same',
+                         activation='tanh')(conc)
+  conc = layers.Conv2D(filters=filters_2,
+                         kernel_size=1,
+                         strides=(1, 1),
+                         padding='same',
+                         activation='tanh')(conc)
+  return conc
+  
+
+def mb_conv(conc,
+            filter_1=16,
+            filter_2=16,
+            filter_3=16,
+            kernel_size=3,
+            strides=(2, 2)):
+    conc_skip = conc
+    conc = layers.Conv2D(filters=filters_1,
+                         kernel_size=1,
+                         strides=(1, 1),
+                         padding='same',
+                         activation='tanh')(conc)
+    conc = layers.BatchNormalization(momentum=0.99,
+                                   name=name)(conc)
+    
+    conc = layers.DepthwiseConv2D(filters=filters_2,
+                                  kernel_size=kernel_size,
+                                  strides=strides),
+                                  padding='same',
+                                  activation='tanh')(conc)
+    conc = layers.BatchNormalization(momentum=0.99,
+                                   name=name)(conc)
+
+    conc = se_block(conc)
+
+    conc = layers.Conv2D(filters=filters_3,
+                         kernel_size=1,
+                         strides=(1, 1),
+                         padding='same',
+                         activation='tanh')(conc)
+    conc = layers.BatchNormalization(momentum=0.99,
+                                   name=name)(conc)
+
+    conc = tf.keras.layers.Add()([conc, conc_skip])     
+    conc = tf.keras.layers.Activation('relu')(conc)
+    return conc
+
+  
+
 def nikita_layer(conc,
                  filters_1=32,
                  filters_2=64,
@@ -97,8 +153,20 @@ class Model:
     
     input_layer = layers.Input(shape=self.IMG_SHAPE)
 
-    conc = nikita_layer(input_layer, filters_1=32, filters_2=32)
+    conc = mb_conv(conc,
+                   filter_1=16,
+                   filter_2=16,
+                   filter_3=16,
+                   kernel_size=3,
+                   strides=(2, 2))
 
+    conc = mb_conv(conc,
+                   filter_1=32,
+                   filter_2=32,
+                   filter_3=32,
+                   kernel_size=3,
+                   strides=(2, 2))
+    
     conc = inception_module(conc,
                      filters_1x1=16,
                      filters_3x3_reduce=32,
