@@ -180,13 +180,12 @@ class Model:
     
     input_layer = layers.Input(shape=self.IMG_SHAPE)
 
-    conc_1 = nikita_layer(input_layer,
+    conc = nikita_layer(input_layer,
                         filters_1=32,
                         filters_2=64)
-
-    conc_1 = convolutional_block(conc_1, 32)
+    conc_skip = conc
     
-    conc = inception_module(conc_1,
+    conc = inception_module(conc,
                      filters_1x1=16,
                      filters_3x3_reduce=32,
                      filters_3x3=64,
@@ -196,7 +195,7 @@ class Model:
                      name='inception_3a')
     conc = tf.keras.layers.BatchNormalization(axis=3)(conc)
 
-    conc = tf.keras.layers.Add()([conc, conc_1])
+    conc = tf.keras.layers.Add()([conc, conc_skip])
     
     conc = depthwise_conv(conc,
                           filters=16,
@@ -231,9 +230,11 @@ class Model:
                          filters=32,
                          kernel_size=3,
                          strides=(2, 2))
-    conc_1 = layers.ReLU()(conc)
+    conc = layers.ReLU()(conc)
 
-    conc = inception_module(conc_1,
+    conc_skip = conc
+
+    conc = inception_module(conc,
                      filters_1x1=16,
                      filters_3x3_reduce=16,
                      filters_3x3=32,
@@ -243,7 +244,7 @@ class Model:
                      name='inception_3b')
     conc = tf.keras.layers.BatchNormalization(axis=3)(conc)
     
-    conc = tf.keras.layers.Add()([conc, conc_1])
+    conc = tf.keras.layers.Add()([conc, conc_skip])
                                  
 
     conc = layers.BatchNormalization(momentum=0.99)(conc)
