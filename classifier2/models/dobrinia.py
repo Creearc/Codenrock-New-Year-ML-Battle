@@ -97,7 +97,7 @@ class Model:
     
     input_layer = layers.Input(shape=self.IMG_SHAPE)
 
-    conc = nikita_layer(input_layer, filters_1=32, filters_2=64)
+    conc = nikita_layer(input_layer, filters_1=64, filters_2=256)
     
     conc = depthwise_conv(conc,
                           filters=16,
