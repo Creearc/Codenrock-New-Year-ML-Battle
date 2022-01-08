@@ -231,8 +231,6 @@ class Model:
                           kernel_size=3,
                           strides=(1, 1))
 
-    conc = layers.ReLU()(conc)
-
     conc = inception_module(conc,
                      filters_1x1=16,
                      filters_3x3_reduce=16,

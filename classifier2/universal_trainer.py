@@ -17,7 +17,7 @@ tf.config.experimental.set_memory_growth(gpus[0], True)
 ######################################################################
 dataset_path = '/home/alexandr/datasets/santas_2'
 
-BATCH_SIZE = 32
+BATCH_SIZE = 32*4
 
 K_PARTS = 5
 NO_K_TRAINING = True
@@ -27,7 +27,7 @@ DROPOUT = 0.2
 UNFREEZE_CONFIG = [(3, 1e-2),
                    (6, 1e-4),
                    (50, 1e-6),
-                   (7, 1e-8),]
+                   (70, 1e-8),]
 
 
 OUTPUT_FILE_NAME = 'dobrynya_1'
