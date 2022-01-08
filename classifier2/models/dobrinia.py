@@ -200,17 +200,12 @@ class Model:
                           kernel_size=3,
                           strides=(1, 1))
     
-    
-    conc = mobile_conv(conc,
-                       filters=32,
-                       kernel_size=3,
-                       strides=(1, 1))
-    
-   
-    conc = depthwise_conv(conc,
-                          filters=64,
-                          kernel_size=3,
-                          strides=(2, 2))
+    for i in range(3):
+      conc_skip = conc
+      conc = mobile_conv(conc,
+                         filters=32,
+                         kernel_size=3,
+                         strides=(2, 2))
 
     conc_skip = conc
     conc = depthwise_conv(conc,
@@ -222,7 +217,7 @@ class Model:
     conc = mobile_conv(conc,
                        filters=32,
                        kernel_size=1,
-                       strides=(1, 1))
+                       strides=(2, 2))
 
     conc = depthwise_conv(conc,
                           filters=64,
@@ -234,12 +229,7 @@ class Model:
                           kernel_size=3,
                           strides=(1, 1))
 
-    for i in range(3):
-      conc_skip = conc
-      conc = mobile_conv(conc,
-                         filters=32,
-                         kernel_size=3,
-                         strides=(2, 2))
+    
       
       conc_skip = layers.AveragePooling2D(2)(conc_skip)
       conc = tf.keras.layers.Add()([conc, conc_skip])
