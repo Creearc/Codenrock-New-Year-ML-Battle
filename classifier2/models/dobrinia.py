@@ -199,11 +199,13 @@ class Model:
                           filters=16,
                           kernel_size=3,
                           strides=(1, 1))
+    conc = tf.keras.layers.Add()([conc, conc_skip])
+    
     conc = mobile_conv(conc,
                        filters=32,
                        kernel_size=3,
                        strides=(1, 1))
-    conc = tf.keras.layers.Add()([conc, conc_skip])
+    
    
     conc = depthwise_conv(conc,
                           filters=64,
