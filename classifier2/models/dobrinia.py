@@ -184,7 +184,7 @@ class Model:
                         filters_1=32,
                         filters_2=64)
 
-    conc = convolutional_block(conc, 32)
+    conc_1 = convolutional_block(conc_1, 32)
     
     conc = inception_module(conc_1,
                      filters_1x1=16,
