@@ -153,7 +153,7 @@ class Model:
     
     input_layer = layers.Input(shape=self.IMG_SHAPE)
 
-    conc = mb_conv(conc,
+    conc = mb_conv(input_layer,
                    filter_1=16,
                    filter_2=16,
                    filter_3=16,
