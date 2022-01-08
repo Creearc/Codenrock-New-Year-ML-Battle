@@ -178,9 +178,9 @@ class Model:
     self.IMAGE_SIZE = 416
     self.IMG_SHAPE = (self.IMAGE_SIZE, self.IMAGE_SIZE, 3)
     
-    conc = layers.Input(shape=self.IMG_SHAPE)
+    input_layer = layers.Input(shape=self.IMG_SHAPE)
 
-    conc = depthwise_conv(conc,
+    conc = depthwise_conv(input_layer,
                           filters=32,
                           kernel_size=3,
                           strides=(1, 1))
