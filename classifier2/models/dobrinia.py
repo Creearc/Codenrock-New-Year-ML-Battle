@@ -60,9 +60,9 @@ def mb_conv(conc,
                          padding='same',
                          activation='tanh')(conc)
     conc = layers.BatchNormalization(momentum=0.99)(conc)
-
-    conc = tf.keras.layers.Add()([conc, conc_skip])     
-    conc = tf.keras.layers.Activation('relu')(conc)
+    
+    if strides == (1, 1) or strides == 1:
+      conc = tf.keras.layers.Add()([conc, conc_skip])     
     return conc
 
   
