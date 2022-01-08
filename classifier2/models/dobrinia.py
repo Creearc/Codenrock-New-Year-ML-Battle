@@ -180,6 +180,11 @@ class Model:
     
     conc = layers.Input(shape=self.IMG_SHAPE)
 
+    conc = depthwise_conv(conc,
+                          filters=32,
+                          kernel_size=3,
+                          strides=(1, 1))
+
     for i in range(3):
       conc_skip = conc
       conc = mobile_conv(conc,
