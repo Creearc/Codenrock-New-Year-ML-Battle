@@ -230,10 +230,15 @@ class Model:
                           strides=(1, 1))
 
     for i in range(3):
+      conc_skip = conc
       conc = mobile_conv(conc,
                          filters=32,
                          kernel_size=3,
                          strides=(2, 2))
+      
+      conc_skip = layers.AveragePooling2D(2)(conc_skip)
+      conc = tf.keras.layers.Add()([conc, conc_skip])
+      
     conc = layers.ReLU()(conc)
 
     conc = inception_module(conc,
