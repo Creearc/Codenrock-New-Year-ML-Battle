@@ -108,7 +108,7 @@ else:
   ])
 
 for UNFREEZE_EPOCHS, LR in UNFREEZE_CONFIG:
-  for period in range(5):    
+  for period in range(1):    
     for k, training_data, validation_data in k_fold_cross_val(data_parts, K_PARTS):
       training_data = training_data.sample(frac=1)
       validation_data = validation_data.sample(frac=1)
