@@ -188,11 +188,11 @@ class Model:
                           strides=(2, 2))
 
     conc = depthwise_conv(conc,
-                          filters=128,
+                          filters=64,
                           kernel_size=3,
                           strides=(1, 1))
     conc = mobile_conv(conc,
-                       filters=256,
+                       filters=32,
                        kernel_size=3,
                        strides=(2, 2))
 
