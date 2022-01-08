@@ -222,7 +222,7 @@ class Model:
     conc = mobile_conv(conc,
                        filters=32,
                        kernel_size=1,
-                       strides=(2, 2))
+                       strides=(1, 1))
 
     conc = depthwise_conv(conc,
                           filters=64,
