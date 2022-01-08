@@ -2,20 +2,31 @@ import tensorflow as tf
 assert float(tf.__version__[:3]) >= 2.3
 from tensorflow.keras import datasets, layers, models, losses
 
+def swish(x):
+    return x * tf.nn.sigmoid(x)
+
 def se_block(conc,
              filter_1=16,
              filter_2=16):
+
   conc = tf.keras.layers.GlobalAveragePooling2D()(conc)
+  
+  conc = tf.expand_dims(input=conc, axis=1)
+  conc = tf.expand_dims(input=conc, axis=1)
+   
   conc = layers.Conv2D(filters=filter_1,
                          kernel_size=1,
                          strides=(1, 1),
                          padding='same',
                          activation='tanh')(conc)
+  conc = swish(conc)
+  
   conc = layers.Conv2D(filters=filter_2,
                          kernel_size=1,
                          strides=(1, 1),
                          padding='same',
                          activation='tanh')(conc)
+  conc = tf.nn.sigmoid(conc)
   return conc
   
 
@@ -32,6 +43,7 @@ def mb_conv(conc,
                          padding='same',
                          activation='tanh')(conc)
     conc = layers.BatchNormalization(momentum=0.99)(conc)
+    conc = swish(conc)
 
     conc = depthwise_conv(conc,
                           filters=filter_2,
@@ -40,6 +52,7 @@ def mb_conv(conc,
     conc = layers.BatchNormalization(momentum=0.99)(conc)
 
     conc = se_block(conc)
+    conc = swish(conc)
 
     conc = layers.Conv2D(filters=filter_3,
                          kernel_size=1,
