@@ -4,6 +4,9 @@ os.environ['TF_FORCE_GPU_ALLOW_GROWTH'] = 'true'
 import tensorflow as tf
 assert float(tf.__version__[:3]) >= 2.3
 import numpy as np
+from sklearn.metrics import f1_score, accuracy_score
+import cv2
+
 
 gpus = tf.config.experimental.list_physical_devices('GPU')
 tf.config.experimental.set_memory_growth(gpus[0], True)
