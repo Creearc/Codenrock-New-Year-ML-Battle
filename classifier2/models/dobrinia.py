@@ -32,12 +32,11 @@ def mb_conv(conc,
                          padding='same',
                          activation='tanh')(conc)
     conc = layers.BatchNormalization(momentum=0.99)(conc)
-    
-    conc = layers.DepthwiseConv2D(filters=filter_2,
-                                  kernel_size=kernel_size,
-                                  strides=strides,
-                                  padding='same',
-                                  activation='tanh')(conc)
+
+    conc = depthwise_conv(conc,
+                          filters=filter_2,
+                          kernel_size=kernel_size,
+                          strides=strides))
     conc = layers.BatchNormalization(momentum=0.99)(conc)
 
     conc = se_block(conc)
