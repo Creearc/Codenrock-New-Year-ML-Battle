@@ -176,7 +176,7 @@ def squeeze_excite_block(m, bneck_depth, ratio=4):
   filter_1 = max(1, int(bneck_depth * ratio))
   filter_2 = bneck_depth
 
-  conc = tf.keras.layers.GlobalAveragePooling2D()(conc)
+  conc = tf.keras.layers.GlobalAveragePooling2D()(m)
   
   conc = tf.expand_dims(input=conc, axis=1)
   conc = tf.expand_dims(input=conc, axis=1)
