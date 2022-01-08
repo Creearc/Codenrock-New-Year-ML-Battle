@@ -6,12 +6,12 @@ def se_block(conc,
              filter_1=16,
              filter_2=16):
   conc = tf.keras.layers.GlobalAveragePooling2D()(conc)
-  conc = layers.Conv2D(filters=filters_1,
+  conc = layers.Conv2D(filters=filter_1,
                          kernel_size=1,
                          strides=(1, 1),
                          padding='same',
                          activation='tanh')(conc)
-  conc = layers.Conv2D(filters=filters_2,
+  conc = layers.Conv2D(filters=filter_2,
                          kernel_size=1,
                          strides=(1, 1),
                          padding='same',
@@ -26,7 +26,7 @@ def mb_conv(conc,
             kernel_size=3,
             strides=(2, 2)):
     conc_skip = conc
-    conc = layers.Conv2D(filters=filters_1,
+    conc = layers.Conv2D(filters=filter_1,
                          kernel_size=1,
                          strides=(1, 1),
                          padding='same',
@@ -34,7 +34,7 @@ def mb_conv(conc,
     conc = layers.BatchNormalization(momentum=0.99,
                                    name=name)(conc)
     
-    conc = layers.DepthwiseConv2D(filters=filters_2,
+    conc = layers.DepthwiseConv2D(filters=filter_2,
                                   kernel_size=kernel_size,
                                   strides=strides,
                                   padding='same',
@@ -44,7 +44,7 @@ def mb_conv(conc,
 
     conc = se_block(conc)
 
-    conc = layers.Conv2D(filters=filters_3,
+    conc = layers.Conv2D(filters=filter_3,
                          kernel_size=1,
                          strides=(1, 1),
                          padding='same',
