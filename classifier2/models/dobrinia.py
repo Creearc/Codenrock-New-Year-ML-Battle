@@ -180,11 +180,14 @@ class Model:
     
     input_layer = layers.Input(shape=self.IMG_SHAPE)
 
+    conc_skip = conc
+
     conc = nikita_layer(input_layer,
                         filters_1=32,
                         filters_2=64)
-    conc_skip = conc
-    
+
+    conc = tf.keras.layers.Add()([conc, conc_skip])
+        
     conc = inception_module(conc,
                      filters_1x1=16,
                      filters_3x3_reduce=32,
@@ -192,10 +195,7 @@ class Model:
                      filters_5x5_reduce=64,
                      filters_5x5=128,
                      filters_pool_proj=32,
-                     name='inception_3a')
-    conc = tf.keras.layers.BatchNormalization(axis=3)(conc)
-
-    conc = tf.keras.layers.Add()([conc, conc_skip])
+                     name='inception_3a')  
     
     conc = depthwise_conv(conc,
                           filters=16,
@@ -232,7 +232,6 @@ class Model:
                          strides=(2, 2))
     conc = layers.ReLU()(conc)
 
-    conc_skip = conc
 
     conc = inception_module(conc,
                      filters_1x1=16,
@@ -242,11 +241,7 @@ class Model:
                      filters_5x5=32,
                      filters_pool_proj=16,
                      name='inception_3b')
-    conc = tf.keras.layers.BatchNormalization(axis=3)(conc)
-    
-    conc = tf.keras.layers.Add()([conc, conc_skip])
                                  
-
     conc = layers.BatchNormalization(momentum=0.99)(conc)
     conc = layers.ReLU()(conc)
 
