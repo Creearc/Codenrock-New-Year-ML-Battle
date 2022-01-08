@@ -147,7 +147,7 @@ for UNFREEZE_EPOCHS, LR in UNFREEZE_CONFIG:
                               validation_steps=len(test_data))
 
         
-        base_model.trainable = True
+      base_model.trainable = True
 ##          fine_tune_at = 100
 ##
 ##          # Freeze all the layers before the `fine_tune_at` layer

@@ -243,115 +243,9 @@ class Model:
                           kernel_size=3,
                           strides=2)
 
-    conc = bottleneck_block(conc,
-                     expand=16,
-                     squeeze=16,
-                     strides=1,
-                     bneck_depth=3,
-                     se=False)
-
-    conc = bottleneck_block(conc,
-                     expand=64,
-                     squeeze=24,
-                     strides=2,
-                     bneck_depth=3,
-                     se=False)
-
-    conc = bottleneck_block(conc,
-                     expand=72,
-                     squeeze=24,
-                     strides=1,
-                     bneck_depth=3,
-                     se=False)
-
-    conc = bottleneck_block(conc,
-                     expand=72,
-                     squeeze=40,
-                     strides=2,
-                     bneck_depth=5,
-                     se=True)
-
-    conc = bottleneck_block(conc,
-                     expand=120,
-                     squeeze=40,
-                     strides=1,
-                     bneck_depth=5,
-                     se=True)
-
-    conc = bottleneck_block(conc,
-                     expand=120,
-                     squeeze=40,
-                     strides=1,
-                     bneck_depth=5,
-                     se=True)
-
-    conc = bottleneck_block(conc,
-                     expand=240,
-                     squeeze=80,
-                     strides=2,
-                     bneck_depth=3,
-                     se=False)
-
-    conc = bottleneck_block(conc,
-                     expand=200,
-                     squeeze=80,
-                     strides=1,
-                     bneck_depth=3,
-                     se=False)
-
-    conc = bottleneck_block(conc,
-                     expand=184,
-                     squeeze=80,
-                     strides=1,
-                     bneck_depth=3,
-                     se=False)
-
-    conc = bottleneck_block(conc,
-                     expand=184,
-                     squeeze=80,
-                     strides=1,
-                     bneck_depth=3,
-                     se=False)
-
-    conc = bottleneck_block(conc,
-                     expand=480,
-                     squeeze=112,
-                     strides=1,
-                     bneck_depth=3,
-                     se=True)
-
-    conc = bottleneck_block(conc,
-                     expand=672,
-                     squeeze=112,
-                     strides=1,
-                     bneck_depth=3,
-                     se=True)
-
-    conc = bottleneck_block(conc,
-                     expand=672,
-                     squeeze=160,
-                     strides=2,
-                     bneck_depth=5,
-                     se=True)
-
-    conc = bottleneck_block(conc,
-                     expand=960,
-                     squeeze=160,
-                     strides=1,
-                     bneck_depth=5,
-                     se=True)
-
-    conc = bottleneck_block(conc,
-                     expand=960,
-                     squeeze=160,
-                     strides=1,
-                     bneck_depth=5,
-                     se=True)
-
-    conc = depthwise_conv(input_layer,
-                          filters=960,
-                          kernel_size=1,
-                          strides=1)
+    
+    conc = layers.Attention()([192, 192//8, 192//8, 8])(conc)
+    
 
     conc = layers.AveragePooling2D(7)(conc)
 
@@ -365,6 +259,13 @@ class Model:
 
 
 """
+conc = bottleneck_block(conc,
+                     expand=16,
+                     squeeze=16,
+                     strides=1,
+                     bneck_depth=3,
+                     se=False)
+                     
 for i in range(3):
       conc_skip = conc
       conc = mobile_conv(conc,
