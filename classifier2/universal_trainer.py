@@ -126,7 +126,7 @@ for UNFREEZE_EPOCHS, LR in UNFREEZE_CONFIG:
                                         shuffle = False)
 
     model.compile(optimizer=tf.keras.optimizers.Adam(LR),
-                      loss=tf.keras.metrics.CategoricalCrossentropy(label_smoothing=0.2),
+                      loss=tf.keras.losses.CategoricalCrossentropy(label_smoothing=0.2),
                       metrics=['accuracy'])
 
     history = model.fit(train_data,
