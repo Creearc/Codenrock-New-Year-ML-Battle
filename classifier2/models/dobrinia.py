@@ -183,7 +183,7 @@ class Model:
     conc = depthwise_conv(input_layer,
                           filters=32,
                           kernel_size=3,
-                          strides=(1, 1))
+                          strides=2)
 
     for i in range(3):
       conc_skip = conc
