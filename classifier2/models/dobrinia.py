@@ -97,7 +97,7 @@ class Model:
     
     input_layer = layers.Input(shape=self.IMG_SHAPE)
 
-    conc = nikita_layer(input_layer, filters_1=64, filters_2=256)
+    conc = nikita_layer(input_layer, filters_1=64, filters_2=64)
     
     conc = depthwise_conv(conc,
                           filters=16,
@@ -132,7 +132,8 @@ class Model:
                      filters_pool_proj=16,
                      name='inception_3a')
 
-    conc = layers.BatchNormalization(momentum=0.99)(conc) 
+    conc = layers.BatchNormalization(momentum=0.99)(conc)
+    conc = layers.ReLU()(conc)
 
     conc = layers.Dropout(0.2)(conc)
     conc = layers.GlobalAveragePooling2D()(conc)
