@@ -31,16 +31,14 @@ def mb_conv(conc,
                          strides=(1, 1),
                          padding='same',
                          activation='tanh')(conc)
-    conc = layers.BatchNormalization(momentum=0.99,
-                                   name=name)(conc)
+    conc = layers.BatchNormalization(momentum=0.99)(conc)
     
     conc = layers.DepthwiseConv2D(filters=filter_2,
                                   kernel_size=kernel_size,
                                   strides=strides,
                                   padding='same',
                                   activation='tanh')(conc)
-    conc = layers.BatchNormalization(momentum=0.99,
-                                   name=name)(conc)
+    conc = layers.BatchNormalization(momentum=0.99)(conc)
 
     conc = se_block(conc)
 
@@ -49,8 +47,7 @@ def mb_conv(conc,
                          strides=(1, 1),
                          padding='same',
                          activation='tanh')(conc)
-    conc = layers.BatchNormalization(momentum=0.99,
-                                   name=name)(conc)
+    conc = layers.BatchNormalization(momentum=0.99)(conc)
 
     conc = tf.keras.layers.Add()([conc, conc_skip])     
     conc = tf.keras.layers.Activation('relu')(conc)
