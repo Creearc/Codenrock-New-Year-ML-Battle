@@ -242,9 +242,6 @@ class Model:
                           filters=16,
                           kernel_size=3,
                           strides=2)
-
-    
-    conc = layers.Attention()([192, 192//8, 192//8, 8])(conc)
     
 
     conc = layers.AveragePooling2D(7)(conc)
