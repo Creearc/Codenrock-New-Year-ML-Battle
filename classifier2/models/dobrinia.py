@@ -165,7 +165,7 @@ class Model:
     conc = mb_conv(input_layer,
                    filter_1=16,
                    filter_2=16,
-                   filter_3=16,
+                   filter_3=32,
                    kernel_size=3,
                    strides=(2, 2))
 
