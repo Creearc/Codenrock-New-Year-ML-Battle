@@ -224,7 +224,18 @@ class Model:
                      bneck_depth=3,
                      se=False)
 
-    for i in range(3):
+    
+
+    conc = layers.Dropout(0.2)(conc)
+    conc = layers.GlobalAveragePooling2D()(conc)
+    conc = layers.Dense(CLASSES_NUM, activation='softmax')(conc)
+
+    self.model = tf.keras.Model(input_layer, conc)
+
+
+
+"""
+for i in range(3):
       conc_skip = conc
       conc = mobile_conv(conc,
                          filters=32,
@@ -282,19 +293,8 @@ class Model:
     conc = layers.BatchNormalization(momentum=0.99)(conc)
     conc = layers.ReLU()(conc)
 
-    conc = layers.Dropout(0.2)(conc)
-    conc = layers.GlobalAveragePooling2D()(conc)
-    conc = layers.Dense(CLASSES_NUM, activation='softmax')(conc)
 
-    self.model = tf.keras.Model(input_layer, conc)
-
-
-
-
-
-
-
-
+"""
 
 
 
