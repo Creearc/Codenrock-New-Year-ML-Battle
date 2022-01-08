@@ -154,6 +154,23 @@ def mobile_conv(conc,
   conc = layers.BatchNormalization(momentum=0.99)(conc)
   conc = layers.ReLU()(conc)
   return conc
+
+def convolutional_block(x, filter):
+    # copy tensor to variable called x_skip
+    x_skip = x
+    # Layer 1
+    x = tf.keras.layers.Conv2D(filter, (3,3), padding = 'same', strides = (2,2))(x)
+    x = tf.keras.layers.BatchNormalization(axis=3)(x)
+    x = tf.keras.layers.Activation('relu')(x)
+    # Layer 2
+    x = tf.keras.layers.Conv2D(filter, (3,3), padding = 'same')(x)
+    x = tf.keras.layers.BatchNormalization(axis=3)(x)
+    # Processing Residue with conv(1,1)
+    x_skip = tf.keras.layers.Conv2D(filter, (1,1), strides = (2,2))(x_skip)
+    # Add Residue
+    x = tf.keras.layers.Add()([x, x_skip])     
+    x = tf.keras.layers.Activation('relu')(x)
+    return x
   
 
 class Model:
@@ -166,6 +183,8 @@ class Model:
     conc_1 = nikita_layer(input_layer,
                         filters_1=32,
                         filters_2=64)
+
+    conc = convolutional_block(conc, 32)
     
     conc = inception_module(conc_1,
                      filters_1x1=16,
