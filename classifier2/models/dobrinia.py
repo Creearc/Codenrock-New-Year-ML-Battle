@@ -174,7 +174,7 @@ def convolutional_block(x, filter):
 
 def squeeze_excite_block(m, bneck_depth, ratio=4):
   filter_1 = max(1, int(bneck_depth * ratio))
-  filter_2 = num_reduced_filters
+  filter_2 = bneck_depth
 
   conc = tf.keras.layers.GlobalAveragePooling2D()(conc_1)
   
