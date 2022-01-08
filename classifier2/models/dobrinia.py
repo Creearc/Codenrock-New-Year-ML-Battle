@@ -161,7 +161,7 @@ class Model:
                    filter_2=32,
                    filter_3=32,
                    kernel_size=3,
-                   strides=(2, 2))
+                   strides=(1, 1))
     
     conc = inception_module(conc,
                      filters_1x1=16,
