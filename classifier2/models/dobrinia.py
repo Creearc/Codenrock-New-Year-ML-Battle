@@ -193,13 +193,13 @@ class Model:
                      filters_pool_proj=32,
                      name='inception_3a')
     
-    conc_skip = conc
+    
     
     conc = depthwise_conv(conc,
                           filters=16,
                           kernel_size=3,
                           strides=(1, 1))
-    conc = tf.keras.layers.Add()([conc, conc_skip])
+    
     
     conc = mobile_conv(conc,
                        filters=32,
@@ -212,10 +212,13 @@ class Model:
                           kernel_size=3,
                           strides=(2, 2))
 
+    conc_skip = conc
     conc = depthwise_conv(conc,
                           filters=64,
                           kernel_size=3,
                           strides=(1, 1))
+    conc = tf.keras.layers.Add()([conc, conc_skip])
+    
     conc = mobile_conv(conc,
                        filters=32,
                        kernel_size=1,
@@ -232,7 +235,6 @@ class Model:
                          kernel_size=3,
                          strides=(2, 2))
     conc = layers.ReLU()(conc)
-
 
     conc = inception_module(conc,
                      filters_1x1=16,
