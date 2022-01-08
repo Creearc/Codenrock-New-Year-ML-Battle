@@ -225,7 +225,7 @@ class Model:
                        strides=(2, 2))
 
     conc = depthwise_conv(conc,
-                          filters=63,
+                          filters=64,
                           kernel_size=1,
                           strides=(1, 1))
 
