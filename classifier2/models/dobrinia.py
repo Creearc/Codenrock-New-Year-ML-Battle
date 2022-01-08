@@ -36,7 +36,7 @@ def mb_conv(conc,
     
     conc = layers.DepthwiseConv2D(filters=filters_2,
                                   kernel_size=kernel_size,
-                                  strides=strides),
+                                  strides=strides,
                                   padding='same',
                                   activation='tanh')(conc)
     conc = layers.BatchNormalization(momentum=0.99,
