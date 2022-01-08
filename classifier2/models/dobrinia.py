@@ -180,7 +180,7 @@ class Model:
     
     input_layer = layers.Input(shape=self.IMG_SHAPE)
 
-    conc_skip = conc
+    conc_skip = input_layer
 
     conc = nikita_layer(input_layer,
                         filters_1=32,
