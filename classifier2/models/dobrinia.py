@@ -214,7 +214,7 @@ class Model:
     input_layer = layers.Input(shape=self.IMG_SHAPE)
 
     conc = depthwise_conv(input_layer,
-                          filters=32,
+                          filters=16,
                           kernel_size=3,
                           strides=2)
 
@@ -225,8 +225,112 @@ class Model:
                      bneck_depth=3,
                      se=False)
 
-    
+    conc = bottleneck_block(conc,
+                     expand=64,
+                     squeeze=24,
+                     strides=2,
+                     bneck_depth=3,
+                     se=False)
 
+    conc = bottleneck_block(conc,
+                     expand=72,
+                     squeeze=24,
+                     strides=1,
+                     bneck_depth=3,
+                     se=False)
+
+    conc = bottleneck_block(conc,
+                     expand=72,
+                     squeeze=40,
+                     strides=2,
+                     bneck_depth=5,
+                     se=True)
+
+    conc = bottleneck_block(conc,
+                     expand=120,
+                     squeeze=40,
+                     strides=1,
+                     bneck_depth=5,
+                     se=True)
+
+    conc = bottleneck_block(conc,
+                     expand=120,
+                     squeeze=40,
+                     strides=1,
+                     bneck_depth=5,
+                     se=True)
+
+    conc = bottleneck_block(conc,
+                     expand=240,
+                     squeeze=80,
+                     strides=2,
+                     bneck_depth=3,
+                     se=False)
+
+    conc = bottleneck_block(conc,
+                     expand=200,
+                     squeeze=80,
+                     strides=1,
+                     bneck_depth=3,
+                     se=False)
+
+    conc = bottleneck_block(conc,
+                     expand=184,
+                     squeeze=80,
+                     strides=1,
+                     bneck_depth=3,
+                     se=False)
+
+    conc = bottleneck_block(conc,
+                     expand=184,
+                     squeeze=80,
+                     strides=1,
+                     bneck_depth=3,
+                     se=False)
+
+    conc = bottleneck_block(conc,
+                     expand=480,
+                     squeeze=112,
+                     strides=1,
+                     bneck_depth=3,
+                     se=True)
+
+    conc = bottleneck_block(conc,
+                     expand=672,
+                     squeeze=112,
+                     strides=1,
+                     bneck_depth=3,
+                     se=True)
+
+    conc = bottleneck_block(conc,
+                     expand=672,
+                     squeeze=160,
+                     strides=2,
+                     bneck_depth=5,
+                     se=True)
+
+    conc = bottleneck_block(conc,
+                     expand=960,
+                     squeeze=160,
+                     strides=1,
+                     bneck_depth=5,
+                     se=True)
+
+    conc = bottleneck_block(conc,
+                     expand=960,
+                     squeeze=160,
+                     strides=1,
+                     bneck_depth=5,
+                     se=True)
+
+    conc = depthwise_conv(input_layer,
+                          filters=960,
+                          kernel_size=1,
+                          strides=1)
+
+    conc = layers.AveragePooling2D(7)(conc)
+
+    
     conc = layers.Dropout(0.2)(conc)
     conc = layers.GlobalAveragePooling2D()(conc)
     conc = layers.Dense(CLASSES_NUM, activation='softmax')(conc)
