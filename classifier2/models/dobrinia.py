@@ -5,11 +5,11 @@ from tensorflow.keras import datasets, layers, models, losses
 def swish(x):
     return x * tf.nn.sigmoid(x)
 
-def se_block(conc,
+def se_block(conc_1,
              filter_1=16,
              filter_2=16):
 
-  conc = tf.keras.layers.GlobalAveragePooling2D()(conc)
+  conc = tf.keras.layers.GlobalAveragePooling2D()(conc_1)
   
   conc = tf.expand_dims(input=conc, axis=1)
   conc = tf.expand_dims(input=conc, axis=1)
@@ -27,6 +27,7 @@ def se_block(conc,
                          padding='same',
                          activation='tanh')(conc)
   conc = tf.nn.sigmoid(conc)
+  conc = conc_1 * conc
   return conc
   
 
