@@ -186,6 +186,9 @@ class Model:
                          filters=32,
                          kernel_size=3,
                          strides=(2, 2))
+
+      conc_skip = layers.AveragePooling2D(2)(conc_skip)
+      conc = tf.keras.layers.Add()([conc, conc_skip])
     
     conc = inception_module(conc,
                      filters_1x1=16,
@@ -223,11 +226,6 @@ class Model:
                           kernel_size=3,
                           strides=(1, 1))
 
-    
-      
-      conc_skip = layers.AveragePooling2D(2)(conc_skip)
-      conc = tf.keras.layers.Add()([conc, conc_skip])
-      
     conc = layers.ReLU()(conc)
 
     conc = inception_module(conc,
