@@ -21,6 +21,10 @@ classes = list(classes)
 path = '/home/alexandr/datasets/santas'
 output_path = '/home/alexandr/datasets/santas_2'
 
+path = 'train'
+output_path = 'train_s'
+
+
 try:
   for c in classes:
     os.makedirs('{}/{}'.format(output_path, c))
