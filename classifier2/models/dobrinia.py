@@ -230,6 +230,47 @@ def bottleneck_block(x,
 
   return m
 
+def dobro_module(conc):
+  
+  conc = nikita_layer(conc,
+                 filters_1=32,
+                 filters_2=64)
+
+  conc = nikita_layer(conc,
+                 filters_1=32,
+                 filters_2=64)
+
+  conc = depthwise_conv(conc,
+                          filters=16,
+                          kernel_size=1,
+                          strides=1)
+  
+  conc = depthwise_conv(conc,
+                          filters=32,
+                          kernel_size=1,
+                          strides=2)
+
+  conc = depthwise_conv(conc,
+                          filters=64,
+                          kernel_size=1,
+                          strides=1)
+
+  conc = depthwise_conv(conc,
+                          filters=32,
+                          kernel_size=1,
+                          strides=2)
+
+  conc = depthwise_conv(conc,
+                          filters=64,
+                          kernel_size=1,
+                          strides=1)
+
+
+  conc = layers.Dropout(0.2)(conc)
+
+  conc = layers.GlobalAveragePooling2D()(conc)
+  conc = layers.Dense(CLASSES_NUM, activation='softmax')(conc)
+  return conc
 
 class Model:
   def __init__(self, CLASSES_NUM):
@@ -241,19 +282,12 @@ class Model:
     conc = depthwise_conv(input_layer,
                           filters=32,
                           kernel_size=3,
-                          strides=2)
-
-    conc = inception_module(conc,
-                     filters_1x1=16,
-                     filters_3x3_reduce=32,
-                     filters_3x3=64,
-                     filters_5x5_reduce=64,
-                     filters_5x5=128,
-                     filters_pool_proj=32,
-                     name='inception_3a') 
+                          strides=1)
     
-    conc = layers.Dropout(0.2)(conc)
-    conc = layers.GlobalAveragePooling2D()(conc)
+    dobro = [dobro_module(conc) for d in range(8)]
+    
+    conc = layers.concatenate(dobro, axis=3)
+    
     conc = layers.Dense(CLASSES_NUM, activation='softmax')(conc)
 
     self.model = tf.keras.Model(input_layer, conc)
