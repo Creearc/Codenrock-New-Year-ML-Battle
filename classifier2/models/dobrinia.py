@@ -287,6 +287,8 @@ class Model:
     dobro = [dobro_module(conc, CLASSES_NUM) for d in range(8)]
     
     conc = layers.concatenate(dobro, axis=3)
+
+    conc = layers.GlobalAveragePooling2D()(conc)
     
     conc = layers.Dense(CLASSES_NUM, activation='softmax')(conc)
 
