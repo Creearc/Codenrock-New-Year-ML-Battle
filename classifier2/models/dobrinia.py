@@ -286,7 +286,7 @@ class Model:
                           kernel_size=3,
                           strides=1)
     
-    dobro = [dobro_module(conc, CLASSES_NUM) for d in range(30)]
+    dobro = [dobro_module(conc, CLASSES_NUM) for d in range(9)]
     
     conc = layers.concatenate(dobro, axis=1)
     
