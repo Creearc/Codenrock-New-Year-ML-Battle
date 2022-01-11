@@ -242,24 +242,19 @@ def dobro_module(conc, CLASSES_NUM):
                    filters_1=32,
                    filters_2=64)
 
-    conc = nikita_layer(conc,
-                   filters_1=32,
-                   filters_2=64)
-
-  conc = inception_module(conc,
-                     filters_1x1=32,
-                     filters_3x3_reduce=64,
-                     filters_3x3=128,
-                     filters_5x5_reduce=64,
-                     filters_5x5=128,
-                     filters_pool_proj=128,
-                     name='inception_3c')
+    conc = inception_module(conc,
+                       filters_1x1=32,
+                       filters_3x3_reduce=64,
+                       filters_3x3=128,
+                       filters_5x5_reduce=64,
+                       filters_5x5=128,
+                       filters_pool_proj=128,
+                       name='inception_3c')
 
   conc = layers.Dropout(0.2)(conc)
 
   conc = layers.GlobalAveragePooling2D()(conc)
-  conc = layers.Dense(CLASSES_NUM * 100, activation='relu')(conc)
-  conc = layers.Dense(CLASSES_NUM * 10, activation='relu')(conc)  
+  conc = layers.Dense(CLASSES_NUM * 100, activation='relu')(conc) 
   conc = layers.Dense(CLASSES_NUM, activation='relu')(conc)
   return conc
 
@@ -271,7 +266,7 @@ class Model:
     input_layer = layers.Input(shape=self.IMG_SHAPE)
 
     conc = depthwise_conv(input_layer,
-                          filters=64,
+                          filters=128,
                           kernel_size=3,
                           strides=1)
     
