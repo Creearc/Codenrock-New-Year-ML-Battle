@@ -171,7 +171,7 @@ def depthwise_nikita_layer(conc,
                         kernel_size=3,
                         strides=2)
 
-  conc = layers.BatchNormalization(momentum=0.99,
+  conc = layers.BatchNormalization(momentum=0.9,
                                    name=name)(conc)
   return conc
 
@@ -257,6 +257,15 @@ def dobro_module(conc, CLASSES_NUM):
                           kernel_size=5,
                           strides=1)
   
+  conc = inception_module(conc,
+                     filters_1x1=16,
+                     filters_3x3_reduce=16,
+                     filters_3x3=64,
+                     filters_5x5_reduce=16,
+                     filters_5x5=128,
+                     filters_pool_proj=32,
+                     name='inception_3a') 
+  
   for i in range(2):
     conc = depthwise_nikita_layer(conc,
                                   filters_1=32,
@@ -286,7 +295,7 @@ class Model:
                           kernel_size=3,
                           strides=1)
     
-    dobro = [dobro_module(conc, CLASSES_NUM) for d in range(9)]
+    dobro = [dobro_module(conc, CLASSES_NUM) for d in range(3)]
     
     conc = layers.concatenate(dobro, axis=1)
     

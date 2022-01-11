@@ -24,7 +24,8 @@ NO_K_TRAINING = True
 
 DROPOUT = 0.2
 
-UNFREEZE_CONFIG = [(10, 1e-3),
+UNFREEZE_CONFIG = [(5, 1e-1),
+                   (10, 1e-3),
                    (50, 1e-5),
                    (70, 1e-7)]
 
