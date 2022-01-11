@@ -272,11 +272,11 @@ def dobro_module(conc, CLASSES_NUM):
                           strides=2)
 
   conc = inception_module(conc,
-                     filters_1x1=32,
-                     filters_3x3_reduce=64,
-                     filters_3x3=128,
-                     filters_5x5_reduce=64,
-                     filters_5x5=128,
+                     filters_1x1=128,
+                     filters_3x3_reduce=32,
+                     filters_3x3=64,
+                     filters_5x5_reduce=32,
+                     filters_5x5=64,
                      filters_pool_proj=128,
                      name='inception_3b')
 
@@ -298,7 +298,16 @@ def dobro_module(conc, CLASSES_NUM):
   conc = depthwise_conv(conc,
                           filters=128,
                           kernel_size=3,
-                          strides=1)  
+                          strides=1)
+
+  conc = inception_module(conc,
+                     filters_1x1=32,
+                     filters_3x3_reduce=64,
+                     filters_3x3=128,
+                     filters_5x5_reduce=64,
+                     filters_5x5=128,
+                     filters_pool_proj=128,
+                     name='inception_3c')
 
   conc = layers.Dropout(0.2)(conc)
 
