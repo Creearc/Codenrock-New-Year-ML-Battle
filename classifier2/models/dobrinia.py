@@ -230,7 +230,7 @@ def bottleneck_block(x,
 
   return m
 
-def dobro_module(conc):
+def dobro_module(conc, CLASSES_NUM):
   
   conc = nikita_layer(conc,
                  filters_1=32,
@@ -284,7 +284,7 @@ class Model:
                           kernel_size=3,
                           strides=1)
     
-    dobro = [dobro_module(conc) for d in range(8)]
+    dobro = [dobro_module(conc, CLASSES_NUM) for d in range(8)]
     
     conc = layers.concatenate(dobro, axis=3)
     
