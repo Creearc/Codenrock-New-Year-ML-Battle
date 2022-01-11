@@ -262,14 +262,14 @@ def dobro_module(conc, CLASSES_NUM):
                                   filters_1=32,
                                   filters_2=64)
 
-    conc = inception_module(conc,
-                       filters_1x1=32,
-                       filters_3x3_reduce=32,
-                       filters_3x3=64,
-                       filters_5x5_reduce=32,
-                       filters_5x5=64,
-                       filters_pool_proj=32,
-                       name='inception_3c')
+  conc = inception_module(conc,
+                     filters_1x1=32,
+                     filters_3x3_reduce=32,
+                     filters_3x3=64,
+                     filters_5x5_reduce=32,
+                     filters_5x5=64,
+                     filters_pool_proj=32,
+                     name='inception_3c')
 
   conc = depthwise_conv(conc,
                         filters=64,
