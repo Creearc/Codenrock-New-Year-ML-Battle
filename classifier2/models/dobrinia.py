@@ -240,6 +240,8 @@ def dobro_module(conc, CLASSES_NUM):
                  filters_1=32,
                  filters_2=64)
 
+  conc = layers.ReLU()(conc)
+
   conc = mobile_conv(conc,
                        filters=32,
                        kernel_size=1,
