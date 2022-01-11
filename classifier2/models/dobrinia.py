@@ -240,20 +240,40 @@ def dobro_module(conc, CLASSES_NUM):
                  filters_1=32,
                  filters_2=64)
 
+  conc = mobile_conv(conc,
+                       filters=32,
+                       kernel_size=1,
+                       strides=1)
+
   conc = depthwise_conv(conc,
-                          filters=16,
+                          filters=32,
                           kernel_size=1,
                           strides=1)
+
+  conc = mobile_conv(conc,
+                       filters=64,
+                       kernel_size=1,
+                       strides=1)
   
   conc = depthwise_conv(conc,
                           filters=32,
                           kernel_size=1,
                           strides=2)
 
+  conc = mobile_conv(conc,
+                       filters=32,
+                       kernel_size=1,
+                       strides=1)
+
   conc = depthwise_conv(conc,
                           filters=64,
                           kernel_size=1,
                           strides=1)
+
+  conc = mobile_conv(conc,
+                       filters=64,
+                       kernel_size=1,
+                       strides=12)
 
   conc = layers.Dropout(0.2)(conc)
 
