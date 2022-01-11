@@ -312,8 +312,8 @@ def dobro_module(conc, CLASSES_NUM):
   conc = layers.Dropout(0.2)(conc)
 
   conc = layers.GlobalAveragePooling2D()(conc)
-  conc = layers.Dense(CLASSES_NUM * 100, activation='softmax')(conc)
-  conc = layers.Dense(CLASSES_NUM * 10, activation='softmax')(conc)  
+  conc = layers.Dense(CLASSES_NUM * 100, activation='relu')(conc)
+  conc = layers.Dense(CLASSES_NUM * 10, activation='relu')(conc)  
   conc = layers.Dense(CLASSES_NUM, activation='softmax')(conc)
   return conc
 
@@ -333,6 +333,7 @@ class Model:
     
     conc = layers.concatenate(dobro, axis=1)
     
+    conc = layers.Dense(CLASSES_NUM * 10, activation='relu')(conc) 
     conc = layers.Dense(CLASSES_NUM, activation='softmax')(conc)
 
     self.model = tf.keras.Model(input_layer, conc)
