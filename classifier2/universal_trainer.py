@@ -26,8 +26,8 @@ DROPOUT = 0.2
 
 UNFREEZE_CONFIG = [(5, 1e-1),
                    (10, 1e-3),
-                   (50, 1e-5),
-                   (70, 1e-7)]
+                   (1000, 1e-5),
+                   (2000, 1e-7)]
 
 
 OUTPUT_FILE_NAME = 'dobrynya_1'
