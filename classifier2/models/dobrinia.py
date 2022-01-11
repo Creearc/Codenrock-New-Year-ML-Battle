@@ -242,15 +242,6 @@ def dobro_module(conc, CLASSES_NUM):
 
   conc = layers.ReLU()(conc)
 
-  conc = inception_module(conc,
-                     filters_1x1=16,
-                     filters_3x3_reduce=32,
-                     filters_3x3=64,
-                     filters_5x5_reduce=64,
-                     filters_5x5=128,
-                     filters_pool_proj=32,
-                     name='inception_3a') 
-
   conc = mobile_conv(conc,
                        filters=240,
                        kernel_size=3,
@@ -271,14 +262,6 @@ def dobro_module(conc, CLASSES_NUM):
                           kernel_size=3,
                           strides=2)
 
-  conc = inception_module(conc,
-                     filters_1x1=128,
-                     filters_3x3_reduce=32,
-                     filters_3x3=64,
-                     filters_5x5_reduce=32,
-                     filters_5x5=64,
-                     filters_pool_proj=128,
-                     name='inception_3b')
 
   conc = mobile_conv(conc,
                        filters=64,
