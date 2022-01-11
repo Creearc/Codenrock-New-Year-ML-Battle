@@ -314,7 +314,7 @@ def dobro_module(conc, CLASSES_NUM):
   conc = layers.GlobalAveragePooling2D()(conc)
   conc = layers.Dense(CLASSES_NUM * 100, activation='relu')(conc)
   conc = layers.Dense(CLASSES_NUM * 10, activation='relu')(conc)  
-  conc = layers.Dense(CLASSES_NUM, activation='softmax')(conc)
+  conc = layers.Dense(CLASSES_NUM, activation='relu')(conc)
   return conc
 
 class Model:
@@ -325,7 +325,7 @@ class Model:
     input_layer = layers.Input(shape=self.IMG_SHAPE)
 
     conc = depthwise_conv(input_layer,
-                          filters=32,
+                          filters=64,
                           kernel_size=3,
                           strides=1)
     
