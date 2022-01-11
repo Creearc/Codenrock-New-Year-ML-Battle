@@ -257,7 +257,7 @@ def dobro_module(conc, CLASSES_NUM):
                           kernel_size=5,
                           strides=1)
   
-  for i in range(3):
+  for i in range(2):
     conc = depthwise_nikita_layer(conc,
                                   filters_1=32,
                                   filters_2=64)
@@ -271,10 +271,10 @@ def dobro_module(conc, CLASSES_NUM):
                        filters_pool_proj=32,
                        name='inception_3c')
 
-    conc = depthwise_conv(conc,
-                          filters=64,
-                          kernel_size=5,
-                          strides=1)
+  conc = depthwise_conv(conc,
+                        filters=64,
+                        kernel_size=5,
+                        strides=2)
 
   conc = layers.Dropout(0.2)(conc)
 
