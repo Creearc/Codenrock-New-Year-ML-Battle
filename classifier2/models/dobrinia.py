@@ -286,21 +286,6 @@ def dobro_module(conc, CLASSES_NUM):
                        kernel_size=3,
                        strides=2)
 
-  conc = mobile_conv(conc,
-                       filters=64,
-                       kernel_size=5,
-                       strides=2)
-
-  conc = depthwise_conv(conc,
-                          filters=64,
-                          kernel_size=3,
-                          strides=1)
-
-  conc = depthwise_conv(conc,
-                          filters=32,
-                          kernel_size=5,
-                          strides=2)
-
   conc = inception_module(conc,
                      filters_1x1=16,
                      filters_3x3_reduce=32,
