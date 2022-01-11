@@ -155,6 +155,26 @@ def mobile_conv(conc,
   conc = layers.ReLU()(conc)
   return conc
 
+def depthwise_nikita_layer(conc,
+                 filters_1=32,
+                 filters_2=64,
+                 name=None):
+  
+  conc = mobile_conv(conc,
+                     filters=filters_1,
+                     kernel_size=3,
+                     strides=1)
+
+  conc = layers.AveragePooling2D(2)(conc)
+  conc = depthwise_conv(conc,
+                        filters=filters_2,
+                        kernel_size=3,
+                        strides=2)
+
+  conc = layers.BatchNormalization(momentum=0.99,
+                                   name=name)(conc)
+  return conc
+
 def convolutional_block(x, filter):
     # copy tensor to variable called x_skip
     x_skip = x
@@ -238,17 +258,17 @@ def dobro_module(conc, CLASSES_NUM):
                           strides=1)
   
   for i in range(4):
-    conc = nikita_layer(conc,
-                   filters_1=32,
-                   filters_2=64)
+    conc = depthwise_nikita_layer(conc,
+                                  ilters_1=32,
+                                  filters_2=64)
 
     conc = inception_module(conc,
                        filters_1x1=32,
-                       filters_3x3_reduce=64,
-                       filters_3x3=128,
-                       filters_5x5_reduce=64,
-                       filters_5x5=128,
-                       filters_pool_proj=128,
+                       filters_3x3_reduce=32,
+                       filters_3x3=64,
+                       filters_5x5_reduce=32,
+                       filters_5x5=64,
+                       filters_pool_proj=32,
                        name='inception_3c')
 
   conc = layers.Dropout(0.2)(conc)
