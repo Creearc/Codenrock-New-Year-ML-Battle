@@ -231,34 +231,20 @@ def bottleneck_block(x,
   return m
 
 def dobro_module(conc, CLASSES_NUM):
-  
-  conc = nikita_layer(conc,
-                 filters_1=32,
-                 filters_2=64)
-
-  conc = nikita_layer(conc,
-                 filters_1=32,
-                 filters_2=64)
-
-  conc = mobile_conv(conc,
-                       filters=64,
-                       kernel_size=5,
-                       strides=1)
 
   conc = depthwise_conv(conc,
                           filters=64,
                           kernel_size=5,
                           strides=1)
+  
+  for i in range(4):
+    conc = nikita_layer(conc,
+                   filters_1=32,
+                   filters_2=64)
 
-  conc = mobile_conv(conc,
-                       filters=128,
-                       kernel_size=3,
-                       strides=2)
-
-  conc = depthwise_conv(conc,
-                          filters=128,
-                          kernel_size=3,
-                          strides=1)
+    conc = nikita_layer(conc,
+                   filters_1=32,
+                   filters_2=64)
 
   conc = inception_module(conc,
                      filters_1x1=32,
