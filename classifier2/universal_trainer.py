@@ -24,10 +24,9 @@ NO_K_TRAINING = True
 
 DROPOUT = 0.2
 
-UNFREEZE_CONFIG = [(3, 1e-2),
-                   (6, 1e-4),
-                   (50, 1e-6),
-                   (70, 1e-8),]
+UNFREEZE_CONFIG = [(10, 1e-3),
+                   (50, 1e-5),
+                   (70, 1e-7)]
 
 
 OUTPUT_FILE_NAME = 'dobrynya_1'
