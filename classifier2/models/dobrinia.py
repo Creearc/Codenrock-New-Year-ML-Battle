@@ -286,6 +286,30 @@ def dobro_module(conc, CLASSES_NUM):
                        kernel_size=3,
                        strides=2)
 
+  conc = mobile_conv(conc,
+                       filters=64,
+                       kernel_size=5,
+                       strides=2)
+
+  conc = depthwise_conv(conc,
+                          filters=64,
+                          kernel_size=3,
+                          strides=1)
+
+  conc = depthwise_conv(conc,
+                          filters=32,
+                          kernel_size=5,
+                          strides=2)
+
+  conc = inception_module(conc,
+                     filters_1x1=16,
+                     filters_3x3_reduce=32,
+                     filters_3x3=64,
+                     filters_5x5_reduce=64,
+                     filters_5x5=128,
+                     filters_pool_proj=32,
+                     name='inception_3b')
+
   conc = layers.Dropout(0.2)(conc)
 
   conc = layers.GlobalAveragePooling2D()(conc)
