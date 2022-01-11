@@ -252,39 +252,24 @@ def dobro_module(conc, CLASSES_NUM):
                      name='inception_3a') 
 
   conc = mobile_conv(conc,
-                       filters=32,
+                       filters=240,
                        kernel_size=3,
                        strides=1)
 
   conc = depthwise_conv(conc,
-                          filters=32,
-                          kernel_size=5,
-                          strides=1)
-
-  conc = mobile_conv(conc,
-                       filters=64,
-                       kernel_size=3,
-                       strides=1)
-  
-  conc = depthwise_conv(conc,
-                          filters=64,
-                          kernel_size=3,
-                          strides=2)
-
-  conc = mobile_conv(conc,
-                       filters=64,
-                       kernel_size=5,
-                       strides=1)
-
-  conc = depthwise_conv(conc,
-                          filters=128,
+                          filters=240,
                           kernel_size=5,
                           strides=1)
 
   conc = mobile_conv(conc,
                        filters=128,
                        kernel_size=3,
-                       strides=2)
+                       strides=1)
+  
+  conc = depthwise_conv(conc,
+                          filters=128,
+                          kernel_size=3,
+                          strides=2)
 
   conc = inception_module(conc,
                      filters_1x1=32,
@@ -294,6 +279,26 @@ def dobro_module(conc, CLASSES_NUM):
                      filters_5x5=128,
                      filters_pool_proj=128,
                      name='inception_3b')
+
+  conc = mobile_conv(conc,
+                       filters=64,
+                       kernel_size=5,
+                       strides=1)
+
+  conc = depthwise_conv(conc,
+                          filters=64,
+                          kernel_size=5,
+                          strides=1)
+
+  conc = mobile_conv(conc,
+                       filters=128,
+                       kernel_size=3,
+                       strides=2)
+
+  conc = depthwise_conv(conc,
+                          filters=128,
+                          kernel_size=3,
+                          strides=1)  
 
   conc = layers.Dropout(0.2)(conc)
 
