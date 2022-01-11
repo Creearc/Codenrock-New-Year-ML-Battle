@@ -259,7 +259,7 @@ def dobro_module(conc, CLASSES_NUM):
   
   for i in range(4):
     conc = depthwise_nikita_layer(conc,
-                                  ilters_1=32,
+                                  filters_1=32,
                                   filters_2=64)
 
     conc = inception_module(conc,
