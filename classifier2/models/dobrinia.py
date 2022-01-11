@@ -255,17 +255,6 @@ def dobro_module(conc, CLASSES_NUM):
                           kernel_size=1,
                           strides=1)
 
-  conc = depthwise_conv(conc,
-                          filters=32,
-                          kernel_size=1,
-                          strides=2)
-
-  conc = depthwise_conv(conc,
-                          filters=64,
-                          kernel_size=1,
-                          strides=1)
-
-
   conc = layers.Dropout(0.2)(conc)
 
   conc = layers.GlobalAveragePooling2D()(conc)
