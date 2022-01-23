@@ -110,7 +110,7 @@ else:
     tf.keras.layers.Dense(units=128,
                           activation='relu'),
     tf.keras.layers.Dropout(0.1),
-    tf.keras.layers.Dense(units=1,
+    tf.keras.layers.Dense(units=3,
                           activation='sigmoid')
   ])
 
