@@ -119,7 +119,7 @@ input_layer = layers.Input(shape=1280)
 conc = layers.Dense(2560, activation='relu')(input_layer)
 conc = layers.BatchNormalization(momentum=0.9)(conc)
 conc = layers.Dense(1280, activation='tanh')(conc)
-conc = layers.Dense(128, activation='tanh')(conc)
+conc = layers.Dense(128, activation='relu')(conc)
 conc = layers.Dropout(0.1)(conc)
 conc = layers.Dense(1, activation='sigmoid')(conc)
 
