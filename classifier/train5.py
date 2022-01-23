@@ -27,7 +27,7 @@ DROPOUT = 0.005
 K_PARTS = 3
 VALIDATION_SPLIT = 0.0
 
-FREEZE_EPOCHS = 30
+FREEZE_EPOCHS = 50
 UNFREEZE_CONFIG = [(100, 1e-5),
                    (2, 1e-8)]
 
@@ -114,8 +114,8 @@ else:
                           activation='sigmoid')
   ])
 
-for UNFREEZE_EPOCHS, LR in UNFREEZE_CONFIG:
-  for period in range(5):    
+LR = 1e-5
+for period in range(5):    
     for k, training_data, validation_data in k_fold_cross_val(data_parts, K_PARTS):
       training_data = training_data.sample(frac=1)
       validation_data = validation_data.sample(frac=1)
@@ -143,9 +143,9 @@ for UNFREEZE_EPOCHS, LR in UNFREEZE_CONFIG:
 
       if not EVAL_ONLY :
         if FREEZE_EPOCHS > 0:
-          model.compile(optimizer='adam', 
-                        loss='categorical_crossentropy', 
-                        metrics=['accuracy'])
+          model.compile(optimizer=tf.keras.optimizers.Adam(LR),
+                      loss='categorical_crossentropy',
+                      metrics=['accuracy'])
 
           history = model.fit(train_data,
                               steps_per_epoch=len(train_data),
@@ -154,24 +154,6 @@ for UNFREEZE_EPOCHS, LR in UNFREEZE_CONFIG:
                               validation_steps=len(test_data))
 
         
-          base_model.trainable = True
-          fine_tune_at = 100
-
-          # Freeze all the layers before the `fine_tune_at` layer
-          for layer in base_model.layers[:fine_tune_at]:
-            layer.trainable =  False
-
-        
-        model.compile(optimizer=tf.keras.optimizers.Adam(LR),
-                      loss='categorical_crossentropy',
-                      metrics=['accuracy'])
-
-
-        history_fine = model.fit(train_data,
-                              steps_per_epoch=len(train_data),
-                              epochs=UNFREEZE_EPOCHS,
-                              validation_data=test_data,
-                              validation_steps=len(test_data))
 
 predictions = model.predict_classes(test_data, verbose=0)
 labels = validation_data['class_id'].to_numpy()
