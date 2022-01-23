@@ -101,10 +101,17 @@ else:
     base_model,
     tf.keras.layers.Conv2D(filters=FILTERS, kernel_size=3,
                            activation='relu'),
-    tf.keras.layers.Dropout(DROPOUT),
     tf.keras.layers.GlobalAveragePooling2D(),
+    tf.keras.layers.Dense(units=680,
+                          activation='relu'),
+    tf.keras.layers.BatchNormalization(momentum=0.9),
+    tf.keras.layers.Dense(units=340,
+                          activation='tanh'),
+    tf.keras.layers.Dense(units=30,
+                          activation='tanh'),
+    tf.keras.layers.Dropout(DROPOUT),
     tf.keras.layers.Dense(units=CLASSES_NUM,
-                          activation='softmax')
+                          activation='sigmoid')
   ])
 
 for UNFREEZE_EPOCHS, LR in UNFREEZE_CONFIG:
