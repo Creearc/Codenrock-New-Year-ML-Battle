@@ -109,7 +109,6 @@ else:
                           activation='tanh'),
     tf.keras.layers.Dense(units=128,
                           activation='relu'),
-    tf.keras.layers.Dropout(0.1),
     tf.keras.layers.Dense(units=3,
                           activation='sigmoid')
   ])
@@ -138,13 +137,14 @@ model.summary()
 
 
 LR = 1e-5
-for period in range(500):    
+for period in range(200):
+    print('PERIOD {}'.format(period))
     for k, training_data, validation_data in k_fold_cross_val(data_parts, K_PARTS):
       training_data = training_data.sample(frac=1)
       validation_data = validation_data.sample(frac=1)
 
       idg = tf.keras.preprocessing.image.ImageDataGenerator(horizontal_flip=True,
-                                                            rotation_range=15,
+                                                            rotation_range=5,
                                                             width_shift_range=[-0.1, 0.1],
                                                             height_shift_range=[-0.1, 0.1],
                                                             zoom_range=[0.9, 1.1],
@@ -167,7 +167,7 @@ for period in range(500):
       if not EVAL_ONLY :
         if FREEZE_EPOCHS > 0:
           model.compile(optimizer=tf.keras.optimizers.Adam(LR),
-                      loss='categorical_crossentropy',
+                      loss=tf.keras.losses.CategoricalCrossentropy(label_smoothing=0.1),
                       metrics=['accuracy'])
 
           history = model.fit(train_data,
