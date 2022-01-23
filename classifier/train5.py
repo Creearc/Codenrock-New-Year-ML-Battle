@@ -130,7 +130,7 @@ nikita_nets = tf.keras.Model(input_layer, conc)
 model = tf.keras.Sequential([
   base_model,
   tf.keras.layers.GlobalAveragePooling2D(),
-  tf.keras.layers.Dropout(0.2),
+  tf.keras.layers.Dropout(0.1),
   nikita_nets
   ])
 
