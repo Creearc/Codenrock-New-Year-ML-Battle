@@ -22,12 +22,12 @@ IMG_SHAPE = (IMAGE_SIZE, IMAGE_SIZE, 3)
 BATCH_SIZE = 32
 
 FILTERS = 64
-DROPOUT = 0.005
+DROPOUT = 0.2
 
 K_PARTS = 3
 VALIDATION_SPLIT = 0.0
 
-FREEZE_EPOCHS = 10
+FREEZE_EPOCHS = 20
 UNFREEZE_CONFIG = [(100, 1e-5),
                    (2, 1e-8)]
 
@@ -100,14 +100,14 @@ else:
   model = tf.keras.Sequential([
     base_model,
     tf.keras.layers.GlobalAveragePooling2D(),
+    tf.keras.layers.Dropout(DROPOUT),
     tf.keras.layers.Dense(units=2560,
                           activation='relu'),
     tf.keras.layers.BatchNormalization(momentum=0.9),
     tf.keras.layers.Dense(units=1280,
                           activation='tanh'),
     tf.keras.layers.Dense(units=128,
-                          activation='tanh'),
-    tf.keras.layers.Dropout(DROPOUT),
+                          activation='relu'),
     tf.keras.layers.Dense(units=CLASSES_NUM,
                           activation='sigmoid')
   ])
