@@ -98,41 +98,41 @@ else:
 
   base_model.trainable = False
 
-##  model = tf.keras.Sequential([
-##    base_model,
-##    tf.keras.layers.GlobalAveragePooling2D(),
-##    tf.keras.layers.Dropout(0.2),
-##    tf.keras.layers.Dense(units=2560,
-##                          activation='relu'),
-##    tf.keras.layers.BatchNormalization(momentum=0.9),
-##    tf.keras.layers.Dense(units=1280,
-##                          activation='tanh'),
-##    tf.keras.layers.Dense(units=128,
-##                          activation='relu'),
-##    tf.keras.layers.Dropout(0.1),
-##    tf.keras.layers.Dense(units=1,
-##                          activation='sigmoid')
-##  ])
-
-
-input_layer = layers.Input(shape=1280)
-conc = layers.Dense(2560, activation='relu')(input_layer)
-conc = layers.BatchNormalization(momentum=0.9)(conc)
-conc = layers.Dense(1280, activation='tanh')(conc)
-conc = layers.Dense(128, activation='relu')(conc)
-conc = layers.Dropout(0.1)(conc)
-conc = layers.Dense(1, activation='sigmoid')(conc)
-
-conc = layers.concatenate([conc for i in range(3)], axis=1)
-
-nikita_nets = tf.keras.Model(input_layer, conc)
-
-model = tf.keras.Sequential([
-  base_model,
-  tf.keras.layers.GlobalAveragePooling2D(),
-  tf.keras.layers.Dropout(0.1),
-  nikita_nets
+  model = tf.keras.Sequential([
+    base_model,
+    tf.keras.layers.GlobalAveragePooling2D(),
+    tf.keras.layers.Dropout(0.2),
+    tf.keras.layers.Dense(units=2560,
+                          activation='relu'),
+    tf.keras.layers.BatchNormalization(momentum=0.9),
+    tf.keras.layers.Dense(units=1280,
+                          activation='tanh'),
+    tf.keras.layers.Dense(units=128,
+                          activation='relu'),
+    tf.keras.layers.Dropout(0.1),
+    tf.keras.layers.Dense(units=3,
+                          activation='sigmoid')
   ])
+
+
+##input_layer = layers.Input(shape=1280)
+##conc = layers.Dense(2560, activation='relu')(input_layer)
+##conc = layers.BatchNormalization(momentum=0.9)(conc)
+##conc = layers.Dense(1280, activation='tanh')(conc)
+##conc = layers.Dense(128, activation='relu')(conc)
+##conc = layers.Dropout(0.1)(conc)
+##conc = layers.Dense(1, activation='sigmoid')(conc)
+##
+##conc = layers.concatenate([conc for i in range(3)], axis=1)
+##
+##nikita_nets = tf.keras.Model(input_layer, conc)
+##
+##model = tf.keras.Sequential([
+##  base_model,
+##  tf.keras.layers.GlobalAveragePooling2D(),
+##  tf.keras.layers.Dropout(0.1),
+##  nikita_nets
+##  ])
 
 model.summary()
 
