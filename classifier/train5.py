@@ -115,7 +115,8 @@ else:
 ##  ])
 
 
-conc = layers.GlobalAveragePooling2D()(base_model)
+input_layer = layers.Input(shape=1280)
+conc = layers.GlobalAveragePooling2D()(input_layer)
 conc = layers.Dropout(0.2)(conc)
 conc = layers.Dense(2560, activation='relu')(conc)
 conc = layers.BatchNormalization(momentum=0.9)(conc)
@@ -126,7 +127,12 @@ conc = layers.Dense(1, activation='sigmoid')(conc)
 
 conc = layers.concatenate([conc for i in range(3)], axis=1)
 
-self.model = tf.keras.Model(base_model, conc)
+nikita_nets = tf.keras.Model(input_layer, conc)
+
+model = tf.keras.Sequential([
+  base_model,
+  nikita_nets
+  ])
 
 model.summary()
 
