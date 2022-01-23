@@ -6,6 +6,7 @@ assert float(tf.__version__[:3]) >= 2.3
 import numpy as np
 import pandas as pd
 from sklearn.metrics import f1_score, accuracy_score
+from tensorflow.keras import datasets, layers, models, losses
 
 gpus = tf.config.experimental.list_physical_devices('GPU')
 tf.config.experimental.set_memory_growth(gpus[0], True)
@@ -22,7 +23,7 @@ IMG_SHAPE = (IMAGE_SIZE, IMAGE_SIZE, 3)
 BATCH_SIZE = 32
 
 FILTERS = 64
-DROPOUT = 0.2
+DROPOUT = 0.1
 
 K_PARTS = 3
 VALIDATION_SPLIT = 0.0
@@ -97,20 +98,35 @@ else:
 
   base_model.trainable = False
 
-  model = tf.keras.Sequential([
-    base_model,
-    tf.keras.layers.GlobalAveragePooling2D(),
-    tf.keras.layers.Dropout(DROPOUT),
-    tf.keras.layers.Dense(units=2560,
-                          activation='relu'),
-    tf.keras.layers.BatchNormalization(momentum=0.9),
-    tf.keras.layers.Dense(units=1280,
-                          activation='tanh'),
-    tf.keras.layers.Dense(units=128,
-                          activation='relu'),
-    tf.keras.layers.Dense(units=CLASSES_NUM,
-                          activation='sigmoid')
-  ])
+##  model = tf.keras.Sequential([
+##    base_model,
+##    tf.keras.layers.GlobalAveragePooling2D(),
+##    tf.keras.layers.Dropout(0.2),
+##    tf.keras.layers.Dense(units=2560,
+##                          activation='relu'),
+##    tf.keras.layers.BatchNormalization(momentum=0.9),
+##    tf.keras.layers.Dense(units=1280,
+##                          activation='tanh'),
+##    tf.keras.layers.Dense(units=128,
+##                          activation='relu'),
+##    tf.keras.layers.Dropout(0.1),
+##    tf.keras.layers.Dense(units=1,
+##                          activation='sigmoid')
+##  ])
+
+
+conc = layers.GlobalAveragePooling2D()(base_model)
+conc = layers.Dropout(0.2)(conc)
+conc = layers.Dense(2560, activation='relu')(conc)
+conc = layers.BatchNormalization(momentum=0.9)(conc)
+conc = layers.Dense(1280, activation='tanh')(conc)
+conc = layers.Dense(128, activation='tanh')(conc)
+conc = layers.Dropout(0.1)(conc)
+conc = layers.Dense(1, activation='sigmoid')(conc)
+
+conc = layers.concatenate([conc for i in range(3)], axis=1)
+
+self.model = tf.keras.Model(base_model, conc)
 
 model.summary()
 
