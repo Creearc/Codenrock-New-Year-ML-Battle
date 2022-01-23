@@ -99,8 +99,6 @@ else:
 
   model = tf.keras.Sequential([
     base_model,
-    tf.keras.layers.Conv2D(filters=FILTERS, kernel_size=3,
-                           activation='relu'),
     tf.keras.layers.GlobalAveragePooling2D(),
     tf.keras.layers.Dense(units=2560,
                           activation='relu'),
