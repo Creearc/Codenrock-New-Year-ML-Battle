@@ -137,7 +137,7 @@ model.summary()
 
 
 LR = 1e-5
-for period in range(200):
+for period in range(30):
     print('PERIOD {}'.format(period))
     for k, training_data, validation_data in k_fold_cross_val(data_parts, K_PARTS):
       training_data = training_data.sample(frac=1)
